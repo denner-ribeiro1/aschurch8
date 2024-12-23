@@ -1,0 +1,69 @@
+﻿@using ASChurchManager.Web.Lib
+@model ASChurchManager.Web.Areas.Admin.ViewModels.Usuario.AlteracaoSenhaUsuarioViewModel
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Igrejas - @_configuration["ParametrosSistema:NomeCliente"]</title>
+    <link rel="stylesheet" href="~/css/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/adminlte/AdminLTE.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/adminlte/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap-dialog/bootstrap-dialog.min.css" />
+</head>
+<body class="login-page">
+    <div class="login-box">
+
+        <div class="login-box-body">
+            <fieldset>
+                <legend>Alteração de Senha</legend>
+                @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+                {
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.EditorFor(model => model, "AlteracaoSenha")
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn bg-blue btn-block">Alterar Senha</button>
+                    </div>
+                }
+            </fieldset>
+        </div><!-- /.login-box-body -->
+
+    </div><!-- /.login-box -->
+    <script src="~/lib/jquery.min.js"></script>
+    <script src="~/lib/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery.validate.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <script src="~/lib/adminlte.min.js"></script>
+    <script src="~/lib/icheck.min.js"></script>
+    <script src="~/lib/sweetalert2.min.js"></script>
+    <script src="~/js/_core.min.js"></script>
+    <script src="~/js/_defaultSettings.min.js"></script>
+
+    @{
+        if (TempData.ContainsKey("AlertMessage"))
+        {
+            var alertMsg = Newtonsoft.Json.JsonConvert.DeserializeObject<AlertMessage>(@TempData["AlertMessage"].ToString());
+            <script type="text/javascript">
+                $.bsMessage("@alertMsg.Title", "@alertMsg.Message", "@alertMsg.Type.ToString()");
+            </script>
+        }
+    }
+</body>
+</html>

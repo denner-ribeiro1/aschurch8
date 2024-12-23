@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ASChurchManager.Infra.Data": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

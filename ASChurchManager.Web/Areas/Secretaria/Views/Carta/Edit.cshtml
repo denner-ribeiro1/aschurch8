@@ -1,0 +1,44 @@
+﻿@using ASChurchManager.Domain.Types
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Carta.CartaViewModel
+
+@{
+    ViewBag.Title = "Carta_Edit";
+}
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmCarta" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Emissão de Carta - Edição
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_Carta", Model)
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("Index", "Carta")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script>
+    var urlSalvar = "@Url.Action("SalvarCarta", "Carta", new { Area = "Secretaria" })";
+    var urlBuscarMembro = "@Url.Action("BuscarMembro", "Carta", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/carta.min.js"></script>
+}

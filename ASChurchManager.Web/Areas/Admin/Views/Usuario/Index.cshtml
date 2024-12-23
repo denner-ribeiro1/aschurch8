@@ -1,0 +1,65 @@
+﻿@model ASChurchManager.Web.Areas.Admin.ViewModels.Usuario.UsuarioViewModel
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Usuários
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div style="height: 100%;"></div>
+                    <div>
+                        <a href="@Url.Action("Create", "Usuario")" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Novo
+                        </a>
+                    </div>
+                    <div class="box box-default collapsed-box">
+                        <div class="box-header with-border">
+                            <h5 class="box-title">Filtros</h5>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Filtro, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.Filtro, Model.Filtros, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.Conteudo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Conteudo, new { htmlAttributes = new { @class = "form-control", @style = "display:block" } })
+                                    @Html.DropDownListFor(model => model.CongregacaoSelecionado, Model.ListaCongregacoes, "Todas", htmlAttributes: new { @class = "form-control", @style = "display:none" })
+                                </div>
+                                <div class="col-md-2">
+                                    <br />
+                                    <button type="button" class="btn btn-default" id="btnPesquisar">
+                                        <span class="glyphicon glyphicon-search"></span> Pesquisar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="grdUsuario">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        var urlList = '@Url.Action("GetList", "Usuario", new {area = "Admin"})';
+        var urlDetalhes = '@Url.Action("Details", "Usuario", new {area = "Admin"})';
+        var urlAlterarSenha = '@Url.Action("AlterarSenha", "Usuario", new { area = "Admin" })';
+    </script>
+
+    <script type="text/javascript" src="~/js/indexusuario.min.js"></script>
+}

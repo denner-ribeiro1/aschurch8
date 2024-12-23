@@ -1,0 +1,76 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Batismo.ListaBatismoVM
+
+<section class="content">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">
+                Lista de Presença
+            </h3>
+        </div>
+        @if (Model.ListaDatasBatismo.Count() == 0)
+        {
+            <div class="box-body">
+                <p style="clear: both" />
+                <hr />
+                <p style="clear: both" />
+                <div>
+                    <span class="control-label">Não há Batismos cadastrados!</span>
+                </div>
+                <hr />
+                <p style="clear: both" />
+            </div>
+        }
+        else
+        {
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(m => m.Id)
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            @Html.LabelFor(model => model.DataBatismo, htmlAttributes: new { @class = "control-label" })
+                            @if (Model.ListaDatasBatismo.Count > 1)
+                            {
+                                @Html.DropDownListFor(m => m.DataBatismo, Model.ListaDatasBatismo, optionLabel: "", htmlAttributes: new { @class = "form-control" })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(m => m.DataBatismo, Model.ListaDatasBatismo, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                            }
+                        </div>
+                    </div>
+                    <div id="divPastores"></div>
+                    <p style="clear: both" />
+                    <div id="divCandidatos"></div>
+                </div>
+                <p style="clear: both" />
+            }
+        }
+        <div class="box-footer">
+            @if (Model.ListaDatasBatismo.Count() > 0)
+            {
+                <a href="javascript:void(0)" id="lnkRelListaBatismo" class="btn btn-info" data-batismoid="@Model.Id" data-databatismo="@Model.DataBatismo">
+                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                </a>
+
+                <button type="button" class="btn btn-primary" id="btnSalvarLista" data-batismoid="@Model.Id">
+                    <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                </button>
+            }
+            <a href="@Url.Action("Index", "Batismo")" class="btn btn-default">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+            </a>
+        </div>
+    </div>
+</section>
+<script>
+    var urlSalvar = "@Url.Action("ListaBatismo", "Batismo", new { Area = "Secretaria" })";
+    var urlCandidatos = "@Url.Action("ListaCandidatosBatismo", "Batismo", new { Area = "Secretaria" })";
+    var urlPastores = "@Url.Action("ListaPastorBatismo", "Batismo", new { Area = "Secretaria" })";
+
+</script>
+
+@section scripts
+{
+    <script src="~/js/listapresenca.min.js"></script>
+}

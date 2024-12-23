@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Pais]
+(
+	[Id] INT IDENTITY (1, 1) NOT NULL, 
+    [Nome] VARCHAR(150) NULL, 
+    [Abrev] VARCHAR(3) NULL,
+    CONSTRAINT [Pais_PK] PRIMARY KEY CLUSTERED ([Id] ASC)
+)

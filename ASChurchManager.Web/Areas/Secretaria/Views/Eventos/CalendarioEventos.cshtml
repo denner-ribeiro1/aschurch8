@@ -1,0 +1,148 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Eventos.EventoVM
+
+<link rel="stylesheet" href="~/css/plugins/fullcalendar/fullcalendar.min.css" />
+
+<style>
+    .calendario {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 10px;
+        background: white
+    }
+
+    .formatLabel {
+        font-weight: bold;
+        color: darkred
+    }
+
+    #retSede {
+        width: 80px;
+        height: 20px;
+        background-color: #780c1e;
+    }
+
+    #retProp {
+        width: 80px;
+        height: 20px;
+        background-color: #005380;
+    }
+
+    #retOutr {
+        width: 80px;
+        height: 20px;
+        background-color: #91590a;
+    }
+
+    #retCasam {
+        width: 80px;
+        height: 20px;
+        background-color: #10164f;
+    }
+
+    #retBatis {
+        width: 80px;
+        height: 20px;
+        background-color: #42420b;
+    }
+</style>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id='calendar-container'>
+                <div class="calendario" id='calendar'></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="form-group">
+                        <br />
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            <font color="darkred"><label class="control-label">Feriados</label></font>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <table id="tFeriados" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">
+                                            Data:
+                                        </th>
+                                        <th style="width:80%">
+                                            Feriado:
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <label id="lblFeriado" class="control-label">Não existem feriados para o Mês</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="form-group">
+                        <br />
+                        <div class="col-md-12">
+                            <span class="glyphicon glyphicon-alert"></span>
+                            <font color="darkred"><label class="control-label">Eventos com * são de presença obrigatória na Sede</label></font>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b><label class="control-label">Legenda:</label></b>
+                            <br />
+                            <table>
+                                <tr>
+                                    <td><div id="retSede"></div></td>
+                                    <td><b>Evento na Sede</b></td>
+                                </tr>
+                                <tr>
+                                    <td><div id="retProp"></div></td>
+                                    <td><b>Evento na Própria Congregação</b></td>
+                                </tr>
+                                <tr>
+                                    <td><div id="retOutr"></div></td>
+                                    <td><b>Evento em outra Congregação</b></td>
+                                </tr>
+                                <tr>
+                                    <td><div id="retCasam"></div></td>
+                                    <td><b>Casamentos</b></td>
+                                </tr>
+                                <tr>
+                                    <td><div id="retBatis"></div></td>
+                                    <td><b>Batismo</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var urlGetEventos = "@Url.Action("Eventos", "Eventos", new { Area = "Secretaria" })"
+    var urlCreate = "@Url.Action("Create", "Eventos", new { Area = "Secretaria" })"
+    var urlEdit = "@Url.Action("Edit", "Eventos", new { Area = "Secretaria" })"
+</script>
+
+
+@section scripts
+{
+    <script src="~/lib/fullcalendar.min.js"></script>
+    <script src="~/js/eventosfullcalendar.min.js"></script>
+}

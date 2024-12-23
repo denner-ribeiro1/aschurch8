@@ -1,0 +1,53 @@
+﻿@using ASChurchManager.Domain.Types
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Carta.CartaViewModel
+
+
+@using (Html.BeginForm())
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Emitir Carta
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_Carta", Model)
+                        
+                        <p style="clear: both" />
+                        @if (Model.TipoCarta == TipoDeCarta.Transferencia)
+                        {
+                            <div class="col-sm-9">
+                                <div class="alert alert-info">
+                                    <h4><i class="icon fa fa-clipboard"></i> Código do Recebimento (Preencha aqui com o Código gerado na Carta de Transferência)</h4>
+                                    @Html.EditorFor(model => model.CodigoEmissao, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CodigoEmissao, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnAprovar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Aprovar
+                        </button>
+                        <a href="@Url.Action("Index", "Carta")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+    var urlAprovar = "@Url.Action("AprovarCarta", "Carta", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/carta.min.js"></script>
+}

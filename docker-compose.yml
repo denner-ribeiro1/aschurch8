@@ -1,0 +1,49 @@
+version: '3.4'
+
+networks: 
+  dockersql-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'c:/volumes'
+
+services:
+  aschurchmanager.web:
+    image: ${DOCKER_REGISTRY-}aschurchmanagerweb
+    build:
+      context: .
+      dockerfile: ASChurchManager.Web/Dockerfile
+    environment:
+      - ConnectionStrings__ConnectionDB=Server=sqldatabase;Database=ieadmaua;User Id=sa;Password=8k3W2C2BVzAW9p
+    networks:
+      - dockersql-network
+    depends_on:
+      - sqldatabase
+    ports:
+      - "32100:80"
+    restart: always      
+
+  sqldatabase:
+    image: mcr.microsoft.com/mssql/server:2019-CU4-ubuntu-16.04
+    environment:
+      - TZ=America/Sao_Paulo
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+      - SA_PASSWORD=8k3W2C2BVzAW9p
+      - MSSQL_DATABASE=IEADMAUA
+      - MSSQL_DATABASE_COLLATE=Latin1_General_CI_AS
+      - MSSQL_USER=sysdba
+      - MSSQL_PASSWORD=masterkey
+    ports:
+      - "1420:1433"
+    working_dir: /var/backups
+    volumes:
+      - data-volume:/var/backups
+    networks:
+      - dockersql-network
+    restart: always

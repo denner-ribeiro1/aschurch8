@@ -1,0 +1,109 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!--<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>-->
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Log\" />
+    <Folder Include="Rotativa\Windows\" />
+    <Folder Include="Rotativa\Linux\" />
+    <Folder Include="wwwroot\css\plugins\bootstrap-duallistbox\" />
+    <Folder Include="wwwroot\css\plugins\datatables\" />
+    <Folder Include="wwwroot\css\plugins\bootstrap-select\" />
+    <Folder Include="wwwroot\lib\plugins\bootstrap-duallistbox\" />
+    <Folder Include="wwwroot\lib\plugins\bootstrap-select\i18n\" />
+    <Folder Include="wwwroot\lib\plugins\onscan\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Data\**" />
+    <Compile Remove="Areas\Secretaria\Data\**" />
+    <Compile Remove="wwwroot\css\plugins\ckeditor\**" />
+    <Compile Remove="wwwroot\images\carteirinhas\NewFolder\**" />
+    <Content Remove="Areas\Admin\Data\**" />
+    <Content Remove="Areas\Secretaria\Data\**" />
+    <Content Remove="wwwroot\css\plugins\ckeditor\**" />
+    <Content Remove="wwwroot\images\carteirinhas\NewFolder\**" />
+    <EmbeddedResource Remove="Areas\Admin\Data\**" />
+    <EmbeddedResource Remove="Areas\Secretaria\Data\**" />
+    <EmbeddedResource Remove="wwwroot\css\plugins\ckeditor\**" />
+    <EmbeddedResource Remove="wwwroot\images\carteirinhas\NewFolder\**" />
+    <None Remove="Areas\Admin\Data\**" />
+    <None Remove="Areas\Secretaria\Data\**" />
+    <None Remove="wwwroot\css\plugins\ckeditor\**" />
+    <None Remove="wwwroot\images\carteirinhas\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\images\carteirinhas\IEAD\cooperador.zip~RF1034183b.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\css\plugins\bootstrap\css\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="BundlerMinifier.Core" Version="3.2.449" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.7" />
+    <PackageReference Include="EPPlus" Version="7.3.2" />
+    <PackageReference Include="HtmlRendererCore.PdfSharpCore" Version="1.0.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Owin" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+    <PackageReference Include="MigraDoc.Rendering.Core" Version="1.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+    <PackageReference Include="PdfSharpCore" Version="1.3.65" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Serilog.Expressions" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MongoDB" Version="6.0.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Json" Version="4.7.1" />
+    <PackageReference Include="WebEssentials.AspNetCore.OutputCaching" Version="1.0.43" />
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ASChurchManager.Application\ASChurchManager.Application.csproj" />
+    <ProjectReference Include="..\ASChurchManager.Domain\ASChurchManager.Domain.csproj" />
+    <ProjectReference Include="..\ASChurchManager.Infra.CrossCutting.IoC\ASChurchManager.Infra.CrossCutting.IoC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ASBaseLib.AspNet.Mvc">
+      <HintPath>..\Referencias\ASBaseLib.AspNet.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="ASBaseLib.Core">
+      <HintPath>..\Referencias\ASBaseLib.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Rotativa\Linux\wkhtmltopdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Rotativa\Mac\wkhtmltopdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Rotativa\Windows\wkhtmltopdf.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

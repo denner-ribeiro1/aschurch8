@@ -1,0 +1,151 @@
+﻿@using ASChurchManager.Web.Lib
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model ASChurchManager.Web.ViewModels.Search.SearchViewModel
+
+@{
+    Layout = null;
+}
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="~/css/plugins/jQueryUI/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" href="~/css/plugins/sweetalert2/sweetalert2.min.css">
+<link rel="stylesheet" href="~/css/plugins/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/plugins/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" href="~/css/plugins/ionicons/css/ionicons.min.css" />
+<link rel="stylesheet" href="~/css/plugins/adminlte/AdminLTE.min.css" />
+<link rel="stylesheet" href="~/css/plugins/adminlte/skins/_all-skins.min.css" />
+<link rel="stylesheet" href="~/css/plugins/datepicker/datepicker.min.css" />
+<link rel="stylesheet" href="~/css/plugins/bootstrap-daterangepicker/daterangepicker.min.css" />
+<link rel="stylesheet" href="~/css/plugins/bootstrap-toggle/bootstrap-toggle.min.css" />
+<link rel="stylesheet" href="~/css/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
+<link rel="stylesheet" href="~/css/plugins/jquery.fancybox/jquery.fancybox.min.css" />
+<link rel="stylesheet" href="~/css/plugins/jtable/themes/lightcolor/blue/jtable.min.css" />
+<link rel="stylesheet" href="~/css/plugins/bootstrap-dialog/bootstrap-dialog.min.css" />
+<link rel="stylesheet" href="~/css/plugins/waitMe/waitMe.min.css" />
+<link rel="stylesheet" href="~/css/app/layout.min.css" />
+<link rel="stylesheet" href="~/css/plugins/timepicker/bootstrap-timepicker.min.css" />
+
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">@Model.Titulo</h4>
+</div>
+<div class="modal-body">
+    @using (Html.BeginForm("GridBusca", "Search", FormMethod.Post, new { id = "frmBusca" }))
+    {
+        <div id="divSearch">
+            @Html.HiddenFor(m => m.TargetElementId)
+            @Html.HiddenFor(m => m.SearchModel)
+            @Html.HiddenFor(m => m.FiltrarUsuario)
+            @Html.HiddenFor(m => m.Parametros)
+
+
+            <div id="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.SearchProperty, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.SearchProperty, Model.SearchableProperties, "", new { @class = "form-control" })
+                    @*@Html.ValidationMessageFor(model => model.SearchProperty, "", new { @class = "text-danger" })*@
+                </div>
+                <div class="col-sm-7">
+                    @Html.LabelFor(model => model.SearchValue, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.SearchValue, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.SearchValue, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    <br />
+                    <a href="javascript:void(0)" id="lnkBuscar" role="button" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    <p style="clear: both;" />
+    <div id="divGrid">
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" id="btnFechar">Fechar</button>
+</div>
+
+<script src="~/lib/frameworks/jquery/jquery.js"></script>
+<script src="~/lib/frameworks/jquery-ui/jquery-ui.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/jquery.validate.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/additional-methods.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/localization/methods_pt.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/localization/messages_pt_BR.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/jshashtable-2.1.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/jquery.validate.unobtrusive.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/jquery.validate.unobtrusive.method.cnpj.js"></script>
+<script src="~/lib/frameworks/jquery-plugins/jquery.validate.unobtrusive.method.cpf.js"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="~/lib/plugins/sweetalert2/sweetalert2.js"></script>
+<script src="~/lib/frameworks/bootstrap/bootstrap.js"></script>
+<script src="~/lib/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/lib/plugins/daterangepicker/moment.min.js"></script>
+<script src="~/lib/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="~/lib/plugins/bootstrap-toggle/bootstrap-toggle.js"></script>
+<script src="~/lib/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.js"></script>
+<script src="~/lib/plugins/jquery.slimscroll/jquery.slimscroll.js"></script>
+<script src="~/lib/frameworks/adminlte/adminlte.js"></script>
+<script src="~/lib/plugins/jquery.fancybox/jquery.fancybox.js"></script>
+<script src="~/lib/plugins/bootstrap-dialog/bootstrap-dialog.js"></script>
+<script src="~/lib/plugins/icheck/icheck.js"></script>
+<script src="~/lib/plugins/jquery.maskedinput/jquery.maskedinput-1.3.js"></script>
+<script src="~/lib/plugins/waitMe/waitMe.min.js"></script>
+<script src="~/lib/plugins/jquery.jtable/jquery.jtable.js"></script>
+<script src="~/lib/plugins/jquery.jtable/jquery.jtable.pt-BR.js"></script>
+<script src="~/lib/plugins/timepicker/bootstrap-timepicker.js"></script>
+<script src="~/js/_core.min.js"></script>
+<script src="~/js/_defaultSettings.min.js"></script>
+<script src="~/js/_search.min.js"></script>
+<script>
+    var urlPesq = '@Url.Action("GetList", "Search", new { area = ""})';
+    var objConfigJTable = {
+        paging: true,
+        sorting: true,
+        pageSizeChangeArea: false,
+        gotoPageArea: 'none',
+        defaultSorting: '@Model.ColunasGrid.FirstOrDefault(p=> p.Key).Campo',
+        pageSize: 10,
+
+        actions: {
+            listAction: urlPesq
+        },
+         messages: {
+            noDataAvailable: 'Não existem dados a serem exibidos no momento!'
+        },
+        fields: {
+            @{
+                int index = 0;
+                foreach (var campo in Model.ColunasGrid)
+                {
+                    bool ultimoCampo = index == Model.ColunasGrid.Count - 1;
+                    var campoprop = new ASChurchManager.Web.ViewModels.Search.CampoPropriedade()
+                    {
+                        title = campo.Display,
+                        width = campo.TamanhoColuna + "%",
+                        columnResizable = false
+                    };
+                    var encodedObj = Json.Serialize(campoprop);
+
+                    <text>
+
+                    @Html.Raw(campo.Campo + " : " + @Html.CampoPropriedadeHTMLString(encodedObj, ultimoCampo))
+                    @*@Html.Raw(campo.Campo + " : " + new HtmlString (encodedObj) + (ultimoCampo ? string.Empty : ", "))*@
+                    </text>
+                    index++;
+                }
+            }
+        }
+    };
+    var nomePrimeiroCampo = '@Model.ColunasGrid.FirstOrDefault().Campo';
+    objConfigJTable.fields[nomePrimeiroCampo].display = function (data) {
+        var valor = data.record.Id;
+        return "<a href='javascript:void(0)' onclick='closePopupMvc($(this).text());'>" + valor + "</a>"
+    };
+    $('#divGrid').jtable(objConfigJTable);
+</script>

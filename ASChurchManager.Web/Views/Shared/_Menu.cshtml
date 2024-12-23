@@ -1,0 +1,80 @@
+﻿@using ASChurchManager.Domain.Interfaces
+
+@inject IUsuarioLogado _usuario
+
+
+@{
+    Layout = null;
+}
+@{
+    var rotinas = _usuario.Rotinas;
+
+    var menu = rotinas.GroupBy(p => new { p.Area, p.AreaDescricao, p.AreaIcone }).
+        Select(s => new { Area = s.Key.Area, Descricao = s.Key.AreaDescricao, Icone = s.Key.AreaIcone });
+}
+
+@foreach (var item in menu.OrderBy(x => x.Descricao))
+{
+    <li class="treeview">
+        <a href="#">
+            <i class="@item.Icone"></i>
+            <span>@item.Descricao</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        @{
+            var menuGrp = rotinas.Where(w => w.Area == item.Area).
+                GroupBy(p => new { p.Area, p.MenuDescricao, p.MenuIcone }).
+                Select(s => new { Menu = s.Key.MenuDescricao, Icone = s.Key.MenuIcone, Area = s.Key.Area });
+        }
+        <ul class="treeview-menu">
+            @foreach (var m in menuGrp.OrderBy(p => p.Menu))
+            {
+                var itens = rotinas.Where(p => p.MenuDescricao == m.Menu).OrderBy(p => p.MenuDescricao);
+                if (itens.Count() == 1)
+                {
+                    if (@itens.FirstOrDefault().Controller == "Presenca")
+                    {
+                        <li>
+                            <a href="@string.Format("/{0}/{1}/{2}", itens.FirstOrDefault().Area, itens.FirstOrDefault().Controller, itens.FirstOrDefault().Action)">
+                                <i class="@itens.FirstOrDefault().MenuIcone"></i> Presença - @itens.FirstOrDefault().SubMenuDescricao
+                            </a>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@string.Format("/{0}/{1}/{2}", itens.FirstOrDefault().Area, itens.FirstOrDefault().Controller, itens.FirstOrDefault().Action)">
+                                <i class="@itens.FirstOrDefault().MenuIcone"></i> @itens.FirstOrDefault().MenuDescricao
+                            </a>
+                        </li>
+
+                    }
+                }
+                else
+                {
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="@m.Icone"></i> <span>@m.Menu</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @foreach (var sub in itens.OrderBy(p => p.MenuDescricao).ThenBy(p => p.SubMenuDescricao))
+                            {
+                                <li>
+                                    <a href="@string.Format("/{0}/{1}/{2}", sub.Area, sub.Controller, sub.Action)">
+                                        <i class="@sub.SubMenuIcone"></i> @sub.SubMenuDescricao
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+        </ul>
+    </li>
+}

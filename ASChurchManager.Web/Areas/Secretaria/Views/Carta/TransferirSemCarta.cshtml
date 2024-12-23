@@ -1,0 +1,129 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Carta.TransferirViewModel
+
+@using (Html.BeginForm("TransferirSemCarta", "Carta", FormMethod.Post, htmlAttributes: new { id = "frmTransfCarta" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Transferência de Membros sem Carta
+                        </h3>
+                    </div>
+                    <div class="box-body">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.MembrosJSON)
+
+                        <div class="form-group">
+                            <fieldset>
+                                <legend>Dados do Membros</legend>
+                                <div class="col-sm-2">
+                                    <a href="javascript:void(0)" id="linkIdMembro" class="control-label">Cód. Registro</a>
+                                    @Html.EditorFor(model => model.MembroId, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MembroId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                </div>
+                                <p style="clear: both" />
+                                <div class="col-sm-2">
+                                    @Html.LabelFor(model => model.CongregacaoOrigemId, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.CongregacaoOrigemId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "CongregacaoOrigemId" } })
+                                    @Html.ValidationMessageFor(model => model.CongregacaoOrigemId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.LabelFor(model => model.CongregacaoOrigem, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.CongregacaoOrigem, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "CongregacaoOrigem" } })
+                                    @Html.ValidationMessageFor(model => model.CongregacaoOrigem, "", new { @class = "text-danger" })
+                                </div>
+                            </fieldset>
+                            <p style="clear: both" />
+                            <div class="box-footer">
+                                <button type="button" class="btn btn-info" id="btnAdicionar">
+                                    <span class="glyphicon glyphicon-plus-sign"></span> Adicionar
+                                </button>
+                            </div>
+
+                        </div>
+                        <p style="clear: both" />
+                        <div class="row">
+                            <div class="col-md-12 jtable-main-container">
+                                <table style="width:100%" id="tbMembro" class="jtable">
+                                    <thead>
+                                        <tr>
+                                            <th class="jtable-column-header" style="width: 10%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Código</span>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header" style="width: 35%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Nome</span>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header" style="width: 30%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Congregação de Origem</span>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header" style="width: 10%;">
+                                                <div class="jtable-column-header-container">
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">
+                                                Não existem Membros selecionados para a Transferência
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                        <p style="clear: both" />
+                        <div class="form-group">
+                            <fieldset>
+                                <legend>Congregação Destino</legend>
+                                <div class="col-sm-2">
+                                    <a href="javascript:void(0)" id="lnkBuscarCongregacao" class="control-label">Cód. Congregação</a>
+                                    @Html.EditorFor(model => model.CongregacaoDestId, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.CongregacaoDestId, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.LabelFor(model => model.CongregacaoDest, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.CongregacaoDest, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.CongregacaoDest, "", new { @class = "text-danger" })
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnTransferir">
+                            <span class="glyphicon glyphicon-bookmark"></span> Transferir
+                        </button>
+                        <a href="@Url.Action("Index", "Home", new { area = ""})" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+}
+<script>
+     var urlBuscarMembro = "@Url.Action("BuscarMembro", "Carta", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/transfsemcarta.min.js"></script>
+}

@@ -1,0 +1,32 @@
+﻿<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Perfis
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div style="height: 100%;"></div>
+                    <div>
+                        <a href="@Url.Action("Create", "Perfil")" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Novo
+                        </a>
+                        <div id="grdPerfil">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        var urlList = '@Url.Action("GetList", "Perfil", new {area = "Admin"})';
+        var urlDetalhes = '@Url.Action("Details", "Perfil", new {area = "Admin"})';
+    </script>
+
+    <script type="text/javascript" src="~/js/indexperfil.min.js"></script>
+}

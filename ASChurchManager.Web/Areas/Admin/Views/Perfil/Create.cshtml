@@ -1,0 +1,136 @@
+﻿@model ASChurchManager.Web.Areas.Admin.ViewModels.Perfil.PerfilViewModel
+
+@{
+    ViewBag.Title = "Perfil_Create";
+}
+
+@using (Html.BeginForm("Create", "Perfil", FormMethod.Post, new { id = "frmPerfil" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Perfil - Inclusão
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div style="height: 100%;"></div>
+                        <div>
+                            <div>
+                                <hr />
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TipoPerfil, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.TipoPerfil, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.TipoPerfil)), optionLabel: "", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoPerfil, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div id="divRotinas">
+                                <fieldset>
+                                    <legend>
+                                        <h3>Permissões de Acesso</h3>
+                                    </legend>
+                                    @{
+
+                                        var menu = from p in Model.Rotinas
+                                                   group p by new { p.Key.Area, p.Key.AreaDescricao, p.Key.AreaIcone }
+                                        into m
+                                                   select new
+                                                   {
+                                                       Area = m.Key.Area,
+                                                       Descricao = m.Key.AreaDescricao,
+                                                       Icone = m.Key.AreaIcone
+                                                   };
+
+                                        string sMenu = string.Empty;
+
+                                        foreach (var menuPrinc in menu.OrderBy(p => p.Descricao))
+                                        {
+
+                                            <fieldset>
+                                                <legend>
+                                                    <h4><label>Menu de @menuPrinc.Descricao</label></h4>
+                                                </legend>
+
+                                                @{
+                                                    var menuGrp = from p in Model.Rotinas
+                                                                  where p.Key.Area == menuPrinc.Area
+                                                                  group p by new
+                                                                  {
+                                                                      p.Key.Area,
+                                                                      p.Key.MenuDescricao,
+                                                                      p.Key.MenuIcone
+                                                                  }
+                                                    into g
+                                                                  select new
+                                                                  {
+                                                                      Menu = g.Key.MenuDescricao,
+                                                                      Icone = g.Key.MenuIcone,
+                                                                      Area = g.Key.Area
+                                                                  };
+
+                                                    foreach (var m in menuGrp.OrderByDescending(a => a.Menu.Count()))
+                                                    {
+                                                        var itens = Model.Rotinas.Where(p => p.Key.MenuDescricao == m.Menu);
+
+                                                        if (itens.Count() == 1)
+                                                        {
+                                                            var item = itens.FirstOrDefault();
+                                                            if (item.Key != null)
+                                                            {
+                                                                @Html.CheckBox("chkRotina_" + item.Key.Id.ToString(), item.Value)
+                                                                @item.Key.MenuDescricao
+                                                                <br />
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <h4>@m.Menu</h4>
+                                                            foreach (var sub in itens.OrderBy(p => p.Key.MenuDescricao))
+                                                            {
+                                                                @Html.CheckBox("chkRotina_" + sub.Key.Id.ToString(), sub.Value)
+                                                                @sub.Key.SubMenuDescricao
+                                                                <br />
+                                                            }
+
+                                                        }
+
+                                                    }
+
+                                                }
+                                                <p style="clear: both" />
+                                            </fieldset>
+                                        }
+                                    }
+
+                                </fieldset>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("Index", "Perfil")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section scripts{
+    <script type="text/javascript" src="~/js/perfil.min.js"></script>
+}

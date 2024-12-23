@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  aschurchmanager.web:
+    image: ${DOCKER_REGISTRY-}astestes
+    build:
+      context: .
+      dockerfile: ASChurchManager.Web/Dockerfile

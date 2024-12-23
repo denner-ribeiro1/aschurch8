@@ -1,0 +1,131 @@
+﻿@model ASChurchManager.Web.Areas.Admin.ViewModels.Usuario.UsuarioViewModel
+
+
+@using (Html.BeginForm("Create", "Usuario", FormMethod.Post, new { id = "frmUsuario" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Usuário - Inclusão
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div style="height: 100%;"></div>
+                        <div>
+                            <div>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <a href="javascript:void(0)" id="lnkBuscarCongregacao" class="control-label">Cód. Congregação</a>
+                                        @Html.EditorFor(model => model.CongregacaoId, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CongregacaoNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.CongregacaoNome, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Senha, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RedigiteSenha, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.RedigiteSenha, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.RedigiteSenha, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PerfilId, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.PerfilId, Model.SelectPerfil, "", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PerfilId, "", new { @class = "text-danger" })
+                                </div>
+                                <fieldset>
+                                    <legend>
+                                        Permissões Adicionais
+                                    </legend>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteAprovarMembro, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteAprovarMembro, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteAprovarMembro, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteImprimirCarteirinha, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteImprimirCarteirinha, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteImprimirCarteirinha, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteExcluirSituacaoMembro, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteExcluirSituacaoMembro, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteExcluirSituacaoMembro, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteExcluirCargoMembro, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteExcluirCargoMembro, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteExcluirCargoMembro, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteExcluirObservacaoMembro, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteExcluirObservacaoMembro, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteExcluirObservacaoMembro, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteExcluirMembros, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteExcluirMembros, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteExcluirMembros, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.CheckBoxFor(model => model.PermiteCadBatismoAposDataMaxima, new { htmlAttributes = new { @class = "form-control" } })&emsp;
+                                        @Html.LabelFor(model => model.PermiteCadBatismoAposDataMaxima, htmlAttributes: new { @class = "control-label" })
+                                        @Html.ValidationMessageFor(model => model.PermiteCadBatismoAposDataMaxima, "", new { @class = "text-danger" })
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("Index", "Usuario")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+    var urlUsuarioDuplicado = "@Url.Action("VerificaUsuarioDuplicado", "Usuario", new { Area = "Admin" })";
+    var urlBuscarCongregacao = "@Url.Action("BuscarCongregacao", "Congregacao", new { Area = "Secretaria" })";
+    var urlExcluir = "@Url.Action("Delete", "Usuario", new { Area = "Admin" })"
+</script>
+
+
+@section scripts{
+    <script type="text/javascript" src="~/js/usuario.min.js"></script>
+}

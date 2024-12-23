@@ -1,0 +1,85 @@
+﻿@model ASChurchManager.Web.Areas.Admin.ViewModels.Cargo.CargoViewModel
+
+@{
+    ViewBag.Title = "Cargo_Create";
+}
+
+@using (Html.BeginForm("Create", "Cargo", FormMethod.Post, new { id = "frmCargo" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Cargo - Inclusão
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div style="height: 100%;"></div>
+                        <div>
+                            <div>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-5">
+                                        @Html.LabelFor(model => model.TipoCarteirinha, htmlAttributes: new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.TipoCarteirinha, Html.GetEnumSelectList(Model.TipoCarteirinha.GetType()), optionLabel: "", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <div class="checkbox">
+                                            @Html.CheckBoxFor(model => model.Obreiro, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.Obreiro, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="checkbox">
+                                            @Html.CheckBoxFor(model => model.Lider, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.Lider, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <div class="checkbox">
+                                            @Html.CheckBoxFor(model => model.Confradesp, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.Confradesp, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="checkbox">
+                                            @Html.CheckBoxFor(model => model.CGADB, htmlAttributes: new { @class = "control-label" })
+                                            @Html.LabelFor(model => model.CGADB, htmlAttributes: new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("Index", "Cargo")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section scripts{
+    <script type="text/javascript" src="~/js/cargo.min.js"></script>
+}

@@ -1,0 +1,97 @@
+﻿@using ASChurchManager.Web.Lib
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
+
+@model ASChurchManager.Web.ViewModels.Usuario.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Igrejas - @_configuration["ParametrosSistema:NomeCliente"]</title>
+    <link rel="stylesheet" href="~/css/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/adminlte/AdminLTE.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/adminlte/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap-dialog/bootstrap-dialog.min.css" />
+    <link rel="stylesheet" href="~/css/app/layout.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="login-page">
+
+    <div class="login-box">
+        <div class="login-logo">
+            <b>@_configuration["ParametrosSistema:NomeResumido"]</b>
+        </div><!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Faça o Login para prosseguir</p>
+            @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { id = "frmLogin", ReturnUrl = ViewBag.ReturnUrl }))
+            {
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(model => model.Username, "", new { @class = "form-control", @placeholder = "Usuário" })
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.PasswordFor(model => model.Senha, new { @class = "form-control", @placeholder = "Senha" })
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                </div>
+                <center>
+                    <div class="row ">
+                        <div class="col-lg-12">
+                            <div class="g-recaptcha" data-sitekey="@_configuration["ParametrosSistema:CaptchaSite"]" data-callback="verifyCaptcha"></div>
+                            <div id="g-recaptcha-error"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:center">
+                            <span id="spanip"></span>
+                        </div>
+                    </div>
+                    <br />
+                </center>
+
+                <div class="form-group">
+                    <button type="button" class="btn bg-blue btn-block" id="btnEntrar">Entrar</button>
+                </div>
+                <p class="login-box-msg;" style="text-align: right"><a href="http://www.architectsystems.com.br" target="_blank">Architect Systems</a></p>
+            }
+        </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+    <script src="~/lib/jquery.min.js"></script>
+    <script src="~/lib/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery.validate.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <script src="~/lib/adminlte.min.js"></script>
+    <script src="~/lib/icheck.min.js"></script>
+    <script src="~/lib/sweetalert2.min.js"></script>
+    <script src="~/js/_core.min.js"></script>
+    <script src="~/js/_defaultSettings.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    @{
+        if (TempData.ContainsKey("AlertMessage"))
+        {
+            var alertMsg = Newtonsoft.Json.JsonConvert.DeserializeObject<AlertMessage>(@TempData["AlertMessage"].ToString());
+            <script type="text/javascript">
+                $.bsMessage("@alertMsg.Title", "@alertMsg.Message", "@alertMsg.Type.ToString()");
+            </script>
+        }
+    }
+    <script type="text/javascript" src="~/js/auth.min.js"></script>
+
+</body>
+</html>

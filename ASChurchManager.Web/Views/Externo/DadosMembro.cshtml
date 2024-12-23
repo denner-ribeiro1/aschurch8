@@ -1,0 +1,303 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
+
+@model ASChurchManager.Web.Models.Externo.DadosMembroVM
+
+@{
+    Layout = "~/Views/Shared/_Externo.cshtml";
+}
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<style>
+    body, html {
+        height: 100%;
+        display: grid;
+    }
+
+    .center-me {
+        height: 100%;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: -10px;
+        margin-bottom: -30px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+
+    .center1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+</style>
+
+<header class="main-header">
+    <!-- Logo -->
+    <a href='/' class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>@_configuration["ParametrosSistema:NomeAcronimo"]</b></span>
+        <div class="logo-lg">
+            <img src="@_configuration["ParametrosSistema:ImagemPadrao"]" style="width:200px" />
+        </div>
+    </a>
+</header>
+@using (Html.BeginForm("SalvarMembro", "Externo", FormMethod.Post, new { id = "frmExterno" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.IP)
+    <div class="row center-me" id="divMembro">
+        <div class="col-lg-10">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.Cpf)
+                @Html.TextBoxFor(model => model.Cpf, new { @readonly = "readonly", @class = "form-control cpf" })
+                @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
+            </div>
+            <p style="clear: both" />
+            @*<fieldset>
+                <legend>Dados Pessoais</legend>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.LabelFor(model => model.Nome)
+                        @Html.TextBoxFor(model => model.Nome, new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.LabelFor(model => model.NomePai)
+                        @Html.TextBoxFor(model => model.NomePai, new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.NomePai, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.LabelFor(model => model.NomeMae)
+                        @Html.TextBoxFor(model => model.NomeMae, new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <p style="clear: both" />
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.EstadoCivil)
+                        @Html.DropDownListFor(model => model.EstadoCivil, Model.SelectEstadoCivil, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.Sexo)
+                        @Html.DropDownListFor(model => model.Sexo, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Sexo)), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.DataNascimento)
+                        @Html.TextBoxFor(model => model.DataNascimento, new { @class = "form-control datepicker" })
+                        @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.Escolaridade)
+                        @Html.DropDownListFor(model => model.Escolaridade, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Escolaridade)), "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Escolaridade, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <p style="clear: both" />
+                <div class="form-group">
+
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.Profissao)
+                        @Html.TextBoxFor(model => model.Profissao, new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.Profissao, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.NaturalidadeCidade)
+                        @Html.TextBoxFor(model => model.NaturalidadeCidade, new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.NaturalidadeCidade, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.NaturalidadeEstado)
+                        @Html.DropDownListFor(model => model.NaturalidadeEstado, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Estado)), new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.NaturalidadeEstado, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(model => model.Nacionalidade)
+                        @Html.TextBoxFor(model => model.Nacionalidade, new { @class = "form-control capitalizedCase" })
+                        @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <p style="clear: both" />
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Documentos</legend>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.Rg)
+                                @Html.TextBoxFor(model => model.Rg, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Rg, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.OrgaoEmissor)
+                                @Html.TextBoxFor(model => model.OrgaoEmissor, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.OrgaoEmissor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <p style="clear: both" />
+                    </fieldset>
+                </div>
+                <p style="clear: both" />
+                <div class="form-group">
+                    
+                </div>
+            </fieldset>*@
+            <div>
+                <fieldset>
+                    <legend>Contatos</legend>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(model => model.TelefoneResidencial)
+                        @Html.TextBoxFor(model => model.TelefoneResidencial, new { @class = "form-control phone" })
+                        @Html.ValidationMessageFor(model => model.TelefoneResidencial, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(model => model.TelefoneCelular)
+                        @Html.TextBoxFor(model => model.TelefoneCelular, new { @class = "form-control phone" })
+                        @Html.ValidationMessageFor(model => model.TelefoneCelular, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-2">
+                        @Html.LabelFor(model => model.TelefoneComercial)
+                        @Html.TextBoxFor(model => model.TelefoneComercial, new { @class = "form-control phone" })
+                        @Html.ValidationMessageFor(model => model.TelefoneComercial, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.LabelFor(model => model.Email)
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control lowerCase" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </fieldset>
+            </div>
+            <div>
+                <fieldset>
+                    <legend>Endereço</legend>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Cep)
+                            @Html.TextBoxFor(model => model.Cep, new { @class = "form-control Endereco_Cep" })
+                            @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-1">
+                            <br />
+                            <button type="button" class="btn btn-info" id="btnBuscarCEP">
+                                <span class="glyphicon glyphicon-search"></span> CEP
+                            </button>
+                        </div>
+
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.Logradouro)
+                            @Html.TextBoxFor(model => model.Logradouro, new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.Logradouro, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-1">
+                            @Html.LabelFor(model => model.Numero)
+                            @Html.TextBoxFor(model => model.Numero, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.Complemento)
+                            @Html.TextBoxFor(model => model.Complemento, new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <p style="clear: both" />
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            @Html.LabelFor(model => model.Bairro)
+                            @Html.TextBoxFor(model => model.Bairro, new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.Cidade)
+                            @Html.TextBoxFor(model => model.Cidade, new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Estado)
+                            @Html.DropDownListFor(model => model.Estado, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Estado)), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Pais)
+                            @Html.TextBoxFor(model => model.Pais, new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </fieldset>
+                <p style="clear: both" />
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(model => model.AceitaTermos, htmlAttributes: new { @class = "control-label" })
+                            <label for="AceitaTermos">Declaro que li e aceito as condições do </label> <a href="#" id="lnkTermos">TERMO DE AUTORIZAÇÃO PARA TRATAMENTO DE DADOS – LGPD</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center>
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="g-recaptcha" data-sitekey="@Model.SiteKey" data-callback="verifyCaptcha"></div>
+                <div id="g-recaptcha-error"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="text-align:center">
+                <span id="spanip"></span>
+            </div>
+        </div>
+    </center>
+    <br />
+    <center>
+        <div class="row ">
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-primary" id="btnSalvar">
+                    <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                </button>
+                <a href="@_configuration["ParametrosSistema:UrlDirecionarExt"]" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                </a>
+            </div>
+        </div>
+    </center>
+    <br />
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<footer class="panel-footer">
+    <strong>Copyright &copy; @DateTime.Now.Year - Architect Systems - Todos os direitos reservados </strong>
+</footer>
+
+<script>
+    let urlPopUp = "@Url.Action("PopUpLGPD", "Externo", new { Area = "" })";
+    let urlSalvar = "@Url.Action("SalvarMembro", "Externo", new { Area = "" })";
+</script>
+
+
+@section scripts{
+    <script type="text/javascript" src="~/js/dadosmembros.min.js"></script>
+}
+
+

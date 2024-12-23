@@ -1,0 +1,624 @@
+[
+  {
+    "outputFileName": "wwwroot/css/app/layout.min.css",
+    "inputFiles": [
+      "wwwroot/css/app/layout.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/bootstrap-daterangepicker/daterangepicker.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/bootstrap-daterangepicker/daterangepicker.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/bootstrap-dialog/bootstrap-dialog.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/bootstrap-dialog/bootstrap-dialog.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/datepicker/datepicker.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/datepicker/datepicker.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/fullcalendar/fullcalendar.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/fullcalendar/core/main.css",
+      "wwwroot/css/plugins/fullcalendar/bootstrap/main.css",
+      "wwwroot/css/plugins/fullcalendar/timegrid/main.css",
+      "wwwroot/css/plugins/fullcalendar/daygrid/main.css",
+      "wwwroot/css/plugins/fullcalendar/list/main.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/jQueryUI/jquery-ui-1.10.3.custom.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/jQueryUI/jquery-ui-1.10.3.custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/jvectormap/jquery-jvectormap.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/jvectormap/jquery-jvectormap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/qTip/jquery.qtip.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/qTip/jquery.qtip.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/timepicker/bootstrap-timepicker.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/timepicker/bootstrap-timepicker.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/bootstrap-duallistbox/bootstrap-duallistbox.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/bootstrap-duallistbox/bootstrap-duallistbox.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/_core.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/_core.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/_defaultSettings.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/_defaultSettings.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/_search.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/_search.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/layout.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/layout.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/batismo.min.js",
+    "inputFiles": [
+      "wwwroot/js/batismo/batismo.js",
+      "wwwroot/js/membro/membrosuploadfoto.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexbatismo.min.js",
+    "inputFiles": [
+      "wwwroot/js/batismo/indexbatismo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/batizado.min.js",
+    "inputFiles": [
+      "wwwroot/js/batismo/batizado.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexconfiguracaobatismo.min.js",
+    "inputFiles": [
+      "wwwroot/js/batismo/indexconfiguracaobatismo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/listapresenca.min.js",
+    "inputFiles": [
+      "wwwroot/js/batismo/listapresenca.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/cargo.min.js",
+    "inputFiles": [
+      "wwwroot/js/cargo/cargo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexcargo.min.js",
+    "inputFiles": [
+      "wwwroot/js/cargo/indexcargo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/carta.min.js",
+    "inputFiles": [
+      "wwwroot/js/carta/carta.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexcarta.min.js",
+    "inputFiles": [
+      "wwwroot/js/carta/indexcarta.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/transfsemcarta.min.js",
+    "inputFiles": [
+      "wwwroot/js/carta/transfsemcarta.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/casamento.min.js",
+    "inputFiles": [
+      "wwwroot/js/casamento/casamento.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexcasamento.min.js",
+    "inputFiles": [
+      "wwwroot/js/casamento/indexcasamento.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/congregacao.min.js",
+    "inputFiles": [
+      "wwwroot/js/congregacao/congregacao.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexcongregacao.min.js",
+    "inputFiles": [
+      "wwwroot/js/congregacao/indexcongregacao.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/congregado.min.js",
+    "inputFiles": [
+      "wwwroot/js/congregado/congregado.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexcongregado.min.js",
+    "inputFiles": [
+      "wwwroot/js/congregado/indexcongregado.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/curso.min.js",
+    "inputFiles": [
+      "wwwroot/js/curso/curso.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexcurso.min.js",
+    "inputFiles": [
+      "wwwroot/js/curso/indexcurso.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/eventos.min.js",
+    "inputFiles": [
+      "wwwroot/js/eventos/eventos.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/eventosfullcalendar.min.js",
+    "inputFiles": [
+      "wwwroot/js/eventos/eventosfullcalendar.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/grupo.min.js",
+    "inputFiles": [
+      "wwwroot/js/grupo/grupo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexgrupo.min.js",
+    "inputFiles": [
+      "wwwroot/js/grupo/indexgrupo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexmembros.min.js",
+    "inputFiles": [
+      "wwwroot/js/membro/indexmembros.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/membros.min.js",
+    "inputFiles": [
+      "wwwroot/js/membro/membros.js",
+      "wwwroot/js/membro/membrosuploadfoto.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/reprovarmembro.min.js",
+    "inputFiles": [
+      "wwwroot/js/membro/reprovarmembro.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/membroconfirmado.min.js",
+    "inputFiles": [
+      "wwwroot/js/membro/membroconfirmado.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/nascimento.min.js",
+    "inputFiles": [
+      "wwwroot/js/nascimento/nascimento.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexnascimento.min.js",
+    "inputFiles": [
+      "wwwroot/js/nascimento/indexnascimento.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/perfil.min.js",
+    "inputFiles": [
+      "wwwroot/js/perfil/perfil.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexperfil.min.js",
+    "inputFiles": [
+      "wwwroot/js/perfil/indexperfil.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/relatorios.min.js",
+    "inputFiles": [
+      "wwwroot/js/relatorios/relatorios.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/template.min.js",
+    "inputFiles": [
+      "wwwroot/js/template/template.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indextemplate.min.js",
+    "inputFiles": [
+      "wwwroot/js/template/indextemplate.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tipoevento.min.js",
+    "inputFiles": [
+      "wwwroot/js/tipoevento/tipoevento.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indextipoevento.min.js",
+    "inputFiles": [
+      "wwwroot/js/tipoevento/indextipoevento.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/usuario.min.js",
+    "inputFiles": [
+      "wwwroot/js/usuario/usuario.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexusuario.min.js",
+    "inputFiles": [
+      "wwwroot/js/usuario/indexusuario.js"
+    ]
+  },
+
+  {
+    "outputFileName": "wwwroot/lib/jquery.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery/jquery.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-ui.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery-ui/jquery-ui.js",
+      "wwwroot/lib/plugins/jquery.slimscroll/jquery.slimscroll.js",
+      "wwwroot/lib/plugins/jquery.mask/jquery.mask.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery.mask.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.mask/jquery.mask.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery.validate.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery-plugins/jquery.validate.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/additional-methods.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery-plugins/additional-methods.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/localization.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery-plugins/localization/methods_pt.js",
+      "wwwroot/lib/frameworks/jquery-plugins/localization/messages_pt_BR.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jshashtable.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery-plugins/jshashtable-2.1.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery.validate.unobtrusive.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/jquery-plugins/jquery.validate.unobtrusive.js",
+      "wwwroot/lib/frameworks/jquery-plugins/jquery.validate.unobtrusive.method.cnpj.js",
+      "wwwroot/lib/frameworks/jquery-plugins/jquery.validate.unobtrusive.method.cpf.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/bootstrap/bootstrap.js",
+      "wwwroot/lib/plugins/bootstrap-toggle/bootstrap-toggle.js",
+      "wwwroot/lib/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.js",
+      "wwwroot/lib/plugins/datepicker/bootstrap-datepicker.js",
+      "wwwroot/lib/plugins/bootstrap-dialog/bootstrap-dialog.js",
+      "wwwroot/lib/plugins/timepicker/bootstrap-timepicker.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery.sparkline.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.sparkline/jquery.sparkline.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-jvectormap.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.min.js",
+      "wwwroot/lib/plugins/jquery-jvectormap/jquery-jvectormap-world-mill-en.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery.knob.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.knob/jquery.knob.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/daterangepicker.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/daterangepicker/daterangepicker.js",
+      "wwwroot/lib/plugins/daterangepicker/moment.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/fastclick.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/fastclick/fastclick.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/adminlte.min.js",
+    "inputFiles": [
+      "wwwroot/lib/frameworks/adminlte/adminlte.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/chart.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/chart/chart.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/fancybox.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.fancybox/jquery.fancybox.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/fancybox.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.fancybox/jquery.fancybox.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/icheck.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/icheck/icheck.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/sweetalert2.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/sweetalert2/sweetalert2.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/qtip.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.qtip/jquery.qtip.js",
+      "wwwroot/lib/plugins/jquery.qtip/imagesloaded.pkg.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/waitMe.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/waitMe/waitMe.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jtable.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery.jtable/jquery.jtable.js",
+      "wwwroot/lib/plugins/jquery.jtable/jquery.jtable.pt-BR.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/fullcalendar.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/fullcalendar/core/main.js",
+      "wwwroot/lib/plugins/fullcalendar/core/locales-all.js",
+      "wwwroot/lib/plugins/fullcalendar/interaction/main.js",
+      "wwwroot/lib/plugins/fullcalendar/bootstrap/main.js",
+      "wwwroot/lib/plugins/fullcalendar/daygrid/main.js",
+      "wwwroot/lib/plugins/fullcalendar/timegrid/main.js",
+      "wwwroot/lib/plugins/fullcalendar/list/main.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/log.min.js",
+    "inputFiles": [
+      "wwwroot/js/log/log.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/pretela.min.js",
+    "inputFiles": [
+      "wwwroot/js/externo/pretela.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dadosmembros.min.js",
+    "inputFiles": [
+      "wwwroot/js/externo/dadosmembros.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-maskmoney.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/jquery-maskmoney/jquery-maskmoney.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/emissaoetiquetas.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/emissaoetiquetas.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/frequenciamanual.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/frequenciamanual.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexconfiguracao.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/indexconfiguracao.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexfrequencia.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/indexfrequencia.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexfrequenciamanual.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/indexfrequenciamanual.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/indexinscricao.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/indexinscricao.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/inscricao.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/inscricao.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/inscricaonaomembro.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/inscricaonaomembro.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/inscricaocaptura.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/inscricaocaptura.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/popuparquivo.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/popuparquivo.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/popupfrequencia.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/popupfrequencia.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/presenca.min.js",
+    "inputFiles": [
+      "wwwroot/js/presenca/presenca.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/auth.min.js",
+    "inputFiles": [
+      "wwwroot/js/auth/auth.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/shared_pessoa.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/shared_pessoa.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/shared_endereco.min.js",
+    "inputFiles": [
+      "wwwroot/js/app/shared_endereco.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery.bootstrap-duallistbox.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/bootstrap-duallistbox/jquery.bootstrap-duallistbox.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap-select.min.js",
+    "inputFiles": [
+      "wwwroot/lib/plugins/bootstrap-select/bootstrap-select.js",
+      "wwwroot/lib/plugins/bootstrap-select/i18n/defaults-pt_BR.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/plugins/bootstrap-select/bootstrap-select.min.css",
+    "inputFiles": [
+      "wwwroot/css/plugins/bootstrap-select/bootstrap-select.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/carteirinhalista.min.js",
+    "inputFiles": [
+      "wwwroot/js/relatorios/carteirinhalista.js"
+    ]
+  }
+]

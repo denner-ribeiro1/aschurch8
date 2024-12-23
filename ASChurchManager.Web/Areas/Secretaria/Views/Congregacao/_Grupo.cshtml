@@ -1,0 +1,73 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregacao.GrupoVM
+
+@Html.Hidden("isreadonlygrupo", Model.IsReadOnly)
+<div class="form-group">
+    <fieldset>
+        <legend>Grupos</legend>
+        @if (!Model.IsReadOnly)
+        {
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.GrupoId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.GrupoId, Model.SelectGrupos, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.GrupoId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-2 ">
+                    @Html.LabelFor(model => model.NomeGrupo, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.NomeGrupo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NomeGrupo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    <a href="javascript:void(0)" id="lnkResponsavelId" class="control-label">Cód. Resp.</a>
+                    @Html.EditorFor(model => model.ResponsavelId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ResponsavelId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.ResponsavelNome, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ResponsavelNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.ResponsavelNome, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-sm-1">
+                    <br />
+                    <input id="btnAddGrupo" type="button" value="Adicionar Grupo" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+
+        <p style="clear: both" />
+        <div class="box-body jtable-main-container">
+            <table style="width:100%" id="tbGrupo" class="jtable">
+                <thead>
+                    <tr>
+                        @if (!Model.IsReadOnly)
+                        {
+                            <th class="jtable-column-header" style="width:25%;"><span class="jtable-column-header-text">Grupo</span></th>
+                            <th class="jtable-column-header" style="width:25%;"><span class="jtable-column-header-text">Nome do Grupo</span></th>
+                            <th class="jtable-column-header" style="width:10%;"><span class="jtable-column-header-text">Cód. Resp.</span></th>
+                            <th class="jtable-column-header" style="width:40%;" colspan="2"><span class="jtable-column-header-text">Responsável</span></th>
+                        }
+                        else
+                        {
+                            <th class="jtable-column-header" style="width:25%;"><span class="jtable-column-header-text">Grupo</span></th>
+                            <th class="jtable-column-header" style="width:25%;"><span class="jtable-column-header-text">Nome do Grupo</span></th>
+                            <th class="jtable-column-header" style="width:10%;"><span class="jtable-column-header-text">Cód. Resp.</span></th>
+                            <th class="jtable-column-header" style="width:40%;"><span class="jtable-column-header-text">Responsável</span></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @if (!Model.IsReadOnly)
+                        {
+                            <td colspan="5">Não há Grupos cadastrados para o Congregação</td>
+                        }
+                        else
+                        {
+                            <td colspan="4">Não há Grupos cadastrados para o Congregação</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</div>

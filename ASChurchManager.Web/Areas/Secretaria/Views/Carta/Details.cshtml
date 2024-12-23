@@ -1,0 +1,63 @@
+﻿@using ASChurchManager.Domain.Types
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Carta.CartaViewModel
+
+@{
+    ViewBag.Title = "Carta_Details";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Emissão de Carta - Detalhes
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @await Html.PartialAsync("_Carta", Model)
+                </div>
+                <p style="clear: both" />
+                <div class="box-footer">
+                    @if (ASChurchManager.Web.Lib.UserAppContext.Current.Usuario.Congregacao.Sede ||
+                     ASChurchManager.Web.Lib.UserAppContext.Current.Usuario.Congregacao.Id == Model.CongregacaoOrigemId)
+                    {
+                        if (Model.StatusCarta != StatusCarta.Cancelado)
+                        {
+                            <a href="@Url.Action("Edit", "Carta", new { id = Model.Id })" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                            </a>
+
+                            <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-cartaid="@Model.Id">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Cancelar
+                            </a>
+
+                            if (Model.TipoCarta == TipoDeCarta.Transferencia && Model.StatusCarta == StatusCarta.AguardandoRecebimento)
+                            {
+                                <a href='@Url.Action("AprovarCarta", "Carta", new { area = "Secretaria", id = Model.Id })' class="btn btn-info">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aprovar
+                                </a>
+                            }
+
+                            <a href="javascript:void(0)" id="lnkPrint" class="btn btn-warning" data-templateid="@Model.TemplateCartaSelecionado"
+                               data-targetmodel="Carta" data-id="@Model.Id">
+                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                            </a>
+                        }
+                    }
+                    <a href="@Url.Action("Index", "Carta")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var urlExcluir = "@Url.Action("Delete", "Carta", new { Area = "Secretaria" })"
+</script>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/carta.min.js"></script>
+}

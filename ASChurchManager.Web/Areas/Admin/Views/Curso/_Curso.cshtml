@@ -1,0 +1,49 @@
+﻿@model ASChurchManager.Web.Areas.Admin.ViewModels.Curso.CursoVM
+
+@Html.HiddenFor(model => model.Acao)
+<div style="height: 100%;"></div>
+<div>
+   
+
+    <div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-sm-2">
+            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-7">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <p style="clear: both" />
+        <div class="col-sm-3 ">
+            @Html.LabelFor(model => model.DataInicio, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.DataInicio, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control datepicker" } })
+            @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-3 ">
+            @Html.LabelFor(model => model.DataEncerramento, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.DataEncerramento, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control datepicker" } })
+            @Html.ValidationMessageFor(model => model.DataEncerramento, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-3 ">
+            @Html.LabelFor(model => model.CargaHoraria, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.CargaHoraria, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CargaHoraria, "", new { @class = "text-danger" })
+        </div>
+
+        @if (Model.DataCriacao != DateTimeOffset.MinValue)
+        {
+            <p style="clear: both" />
+            <div class="form-group">
+                @Html.EditorFor(model => model, "DataCriacaoAlteracao")
+            </div>
+        }
+    </div>
+</div>
+

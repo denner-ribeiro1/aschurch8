@@ -1,0 +1,97 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Relatorio.MembroVM
+
+<section class="content">
+    <div class="row" />
+    <div class="col-lg-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Relatório de Membros
+                </h3>
+            </div>
+            <div class="box-body">
+                <div>
+                    <fieldset>
+                        <legend>Filtros</legend>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.Congregacao, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.Congregacao, Model.SelectCongregacoes, "Todas", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Congregacao, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.Status, Model.SelectStatus, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.TipoMembro, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.TipoMembro, Model.SelectTipoMembro, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TipoMembro, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.EstadoCivil, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.EstadoCivil, Model.SelectEstadoCivil, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(model => model.ABEDABE, new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                                    <b>@Html.LabelFor(model => model.ABEDABE, htmlAttributes: new { @class = "control-label" })</b>
+                                    @Html.ValidationMessageFor(model => model.Completo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(model => model.Completo, new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                                    <b>@Html.LabelFor(model => model.Completo, htmlAttributes: new { @class = "control-label" })</b>
+                                    @Html.ValidationMessageFor(model => model.Completo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.CheckBoxFor(model => model.Confirmados, new { @class = "form-control" }) &ensp;
+                                <b>@Html.LabelFor(model => model.Confirmados, htmlAttributes: new { @class = "control-label" })</b>
+                                @Html.ValidationMessageFor(model => model.Confirmados, "", new { @class = "text-danger" }) &ensp;
+
+                            </div>
+                            <div class="col-sm-4" id="divConf" style="display:none">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(model => model.AtivosConfirmados, new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.TipoSaida, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.TipoSaida, Model.SelectTipoSaida, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TipoSaida, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="button" class="btn btn-primary" id="btnRelMembro">
+                    <span class="glyphicon glyphicon-print"></span> Gerar Relatório
+                </button>
+                <a href="@Url.Action("Index", "", new { area = "" })" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var urlRelMembros = "@Url.Action("RelatorioMembros", "Relatorios", new { Area = "Secretaria" })";
+</script>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/relatorios.min.js"></script>
+}

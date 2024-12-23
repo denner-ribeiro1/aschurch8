@@ -1,0 +1,275 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.MembroViewModel
+
+@Html.HiddenFor(model => model.Acao)
+@Html.Hidden("usuario", ASChurchManager.Web.Lib.UserAppContext.Current.Usuario.Nome)
+
+@Html.HiddenFor(model => model.Obs)
+@Html.HiddenFor(model => model.Sit)
+@Html.HiddenFor(model => model.Carg)
+@Html.HiddenFor(model => model.IsReadOnly)
+@Html.HiddenFor(model => model.PermiteExcluirCargoMembro)
+@Html.HiddenFor(model => model.PermiteExcluirObservacaoMembro)
+@Html.HiddenFor(model => model.PermiteExcluirSituacaoMembro)
+@Html.HiddenFor(model => model.Status)
+@Html.HiddenFor(model => model.TipoMembro)
+
+
+@Html.HiddenFor(model => model.BatismoId)
+@Html.HiddenFor(model => model.DataPrevistaBatismo)
+
+
+@if (Model.BatismoId > 0)
+{
+    @Html.HiddenFor(model => model.RecebidoPor)
+    @Html.HiddenFor(model => model.DataRecepcao)
+    @Html.HiddenFor(model => model.DataBatismoAguas)
+}
+
+
+<div class="col-sm-12">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <p style="clear: both" />
+    <div class="form-group">
+        <div class="col-sm-2">
+            @if (Model.Acao == ASChurchManager.Domain.Types.Acao.Create)
+            {
+                <a href="javascript:void(0)" class="control-label" id="lnkBuscarCongregacao">Cód. Congregação</a>
+                @Html.EditorFor(model => model.CongregacaoId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CongregacaoId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            }
+        </div>
+        <div class="col-sm-10">
+            @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.CongregacaoNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+    </div>
+    <p style="clear: both" />
+    <div class="form-group">
+        @if (Model.Acao != ASChurchManager.Domain.Types.Acao.Create)
+        {
+            if (Model.Acao == ASChurchManager.Domain.Types.Acao.Read && Model.MembroConfirmado)
+            {
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.TipoMembroDescr, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.TipoMembroDescr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.StatusDescr, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.StatusDescr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-2">
+                    <br />
+                    <a href="#" class="btn btn-facebook" id="btnMembroConfirmado">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Membro Confirmado
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-5">
+                    @Html.LabelFor(model => model.TipoMembroDescr, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.TipoMembroDescr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-5">
+                    @Html.LabelFor(model => model.StatusDescr, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.StatusDescr, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            }
+
+        }
+    </div>
+    @if (@Model.Status == ASChurchManager.Domain.Types.Status.NaoAprovado)
+    {
+        <p style="clear: both" />
+        <div class="alert alert-danger alert-dismissable">
+            <h4><i class="icon fa fa-ban"></i> Atenção! Membro Reprovado</h4>
+            @Html.LabelFor(a => a.MotivoReprovacao)
+            @Html.EditorFor(model => model.MotivoReprovacao, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+            <p />
+            @Html.LabelFor(a => a.UsuarioReprovacao)
+            @Html.EditorFor(model => model.UsuarioReprovacao, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    }
+    <p style="clear: both" />
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_Pessoa" data-toggle="tab"><span class="fa fa-user"></span> Dados Pessoais</a></li>
+            <li><a href="#tab_Membro" data-toggle="tab"><span class="fa fa-bank"></span> Membro</a></li>
+            <li><a href="#tab_Docs" data-toggle="tab"><span class="fa fa-cloud"></span> Formação/Documentos</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_Pessoa">
+            @Html.EditorFor(model => model.Pessoa, "Pessoa")
+            <p style="clear: both" />
+            @Html.EditorFor(model => model.Endereco, "Endereco")
+            <p style="clear: both" />
+            @Html.EditorFor(model => model.Pessoa, "Contato")
+        </div>
+        <div class="tab-pane" id="tab_Membro">
+            <div class="form-group">
+                <fieldset>
+                    <legend>Recebido Por</legend>
+                    <div class="col-sm-4">
+                        @if (Model.BatismoId > 0)
+                        {
+                            @Html.LabelFor(model => model.RecebidoPor, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.RecebidoPor, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.MembroRecebidoPor)), (object)new { @disabled = "disabled", @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.LabelFor(model => model.RecebidoPor, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.RecebidoPor, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.MembroRecebidoPor)), Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RecebidoPor, "", new { @class = "text-danger" })
+                        }
+                    </div>
+                    <div class="col-sm-4">
+                        @if (Model.BatismoId > 0)
+                        {
+                            @Html.LabelFor(model => model.DataRecepcao, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DataRecepcao, (object)new { @disabled = "disabled", @class = "form-control datepicker" })
+                        }
+                        else
+                        {
+                            @Html.LabelFor(model => model.DataRecepcao, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DataRecepcao, Model.IsReadOnly ? (object)new { @readonly = "readonly", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.DataRecepcao, "", new { @class = "text-danger" })
+                        }
+                    </div>
+                </fieldset>
+            </div>
+            <p style="clear: both" />
+            <div class="form-group">
+                <fieldset>
+                    <legend>Batismo</legend>
+                    <div class="col-sm-4">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(model => model.BatimoEspiritoSanto, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                            @Html.LabelFor(model => model.BatimoEspiritoSanto, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.BatimoEspiritoSanto, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        @if (Model.BatismoId > 0)
+                        {
+                            @Html.LabelFor(model => model.DataBatismoAguas, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DataBatismoAguas, (object)new { @disabled = "disabled", @class = "form-control datepicker" })
+                        }
+                        else
+                        {
+                            @Html.LabelFor(model => model.DataBatismoAguas, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DataBatismoAguas, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.DataBatismoAguas, "", new { @class = "text-danger" })
+                        }
+
+                    </div>
+                </fieldset>
+            </div>
+            <div class="form-group">
+                <fieldset>
+                    <legend>ABEDABE</legend>
+                    <div class="col-sm-4">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(model => model.ABEDABE, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                            @Html.LabelFor(model => model.ABEDABE, htmlAttributes: new { @class = "control-label" })
+                            @Html.ValidationMessageFor(model => model.ABEDABE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <p style="clear: both" />
+            <div class="form-group">
+                @await Html.PartialAsync("_Situacao", Model.Situacao)
+            </div>
+            <p style="clear: both" />
+            <div class="form-group">
+                @await Html.PartialAsync("_Cargo", Model.Cargo)
+            </div>
+            <p style="clear: both" />
+            <div class="form-group">
+                @await Html.PartialAsync("_Observacao", Model.Observacao)
+            </div>
+            <div class="form-group">
+                <fieldset>
+                    <legend>Histórico de Transferências</legend>
+                    <div class="form-group">
+                        @await Html.PartialAsync("_HistoricoCartas", Model.Historico)
+                    </div>
+                </fieldset>
+            </div>
+            @if (Model.DataCriacao != DateTimeOffset.MinValue)
+            {
+                <p style="clear: both" />
+                <div class="form-group">
+                    <fieldset>
+                        <legend>Informações Adicionais</legend>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.CriadoPorNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CriadoPorNome, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.AprovadoPorNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.AprovadoPorNome, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.DataAlteracao, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </fieldset>
+                </div>
+            }
+        </div>
+        <div class="tab-pane" id="tab_Docs">
+            @await Html.PartialAsync("_Curso", Model.CursoMembro)
+            <p style="clear: both" />
+            @await Html.PartialAsync("_Arquivos", Model.CursoMembro)
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalSalvar" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Salvando o Membro:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body scrollModal">
+                    <div class="table-responsive">
+                        <table id="tbStatus" class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th style="width:70%">Tarefa</th>
+                                    <th style="width:30%">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+            </div>
+            <div class="modal-footer" id="divFooter" style="display:none">
+                <button id="btnFecharModal" type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

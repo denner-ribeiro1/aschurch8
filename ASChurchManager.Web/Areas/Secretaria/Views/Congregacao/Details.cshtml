@@ -1,0 +1,123 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregacao.CongregacaoVM
+
+@{
+    ViewBag.Title = "Congregacao_Details";
+}
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Congregação - Detalhes
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @await Html.PartialAsync("_Congregacao", Model)
+                </div>
+                <div class="box-footer">
+                    <a href="@Url.Action("Edit", "Congregacao", new { id = Model.Id })" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                    </a>
+                    @if (!Model.Sede)
+                    {
+                        <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-congregregaoid="@Model.Id">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                        </a>
+                    }
+                    <a href="@Url.Action("Index", "Congregacao")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modalExcluir" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div id="divMembros">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registros vinculados a Congregação - @Model.Nome</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="tbStatus" class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th style="width:60%">Tipo</th>
+                                        <th style="width:40%">Quantidade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="modal-header">
+                <h4 class="modal-title">Nova Congregação para Transferência:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <a href="javascript:void(0)" class="control-label" style="margin-top: 5px;"
+                               id="lnkBuscarCongregacao">Cód. Congregação</a>
+                            <input class="form-control text-box single-line" data-val="true"
+                                   data-val-required="Código da Congregação é de preenchimento obrigatório" id="CongregacaoNovaId"
+                                   name="CongregacaoNovaId" type="number" data-congregorig="@Model.Id">
+                            <span class="text-danger field-validation-valid" data-valmsg-for="CongregacaoId" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="col-sm-8">
+                            <label class="control-label" for="CongregacaoNome">Nome Congregação</label>
+                            <input class="form-control text-box single-line valid" data-val="true"
+                                   data-val-required="Nome da Congregação é de preenchimento obrigatório" id="CongregacaoNome"
+                                   name="CongregacaoNome" readonly="readonly" type="text"
+                                   aria-describedby="CongregacaoNome-error" aria-invalid="false">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="CongregacaoNome" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnExcluirModal" type="button" class="btn btn-danger" data-congregid="@Model.Id" data-congregnome="@Model.Nome">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                </button>
+                <button id="btnFecharModal" type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var grupos  = JSON.parse('@Html.Raw(Json.Serialize(Model.Grupos))');
+    var obreiros = JSON.parse('@Html.Raw(Json.Serialize(Model.Obreiros))');
+    var observacoes = JSON.parse('@Html.Raw(Json.Serialize(Model.Observacoes))');
+    var urlExcluir = "@Url.Action("Delete", "Congregacao", new { Area = "Secretaria" })"
+    var urlFicha = "@Url.Action("FichaCongregacao", "Congregacao", new { Area = "Secretaria" })"
+    var arquivos = JSON.parse('@Html.Raw(Json.Serialize(Model.Arquivos))');
+    var urlDownload = '@Url.Action("DownloadArquivo", "Congregacao", new { area = "Secretaria"})';
+    var urlExcArq = "@Url.Action("DeleteArquivo", "Congregacao", new { Area = "Secretaria" })";
+    var urlUplArq = "@Url.Action("UploadArquivo", "Congregacao", new { Area = "Secretaria" })";
+    var urlArqJaExiste = "@Url.Action("ArquivoJaExiste", "Congregacao", new { Area = "Secretaria" })";
+    var urlQtdMemb = "@Url.Action("ConsultarQtdMembrosCongregacao", "Congregacao", new { Area = "Secretaria" })";
+    var urlRelMembros = "@Url.Action("RelatorioMembros", "Relatorios", new { Area = "Secretaria" })";
+    var urlRelEventos = "@Url.Action("RelatorioEventos", "Relatorios", new { Area = "Secretaria" })";
+    var urlRelCasamentos = "@Url.Action("RelatorioCasamentos", "Relatorios", new { Area = "Secretaria" })";
+    var urlRelNascimentos = "@Url.Action("RelatorioNascimentos", "Relatorios", new { Area = "Secretaria" })";
+    var urlRelObreiros = "@Url.Action("RelatorioObreiros", "Relatorios", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script src="~/js/congregacao.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>
+}

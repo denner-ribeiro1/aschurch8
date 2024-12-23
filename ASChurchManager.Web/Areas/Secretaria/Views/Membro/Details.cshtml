@@ -1,0 +1,71 @@
+﻿@using ASChurchManager.Web.Lib
+
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.MembroViewModel
+
+@{
+    ViewBag.Title = "Membro_Details";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Membro - Detalhes
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @await Html.PartialAsync("_Membro", Model)
+                </div>
+                <div class="box-footer">
+                    @{
+                        <a href="javascript:void(0)" id="lnkFichaMembro" class="btn btn-info" data-membroid="@Model.Id">
+                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Ficha
+                        </a>
+                        if (@Model.Status == ASChurchManager.Domain.Types.Status.Ativo
+                            && UserAppContext.Current.Usuario.Congregacao.Sede
+                            && UserAppContext.Current.Usuario.PermiteImprimirCarteirinha)
+                        {
+                            <a href="javascript:void(0)" id="lnkCarteirinha" class="btn btn-warning" data-membroid="@Model.Id">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Carteirinha
+                            </a>
+                        }
+
+                        if (UserAppContext.Current.Usuario.PermiteExcluirMembros)
+                        {
+                            <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-membroid="@Model.Id">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                            </a>
+                        }
+                    }
+                    <a href="@Url.Action("Edit", "Membro", new { id = Model.Id })" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                    </a>
+                    <a href="@Url.Action("Index", "Membro")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var cargos = JSON.parse('@Html.Raw(Json.Serialize(Model.Cargos))');
+    var obs = JSON.parse('@Html.Raw(Json.Serialize(Model.Observacoes))');
+    var sit = JSON.parse('@Html.Raw(Json.Serialize(Model.Situacoes))');
+    var arquivosMembros = JSON.parse('@Html.Raw(Json.Serialize(Model.ArquivosMembro))');
+    var urlExcluir = "@Url.Action("Delete", "Membro", new { Area = "Secretaria" })";
+    var urlMembroConfirmado = "@Url.Action("MembroConfirmado", "Membro", new { Area = "Secretaria" })";
+    var urlFichaMembro = "@Url.Action("FichaMembro", "Membro", new { Area = "Secretaria" })";
+
+</script>
+
+@section scripts
+{
+    <script src="~/js/membros.min.js"></script>
+    <script src="~/js/shared_pessoa.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>
+}
+

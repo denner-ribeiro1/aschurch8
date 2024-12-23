@@ -1,0 +1,48 @@
+﻿@model ASChurchManager.Web.ViewModels.Shared.PessoaViewModel
+@Html.Hidden("somenteleitura", Model.IsReadOnly)
+
+<div class="col-sm-12">
+    <div class="row">
+        <fieldset>
+            <legend>Contatos</legend>
+            <div class="col-sm-2" id="divTelResBr">
+                @Html.LabelFor(model => model.TelefoneResidencial)
+                @Html.TextBoxFor(model => model.TelefoneResidencial, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control phone" } : new { @class = "form-control phone" })
+                @Html.ValidationMessageFor(model => model.TelefoneResidencial, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-2" id="divTelResEst" style="display:none">
+                @Html.LabelFor(model => model.TelefoneResidencialEstrangeiro)
+                @Html.TextBoxFor(model => model.TelefoneResidencialEstrangeiro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : (object)new { @class = "form-control", maxlength = "15", onkeypress = "return (event.charCode >= 48 && event.charCode <= 57 || event.charCode==32 || event.charCode==43 || event.charCode==45)" })
+                @Html.ValidationMessageFor(model => model.TelefoneResidencialEstrangeiro, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-sm-2" id="divTelCelBr">
+                @Html.LabelFor(model => model.TelefoneCelular)
+                @Html.TextBoxFor(model => model.TelefoneCelular, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control phone" } : new { @class = "form-control phone" })
+                @Html.ValidationMessageFor(model => model.TelefoneCelular, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-2" id="divTelCelEst" style="display:none">
+                @Html.LabelFor(model => model.TelefoneCelularEstrangeiro)
+                @Html.TextBoxFor(model => model.TelefoneCelularEstrangeiro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : (object)new { @class = "form-control", maxlength = "15", onkeypress = "return (event.charCode >= 48 && event.charCode <= 57 || event.charCode==32 || event.charCode==43 || event.charCode==45)" })
+                @Html.ValidationMessageFor(model => model.TelefoneCelularEstrangeiro, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-sm-2" id="divTelComBr">
+                @Html.LabelFor(model => model.TelefoneComercial)
+                @Html.TextBoxFor(model => model.TelefoneComercial, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control phone" } : new { @class = "form-control phone" })
+                @Html.ValidationMessageFor(model => model.TelefoneComercial, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-2" id="divTelComEst" style="display:none">
+                @Html.LabelFor(model => model.TelefoneComercialEstrangeiro)
+                @Html.TextBoxFor(model => model.TelefoneComercialEstrangeiro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : (object)new { @class = "form-control", maxlength = "15", onkeypress = "return (event.charCode >= 48 && event.charCode <= 57 || event.charCode==32 || event.charCode==43 || event.charCode==45)" })
+                @Html.ValidationMessageFor(model => model.TelefoneComercialEstrangeiro, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : (object)new { @class = "form-control lowerCase" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </fieldset>
+    </div>
+</div>

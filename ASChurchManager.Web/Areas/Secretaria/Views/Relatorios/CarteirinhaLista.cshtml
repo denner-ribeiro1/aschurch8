@@ -1,0 +1,136 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Relatorio.CarteirinhaVM
+
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+</style>
+
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Carteirinhas - Membros</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rdoOpcoes" id="rdoMembro" value="membro" checked="checked">
+                    <label class="form-check-label" for="rdoMembro">&nbsp;&nbsp;Membro</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="rdoOpcoes" id="rdoBatismo" value="batismo">
+                    <label class="form-check-label" for="rdoBatismo">&nbsp;&nbsp;Data de Batismo</label>
+                </div>
+            </div>
+        </div>
+        <div id="divMembro" style="display:none">
+            <div class="row">
+                <div class="col-lg-12">
+                    <fieldset>
+                        <legend>Filtrar por Membro</legend>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.CongregacaoMembro, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.CongregacaoMembro, Model.ListaCongregacoesMembro, new { @class = "form-control", multiple = "multiple", data_selected_text_format = "count > 4", data_actions_box = "data-actions-box", data_live_search = "data-live-search" })
+                            @Html.ValidationMessageFor(model => model.CongregacaoMembro, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.Cargos, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Cargos, Model.ListaCargos, new { @class = "form-control selectpicker", multiple = "multiple", data_selected_text_format = "count > 4", data_actions_box = "data-actions-box", data_live_search = "data-live-search" })
+                            @Html.ValidationMessageFor(model => model.Cargos, "", new { @class = "text-danger" })
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div id="divBatismo" style="display:none">
+            <div class="row">
+                <div class="col-lg-12">
+                    <fieldset>
+                        <legend>Filtrar por Data de Batismo</legend>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.DataBatismo, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.DataBatismo, Model.ListaDatasBatismo, "", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DataBatismo, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.CongregacaoBatismo, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.CongregacaoBatismo, Model.ListaCongregacoesBatismo, new { @class = "form-control", multiple = "multiple", data_selected_text_format = "count > 4", data_actions_box = "data-actions-box", data_live_search = "data-live-search" })
+                            @Html.ValidationMessageFor(model => model.CongregacaoBatismo, "", new { @class = "text-danger" })
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div id="divPesquisar" style="display:none">
+            <div class="row" id="divObrCongr" style="display:none">
+                <div class="col-lg-10">
+                    <br />
+                    <div class="form-group" >
+                        &emsp;
+                        <input type="checkbox" id="chkObrCongr">&emsp;
+                        <label class="btn" for="chkObrCongr">Somente imprimir Obreiros vinculados a Congregação selecionada</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <br />
+                    <center>
+                        <button type="button" class="btn btn-primary" id="btnPesquisar">
+                            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Pesquisar
+                        </button>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <fieldset>
+                    <legend>Membros</legend>
+                    <table id="grdMembros" class="display" style="width:100%"></table>
+                </fieldset>
+            </div>
+        </div>
+        <br />
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="divAtualizar" style="display:none">
+                        <input type="checkbox" id="ckAtualizar" >
+                        <label for="ckAtualizar">&nbsp;&nbsp;Atualizar a Data de Validade das Carteirinhas de todos os membros selecionados?</label>
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-primary" id="btnCarteirinha">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                    </button>
+                    <a href="@Url.Action("Index", "Home", new { Area = ""})" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/carteirinhalista.min.js"></script>
+}
+
+<script type="text/javascript">
+    var urlListarCarteirinhas = "@Url.Action("ListarCarteirinhas", "Relatorios", new { area = "Secretaria"})";
+    var urlCarteirinhas = "@Url.Action("Carteirinhas", "Relatorios", new { area = "Secretaria"})";
+</script>

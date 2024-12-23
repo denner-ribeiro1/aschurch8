@@ -1,0 +1,91 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Casamento.CasamentoViewModel
+@{
+    Layout = "~/Views/Shared/_PopUp.cshtml";
+}
+<div class="box box-primary">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <div class="box-header">
+                <h4 class="box-title" id="myModalLabel">Casamento</h4>
+            </div>
+            <div class="box-body" style="padding:3px">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="control-label">Data</label>
+                        @Html.TextBoxFor(model => model.DataCasamento, (object)new { @disabled = "disabled", @class = "form-control datepicker" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Início</label>
+                        @Html.TextBoxFor(model => model.HoraInicio, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Fim</label>
+                        @Html.TextBoxFor(model => model.HoraFim, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="control-label">Congregação</label>
+                        @Html.TextBoxFor(model => model.CongregacaoNome, (object)new { @readonly = "readonly", @class = "form-control" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label">Pastor Celebrante</label>
+                        @Html.TextBoxFor(model => model.PastorNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="control-label">Noivo</label>
+                        @Html.TextBoxFor(model => model.NoivoNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="control-label">Pai do Noivo</label>
+                        @Html.TextBoxFor(model => model.PaiNoivoNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label">Mãe do Noivo</label>
+                        @Html.TextBoxFor(model => model.MaeNoivoNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label class="control-label">Noiva</label>
+                        @Html.TextBoxFor(model => model.NoivaNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="control-label">Pai da Noiva</label>
+                        @Html.TextBoxFor(model => model.PaiNoivaNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label">Mãe da Noiva</label>
+                        @Html.TextBoxFor(model => model.MaeNoivaNome, (object)new { @disabled = "disabled", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-footer">
+                <div class="row">
+                    <div style="text-align-last:right" class="col-lg-12">
+                        <a href="javascript:FecharModal();" id="lnkFechar" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Fechar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function FecharModal() {
+        parent.$.fancybox.close();
+    }
+</script>

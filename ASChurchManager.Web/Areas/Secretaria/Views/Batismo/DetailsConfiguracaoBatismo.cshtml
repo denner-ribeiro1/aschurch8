@@ -1,0 +1,47 @@
+﻿@using ASChurchManager.Web.Lib
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Batismo.ConfiguracaoBatismoViewModel
+@{
+    ViewBag.Title = "Configuracao_Batismo_Create";
+}
+
+@using (Html.BeginForm())
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Configuração de Batismo - Detalhes
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_ConfiguracaoBatismo", Model)
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        @if (Model.Status == ASChurchManager.Domain.Types.StatusBatismo.EmAberto)
+                        {
+                            <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-membroid="@Model.Id">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                            </a>
+                        }
+                        <a href="@Url.Action("EditConfiguracaoBatismo", "Batismo", new { id = Model.Id })" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                        </a>
+                        <a href="@Url.Action("IndexConfiguracaoBatismo", "Batismo")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script>
+    var urlExcluir = "@Url.Action("DeleteConfiguracaoBatismo", "Batismo", new { Area = "Secretaria" })"
+</script>
+@section scripts
+{
+    <script type="text/javascript" src="~/js/batizado.min.js"></script>
+}

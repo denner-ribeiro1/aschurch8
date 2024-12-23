@@ -1,0 +1,125 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregacao.CongregacaoVM
+
+@Html.HiddenFor(model => model.Acao)
+@Html.HiddenFor(model => model.Grp)
+@Html.HiddenFor(model => model.Obr)
+@Html.HiddenFor(model => model.Obs)
+@Html.HiddenFor(model => model.Id)
+
+<div>
+    <div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div style="height: 100%;"></div>
+        <div class="col-sm-7">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Nome, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-2">
+            @Html.LabelFor(model => model.Sede, htmlAttributes: new { @class = "control-label" })
+            <div class="checkbox">
+                @Html.CheckBoxFor(model => model.Sede, htmlAttributes: new { @class = "control-label", @disabled = "disabled" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Sede, "", new { @class = "text-danger" })
+        </div>
+        <div>
+            <p style="clear: both" />
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_Congr" data-toggle="tab"><span class="fa fa-bank"></span> Dados Gerais</a></li>
+                    <li><a href="#tab_Obreiros" data-toggle="tab"><span class="fa fa-users"></span> Obreiros</a></li>
+                    <li><a href="#tab_Grupo" data-toggle="tab"><span class="fa fa-sitemap"></span> Grupos</a></li>
+                    <li><a href="#tab_Obs" data-toggle="tab"><span class="fa fa-bookmark"></span> Observações</a></li>
+                    @if (Model.Acao != ASChurchManager.Domain.Types.Acao.Create)
+                    {
+                        <li><a href="#tab_Arquivo" data-toggle="tab"><span class="fa fa-file"></span> Anexos</a></li>
+                    }
+                </ul>
+            </div>
+
+            <p style="clear: both" />
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_Congr">
+                    <div class="form-group">
+                        <fieldset>
+                            <legend>Dados Gerais</legend>
+                            <div class="col-sm-2">
+                                @if (!@Model.IsReadOnly)
+                                {
+                                    <a href="javascript:void(0)" id="lnkCongregacaoResponsavelId" class="control-label ">Cód. Congregação Resp.</a>
+                                }
+                                else
+                                {
+                                    @Html.LabelFor(model => model.CongregacaoResponsavelId, htmlAttributes: new { @class = "control-label" })
+                                }
+                                @Html.EditorFor(model => model.CongregacaoResponsavelId, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CongregacaoResponsavelId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5">
+                                @Html.LabelFor(model => model.CongregacaoResponsavelNome, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.CongregacaoResponsavelNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.CongregacaoResponsavelNome, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-5">
+                                @Html.LabelFor(model => model.CNPJ)
+                                @if (!Model.IsReadOnly)
+                                {
+                                    @Html.TextBoxFor(model => model.CNPJ, htmlAttributes: new { @class = "form-control cnpj" })
+                                    @Html.ValidationMessageFor(model => model.CNPJ, "", new { @class = "text-danger" })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control cnpj", @readonly = "readonly" } })
+                                }
+                            </div>
+                        </fieldset>
+                        <p style="clear: both" />
+                        <div class="form-group">
+                            @Html.EditorFor(model => model.Endereco, "Endereco")
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_Obreiros">
+                    <p style="clear: both" />
+                    <fieldset>
+                        <legend>Pastor Responsável</legend>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                @if (!@Model.IsReadOnly)
+                                {
+                                    <a href="javascript:void(0)" id="lnkPastorResponsavelId" class="control-label">Cód.Pastor</a>
+                                }
+                                else
+                                {
+                                    @Html.LabelFor(model => model.PastorResponsavelId, htmlAttributes: new { @class = "control-label" })
+                                }
+                                @Html.EditorFor(model => model.PastorResponsavelId, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.PastorResponsavelId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-10">
+                                @Html.LabelFor(model => model.PastorResponsavelNome, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.PastorResponsavelNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.PastorResponsavelNome, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                    <p style="clear: both" />
+                    @await Html.PartialAsync("_Obreiro", Model.Obreiro)
+                </div>
+                <div class="tab-pane" id="tab_Grupo">
+                    @await Html.PartialAsync("_Grupo", Model.Grupo)
+                </div>
+                <div class="tab-pane" id="tab_Obs">
+                    @await Html.PartialAsync("_Observacao", Model.Observacao)
+                </div>
+                @if (Model.Acao != ASChurchManager.Domain.Types.Acao.Create)
+                {
+                    <div class="tab-pane" id="tab_Arquivo">
+                        @await Html.PartialAsync("_Arquivo", Model)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

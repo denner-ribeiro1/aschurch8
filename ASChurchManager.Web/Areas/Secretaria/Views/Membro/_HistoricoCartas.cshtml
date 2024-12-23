@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.GridHistoricoCartasViewModel>
+
+<div class="box-body jtable-main-container">
+    <table style="width:100%" id="tbHistCarta" class="jtable">
+        <thead>
+            <tr>
+                <th class="jtable-column-header" style="width:40%;"><span class="jtable-column-header-text">Congregação de Origem</span></th>
+                <th class="jtable-column-header" style="width:40%;"><span class="jtable-column-header-text">Congregação de Destino</span></th>
+                <th class="jtable-column-header" style="width:20%;"><span class="jtable-column-header-text">Data Da Transferência</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">Não há Histórico de Cartas para o Membro</td>
+                </tr>
+            }
+            else
+            {
+                var i = 0;
+                foreach (var item in Model)
+                {
+                    string css = $"jtable-data-row{((i % 2 == 0) ? " jtable-row-even" : "")}";
+                    <tr class="@css">
+                        <td>
+                            @item.CongregacaoOrigem
+                        </td>
+                        <td>
+                            @item.CongregacaoDestino
+                        </td>
+                        <td>
+                            @item.DataDaTransferencia.ToString("dd/MM/yyyy")
+                        </td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+</div>

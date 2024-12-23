@@ -1,0 +1,118 @@
+﻿@*Exemplo de uso: @Html.EditorFor(model => model.Endereco, "Endereco")*@
+
+@model ASChurchManager.Web.ViewModels.Shared.EnderecoViewModel
+
+
+
+<style type="text/css">
+    .div-cep {
+        padding-top: 20px;
+        align-items: center;
+    }
+    @@media (max-width: 1200px) {
+        .div-cep {
+            padding-top: 10px !important;
+        }
+    }
+</style>
+
+<fieldset>
+    <legend>@Model.ViewModelTitle</legend>
+    <div class="form-group">
+        @if (Model.IsReadOnly)
+        {
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Pais)
+                @Html.TextBoxFor(model => model.Pais, new { @disabled = "disabled", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+            </div>
+            <div id="divCep" class="col-sm-3">
+                @Html.LabelFor(model => model.Cep)
+                @Html.TextBoxFor(model => model.Cep, new { @disabled = "disabled", @class = "form-control Endereco_Cep" })
+            </div>
+            <div id="divCaixaPostal" style="display:none" class="col-sm-3">
+                @Html.LabelFor(model => model.CodigoPostal)
+                @Html.TextBoxFor(model => model.CodigoPostal, new { @disabled = "disabled", @class = "form-control " })
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Pais)
+                @Html.DropDownListFor(model => model.Pais, Model.SelectPaises, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+            </div>
+            <div id="divCep" class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-9">
+                        @Html.LabelFor(model => model.Cep)
+                        @Html.TextBoxFor(model => model.Cep, new { @class = "form-control Endereco_Cep" })
+                        @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-2 div-cep">
+                        <button type="button" class="btn btn-info" id="btnBuscarCEP">
+                            <span class="glyphicon glyphicon-search"></span> CEP
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="divCaixaPostal" style="display:none" class="col-sm-3">
+                @Html.LabelFor(model => model.CodigoPostal)
+                @Html.TextBoxFor(model => model.CodigoPostal, new { @class = "form-control " })
+                @Html.ValidationMessageFor(model => model.CodigoPostal, "", new { @class = "text-danger" })
+            </div>
+        }
+        <div class="col-sm-5">
+            @Html.LabelFor(model => model.Logradouro)
+            @Html.TextBoxFor(model => model.Logradouro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+            @Html.ValidationMessageFor(model => model.Logradouro, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-2">
+            @Html.LabelFor(model => model.Numero)
+            @Html.TextBoxFor(model => model.Numero, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2">
+            @Html.LabelFor(model => model.Complemento)
+            @Html.TextBoxFor(model => model.Complemento, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+            @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+        </div>
+        <div id="divEndBrasil">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.Bairro)
+                @Html.TextBoxFor(model => model.Bairro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.Cidade)
+                @Html.TextBoxFor(model => model.Cidade, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.Estado)
+                @Html.DropDownListFor(model => model.Estado, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Estado)), Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div id="divEndEstrang" style="display:none">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.BairroEstrangeiro)
+                @Html.TextBoxFor(model => model.BairroEstrangeiro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                @Html.ValidationMessageFor(model => model.BairroEstrangeiro, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.CidadeEstrangeiro)
+                @Html.TextBoxFor(model => model.CidadeEstrangeiro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                @Html.ValidationMessageFor(model => model.CidadeEstrangeiro, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.Provincia)
+                @Html.TextBoxFor(model => model.Provincia, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                @Html.ValidationMessageFor(model => model.Provincia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+</fieldset>

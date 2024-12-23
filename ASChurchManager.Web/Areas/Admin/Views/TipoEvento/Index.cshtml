@@ -1,0 +1,32 @@
+﻿<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Tipos de Eventos
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div style="height: 100%;"></div>
+                    <div>
+                        <a href="@Url.Action("Create", "TipoEvento")" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Novo
+                        </a>
+                        <div id="grdTipoEvento">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        var urlList = '@Url.Action("GetList", "TipoEvento", new {area = "Admin"})';
+        var urlDetalhes = '@Url.Action("Details", "TipoEvento", new {area = "Admin"})';
+    </script>
+
+    <script type="text/javascript" src="~/js/indextipoevento.min.js"></script>
+}

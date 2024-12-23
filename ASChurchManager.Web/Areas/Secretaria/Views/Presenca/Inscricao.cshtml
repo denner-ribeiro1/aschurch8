@@ -1,0 +1,296 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.InscricaoVM
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+</style>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmInscricao" }))
+{
+    @Html.HiddenFor(m => m.IsReadOnly)
+    @Html.HiddenFor(m => m.Presenca)
+    @Html.HiddenFor(m => m.CongregacaoEventoId)
+    @Html.HiddenFor(m => m.CongregacaoEvento)
+    @Html.HiddenFor(m => m.Valor)
+    @Html.HiddenFor(m => m.PermiteInscricoes)
+
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Inscrição - Controle de Presença</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Descricao, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                @readonly = "readonly"
+                            }
+                        })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.DataMaxima, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataMaxima, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                @readonly = "readonly"
+                            }
+                        })
+                </div>
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.DataHoraInicio, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataHoraInicio, new
+                        {
+                            htmlAttributes = new
+                            {
+                                @class = "form-control",
+                                @readonly = "readonly"
+                            }
+                        })
+                </div>
+            </div>
+            @if (!Model.PermiteInscricoes)
+            {
+                <p style="clear: both" />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <font color="darkred"><label>Curso/Evento com as inscrições já finalizadas. Favor entrar em contato com
+                                a Secretaria da Sede.</label></font>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p style="clear: both" />
+                <div class="row">
+                    <div class="col-sm-12">
+                            <fieldset>
+                                <legend>Tipo de Inscrição</legend>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <center>
+                                            <input type="radio" class="btn-check" name="optTipo" id="opManual" value="M" autocomplete="off" checked>
+                                            <label class="btn" for="opManual">Cadastro Manual</label>                                
+                                        </center>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <center>
+                                            <input type="radio" class="btn-check" name="optTipo" id="optAutom" value="A" autocomplete="off">
+                                            <label class="btn" for="optAutom">Captura por Arquivo</label>                                
+                                        </center>
+                                    </div>
+                                </div>
+                            </fieldset>
+                    </div>
+                </div>
+                <div id="divManual">
+                    <p style="clear: both" />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <fieldset>
+                                <legend>Dados do Membro</legend>
+                                @if (!Model.IsReadOnly)
+                                {
+                                    @if (Model.NaoMembro)
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <center>
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(model => model.Membro, Model.IsReadOnly ? (object)new
+                                                            {
+                                                                @disabled = "disabled",
+                                                                @class = "form-control",
+                                                                data_toggle = "toggle",
+                                                                data_on = "Membro",
+                                                                data_off = "Não Membro"
+                                                            } : new
+                                                            {
+                                                                @class = "form-control",
+                                                                data_toggle = "toggle",
+                                                                data_on = "Membro",
+                                                                data_off = "Não Membro"
+                                                            })
+                                                    </div>
+                                                </center>
+                                            </div>
+                                            <div class="col-sm-2" id="divMembro" style="display: block;">
+                                                <a href="javascript:void(0)" id="lnkMembroId" class="control-label">Cód.Membro</a>
+                                                @Html.TextBoxFor(model => model.MembroId, new { @class = "form-control alinhar" })
+                                                @Html.ValidationMessageFor(model => model.MembroId, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-2" id="divNaoMembro" style="display: none;">
+                                                @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.Cpf, new { @class = "form-control cpf" })
+                                                @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-6">
+                                                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.Nome, new { @readonly = "readonly", @class = "form-control capitalizedCase" })
+                                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-2" id="divMembro" style="display: block;">
+                                                <a href="javascript:void(0)" id="lnkMembroId" class="control-label">Cód.Membro</a>
+                                                @Html.TextBoxFor(model => model.MembroId, new { @class = "form-control alinhar" })
+                                                @Html.ValidationMessageFor(model => model.MembroId, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-sm-8">
+                                                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                                @Html.TextBoxFor(model => model.Nome, new { @readonly = "readonly", @class = "form-control capitalizedCase" })
+                                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <p style="clear: both" />
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            @Html.LabelFor(model => model.Congregacao, htmlAttributes: new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Congregacao, new { @readonly = "readonly", @class = "form-control capitalizedCase" })
+                                            @Html.ValidationMessageFor(model => model.Congregacao, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-sm-2">
+                                            @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Cargo, new { @readonly = "readonly", @class = "form-control capitalizedCase" })
+                                            @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger" })
+                                        </div>
+                                        @if (Model.Valor > 0)
+                                        {
+                                            <div class="col-sm-1">
+                                                <div class="checkbox">
+                                                    @Html.CheckBoxFor(model => model.Pago, Model.IsReadOnly ? (object)new
+                                                        {
+                                                            @disabled = "disabled",
+                                                            @class = "form-control",
+                                                            data_toggle = "toggle",
+                                                            data_on = "Pago",
+                                                            data_off = "Não Pago"
+                                                        } : new
+                                                        {
+                                                            @class = "form-control",
+                                                            data_toggle = "toggle",
+                                                            data_on = "Pago",
+                                                            data_off = "Não Pago"
+                                                        })
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="col-sm-3" style="right: auto;">
+                                            <br />
+                                            <center>
+                                                <button type="button" class="btn btn-primary" id="btnAddLista">
+                                                    <span class="glyphicon glyphicon-plus"></span> Adicionar
+                                                </button>
+                                                <button type="button" class="btn btn-warning" id="btnCancLista">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                                                </button>
+                                            </center>
+                                        </div>
+                                    </div>
+                                }
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div id="divArquivo">
+                    <p style="clear: both" />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <fieldset>
+                                <legend>Captura de Arquivo de Inscrições</legend>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label" })
+  
+                                        <input class="form-control" id="Arquivo" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                                        @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <br />
+                                        <button type="button" class="btn btn-primary" id="btnCapturar">
+                                            <span class="glyphicon glyphicon-upload"></span> Capturar
+                                        </button>
+                                        <button type="button" class="btn btn-warning" id="btnCancelarCapt">
+                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            }
+            <p style="clear: both" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <legend>Membros</legend>
+                        <div class="row">
+                            @if (Model.NaoMembro)
+                            {
+                                <div class="col-lg-2">
+                                    &emsp;<label>N/M - Não Membro</label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <input type="checkbox" id="chkNaoMembro">&emsp;
+                                        <label>Não exibir "Não Membro"</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="grdMembros" class="display" style="width:100%"></table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="box-footer">
+                <a href="@Url.Action("IndexInscricao", "Presenca")" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var urlExcluir = '@Url.Action("DelMembros", "Presenca", new { area = "Secretaria" })';
+        var urlIncluir = '@Url.Action("AddMembros", "Presenca", new { area = "Secretaria" })';
+        var urlIncluirNaoMembros = '@Url.Action("AddNaoMembros", "Presenca", new { area = "Secretaria"})';
+        var urlAtualizarPago = '@Url.Action("AtualizarPago", "Presenca", new { area = "Secretaria" })';
+        var urlBuscarMembro = '@Url.Action("BuscarMembro", "Presenca", new { area = "Secretaria" })';
+        var urlBuscarLista = '@Url.Action("GetMembros", "Presenca", new { area = "Secretaria" })';
+        var urlCarregarArquivo = '@Url.Action("UploadFile", "Presenca", new { area = "Secretaria"})';
+        var urlPopUp = '@Url.Action("DadosArquivo", "Presenca", new { area = "Secretaria"})';
+        var BuscarMembroCPF = '@Url.Action("BuscarMembroCPF", "Presenca", new { area = "Secretaria" })';
+        
+    </script>
+
+    <script type="text/javascript" src="~/js/presenca/inscricao.js"></script>
+}

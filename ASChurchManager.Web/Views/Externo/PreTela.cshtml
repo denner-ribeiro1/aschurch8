@@ -1,0 +1,116 @@
+﻿@model ASChurchManager.Web.Models.Externo.PreTelaVM
+
+@using Microsoft.Extensions.Configuration
+
+@inject IConfiguration _configuration
+
+@{
+    Layout = "~/Views/Shared/_Externo.cshtml";
+}
+<style>
+    body, html {
+        height: 100%;
+        display: grid;
+    }
+
+    .center-me {
+        margin: auto;
+        height: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+
+    footer {
+        position: fixed;
+        height: 50px;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+
+<header class="main-header">
+    <!-- Logo -->
+    <a href="@_configuration["ParametrosSistema:UrlDirecionarExt"]" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>@_configuration["ParametrosSistema:NomeAcronimo"]</b></span>
+        <div class="logo-lg">
+            <img src="@_configuration["ParametrosSistema:ImagemPadrao"]" style="width:200px" />
+        </div>
+    </a>
+</header>
+
+@using (Html.BeginForm("DadosMembro", "Externo", FormMethod.Post, new { id = "frmExterno" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.CpfDigitado)
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="center-me">
+                <div class="row validar">
+                    <div class="col-lg-12">
+                        <div class="form-group" id="divCpf" style="align-content:center">
+                            @Html.LabelFor(model => model.Cpf)
+                            @Html.TextBoxFor(model => model.Cpf, new { @class = "form-control cpf input-lg" })
+                            @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger field-validation-valid" })
+                        </div>
+                        <div class="form-group" id="divNomeMae" style="display:none">
+                            @Html.LabelFor(model => model.NomeMae)
+                            @Html.TextBoxFor(model => model.NomeMae, new { @class = "form-control capitalizedCase input-lg" })
+                            @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group" id="divDataNasc" style="display:none">
+                            @Html.LabelFor(model => model.DataNascimento)
+                            @Html.TextBoxFor(model => model.DataNascimento, new { @class = "form-control datepicker input-lg" })
+                            @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="text-align:center">
+                        <a href="javascript:void(0)" id="lnkAvançar" class="btn btn-primary btn-lg" style="margin-top:10px">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Avançar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="text-align:center">
+            <span id="spanip"></span>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="center-me">
+                <a href="@_configuration["ParametrosSistema:UrlDirecionarExt"]" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+<p style="clear: both" />
+<footer class="panel-footer">
+    <strong>Copyright &copy; @DateTime.Now.Year - Architect Systems - Todos os direitos reservados </strong>
+</footer>
+
+<script>
+    let urlPesquisarMembro = "@Url.Action("PesquisarMembro", "Externo", new { Area = "" })";
+</script>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/pretela.min.js"></script>
+}
+
+

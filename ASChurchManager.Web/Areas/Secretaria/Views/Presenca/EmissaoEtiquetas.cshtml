@@ -1,0 +1,192 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.EmissaoEtiquetaVM
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+
+    .coluna {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .etiqueta {
+        border-radius: 5px;
+        border: 2px solid #000000;
+        padding: 8px;
+        width: 80px;
+        /*height: 100px;*/
+    }
+</style>
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Emissão de Etiquetas - Controle de Presença</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.PresencaId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.PresencaId, Model.ListaPresenca, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PresencaId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.CongregacaoId, Model.ListaCongregacoes, "Todas", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.TipoInscricao, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.TipoInscricao, Model.ListaTipoInscricao, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoInscricao, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-8">
+                <div class="row" id="divMembro" style="display:none">
+                    <div class="col-sm-2">
+                        <a href="javascript:void(0)" id="lnkMembroId" class="control-label">Cód.Membro</a>
+                        @Html.EditorFor(model => model.MembroId, new { htmlAttributes = new { @class = "form-control alinhar" } })
+                        @Html.ValidationMessageFor(model => model.MembroId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.LabelFor(model => model.NomeMembro, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.NomeMembro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+                <div class="row" id="divNaoMembro" style="display:none">
+                    <div class="col-sm-4">
+                        @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control cpf" } })
+                        @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.LabelFor(model => model.NomeCpf, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.NomeCpf, new { htmlAttributes = new { @class = "form-control capitalizedCase", @readonly = "readonly" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p style="clear: both" />
+        <p style="clear: both" />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <input type="checkbox" id="chbSelEtiq" />&ensp;
+                <label for="chbSelEtiq">Indicar a Posição da Etiqueta Inicial</label>
+            </div>
+        </div>
+        <p style="clear: both" />
+        <div id="divPosInicial" style="display:none">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Posição Inicial da Etiqueta:</label>
+                </div>
+            </div>
+            <div class="row" style="margin-left:10px">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_1E" value="1E" />
+                                </center>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_1D" value="1D" />
+                                </center>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_2E" value="2E" />
+                                </center>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_2D" value="2D" />
+                                </center>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-sm-4 etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_3E" value="3E" />
+                                </center>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="col-sm-4 etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_3D" value="3D" />
+                                </center>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-sm-4 etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_4E" value="4E" />
+                                </center>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="col-sm-4 etiqueta">
+                                <center>
+                                    <input type="checkbox" class="posicao" id="chb_4D" value="4D"/>
+                                </center>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" id="btnImprimir">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                    </button>
+                    <button type="button" class="btn btn-info" id="btnConfig">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Configurações
+                    </button>
+                    <a href="@Url.Action("Index", "Home", new { Area = ""})" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/presenca/emissaoetiquetas.js"></script>
+
+    <script type="text/javascript">
+        var urlBuscarMembro = '@Url.Action("BuscarInscricao", "Presenca", new { area = "Secretaria"})';
+        var urlEtiquetas = '@Url.Action("Etiquetas", "Presenca", new { area = "Secretaria"})';
+    </script>
+}

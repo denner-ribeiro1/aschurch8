@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../ASChurchManager.Application/ASChurchManager.Application.csproj" />
+    <ProjectReference Include="../ASChurchManager.Domain/ASChurchManager.Domain.csproj" />
+    <ProjectReference Include="../ASChurchManager.Infra.CrossCutting.IoC/ASChurchManager.Infra.CrossCutting.IoC.csproj" />
+  </ItemGroup>
+</Project>

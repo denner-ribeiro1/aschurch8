@@ -1,0 +1,38 @@
+﻿@using ASChurchManager.Web.Lib
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Batismo.ConfiguracaoBatismoViewModel
+@{
+    ViewBag.Title = "Configuracao_Batismo_Edit";
+}
+
+@using (Html.BeginForm("EditConfiguracaoBatismo", "Batismo", FormMethod.Post, new { id = "frmBatismo" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Configuração de Batismo - Alteração
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_ConfiguracaoBatismo", Model)
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("IndexConfiguracaoBatismo", "Batismo")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@section scripts
+{
+    <script type="text/javascript" src="~/js/batizado.min.js"></script>
+}

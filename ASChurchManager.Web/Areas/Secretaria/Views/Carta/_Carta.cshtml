@@ -1,0 +1,141 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Carta.CartaViewModel
+
+<style>
+    .disable {
+        pointer-events: none;
+        background: #eeeeee;
+    }
+</style>
+<div>
+    @Html.HiddenFor(model => model.acao)
+    @Html.HiddenFor(model => model.StatusCarta)
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @if (Model.acao != ASChurchManager.Domain.Types.Acao.Create)
+    {
+        <div class="form-group">
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <div class="col-sm-7">
+                @Html.LabelFor(model => model.StatusCartaDescricao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.StatusCartaDescricao, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+        </div>
+        <p style="clear: both" />
+    }
+    <div class="form-group">
+        <fieldset>
+            <legend>Dados do Membro</legend>
+            <div class="col-sm-2">
+                @if (Model.acao == ASChurchManager.Domain.Types.Acao.Create)
+                {
+                    <a href="javascript:void(0)" id="linkIdMembro" class="control-label">Cód. Registro</a>
+                    @Html.EditorFor(model => model.MembroId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MembroId, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.LabelFor(model => model.MembroId, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.MembroId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                }
+            </div>
+            <div class="col-sm-7">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+            <p style="clear: both" />
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.CongregacaoOrigemId, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CongregacaoOrigemId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.CongregacaoOrigemId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-7">
+                @Html.LabelFor(model => model.CongregacaoOrigem, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CongregacaoOrigem, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.CongregacaoOrigem, "", new { @class = "text-danger" })
+            </div>
+        </fieldset>
+    </div>
+    <p style="clear: both" />
+    <div class="form-group">
+        <fieldset>
+            <legend>Tipo de Carta</legend>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.TipoCarta, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.TipoCarta, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.TipoDeCarta)), "", Model.IsReadOnly || Model.acao == ASChurchManager.Domain.Types.Acao.Update ? (object)new { @class = "form-control disable" } : new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoCarta, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.DataValidade, htmlAttributes: new { @class = "control-label" })
+                @if (Model.IsReadOnly)
+                {
+                    @Html.EditorFor(model => model.DataValidade, new { htmlAttributes = new { @class = "form-control datepicker disable" } })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.DataValidade, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                }
+                @Html.ValidationMessageFor(model => model.DataValidade, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.TemplateCartaSelecionado, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.TemplateCartaSelecionado, Model.SelectTemplates, "", Model.IsReadOnly ? (object)new { @class = "form-control disable" } : new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TemplateCartaSelecionado, "", new { @class = "text-danger" })
+            </div>
+        </fieldset>
+    </div>
+    <hr />
+    <p style="clear: both" />
+    <div class="form-group" id="divCongregacaoDest" style="display: none;">
+        <fieldset>
+            <legend>Congregação Destino</legend>
+            <div id="divCodCongrDest">
+                <div class="col-sm-2">
+                    @if (!Model.IsReadOnly)
+                    {
+                        <a href="javascript:void(0)" id="lnkBuscarCongregacao" class="control-label">Cód. Congregação</a>
+                        @Html.EditorFor(model => model.CongregacaoDestId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CongregacaoDestId, "", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.LabelFor(model => model.CongregacaoDestId, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CongregacaoDestId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    }
+                </div>
+            </div>
+            <div class="col-sm-7">
+                @Html.LabelFor(model => model.CongregacaoDest, htmlAttributes: new { @class = "control-label" })
+                @if (!Model.IsReadOnly)
+                {
+                    @Html.EditorFor(model => model.CongregacaoDest, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CongregacaoDestId, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.CongregacaoDest, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                }
+            </div>
+        </fieldset>
+    </div>
+    <p style="clear: both" />
+    <div class="form-group">
+        <fieldset>
+            <legend>Observação</legend>
+            <div class="col-sm-9">
+                @Html.TextAreaFor(model => model.Observacao, 10, 130, Model.IsReadOnly ? (object)new { @readonly = "readonly", @class = "form-control" } : new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Observacao, "", new { @class = "text-danger" })
+                <br />
+                @Html.Label("Obs", "Caracteres restantes: ", htmlAttributes: new { @class = "control-label" })
+                <input name="qtdCarac" id="qtdCarac" type="text" readonly="readonly" style="width: 60px" value="1000">
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var urlPrint = '@Url.Action("Imprimir", "Carta", new { area = ""})';
+</script>

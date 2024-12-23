@@ -1,0 +1,161 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Membro.HistoricoMembroVM
+
+
+@{
+    Layout = "~/Views/Shared/_PopUp.cshtml";
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-10">
+                @Html.HiddenFor(m => m.Id)
+                <fieldset>
+                    <legend>Dados da Confirmação</legend>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:30%">
+                                <label>Data</label>
+                            </td>
+                            <td style="width:70%">
+                                @Model.DataAlteracao.Date.ToShortDateString()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:30%">
+                                <label>Número IP</label>
+                            </td>
+                            <td style="width:70%">
+                                @Model.IpConfirmado
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+                <br />
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Informações alteradas do Membro</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    @{
+                        var habBotao = false;
+                    }
+                    <div class="box-body" style="">
+                        <ul class="products-list product-list-in-box">
+                            @{
+                                var propsOrig = typeof(ASChurchManager.Web.Areas.Secretaria.Models.Membro.HistoricoMembroVM)
+                                                    .GetProperties().Where(n => !n.Name.Contains("Anterior")
+                                                                                 && n.Name != "IpConfirmado"
+                                                                                 && n.Name != "MembroConfirmado"
+                                                                                 && n.Name != "Id"
+                                                                                 && n.Name != "DataCriacao"
+                                                                                 && n.Name != "DataAlteracao"
+                                                                                 && n.Name != "ViewModelTitle"
+                                                                                 && n.Name != "IsReadOnly");
+                                var props = typeof(ASChurchManager.Web.Areas.Secretaria.Models.Membro.HistoricoMembroVM)
+                                                    .GetProperties();
+
+
+                                foreach (var propertyInfo in propsOrig)
+                                {
+                                    if (props.Any(n => n.Name == $"{propertyInfo.Name}Anterior"))
+                                    {
+                                        string nome = $"chb{propertyInfo.Name}";
+                                        string valor = propertyInfo.Name;
+
+                                        string displayNameAtual = ASChurchManager.Web.Lib.DisplayNameHelper.GetDisplayName(propertyInfo);
+                                        string displayNameAnt = ASChurchManager.Web.Lib.DisplayNameHelper.GetDisplayName(props.FirstOrDefault(n => n.Name == $"{propertyInfo.Name}Anterior"));
+                                        string valorAtual = propertyInfo.GetValue(Model)?.ToString().Trim();
+                                        string valorAnt = @props.FirstOrDefault(n => n.Name == $"{propertyInfo.Name}Anterior").GetValue(Model)?.ToString().Trim();
+
+                                        valorAtual = string.IsNullOrWhiteSpace(valorAtual) ? "" : valorAtual;
+                                        valorAnt = string.IsNullOrWhiteSpace(valorAnt) ? "" : valorAnt;
+                                        if (valorAtual.Equals(valorAnt))
+                                        {
+                                            <li class="item">
+                                                <div class="product-info">
+                                                    <table style="width:100%">
+                                                        <tr>
+                                                            <td style="width:30%">
+                                                                <label>@displayNameAtual.Replace(" Atual", "").Replace(".Atual", ".")</label>
+                                                            </td>
+                                                            <td style="width:70%">
+                                                                @valorAtual
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            habBotao = true;
+                                            <li class="item">
+                                                <div class="product-img text-center">
+                                                    <input type="checkbox" class="checks" id="@nome" value="@valor" data-descr="@displayNameAtual.Replace(" Atual", "").Replace(".Atual", ".")" />
+                                                </div>
+                                                <div class="product-info">
+                                                    <table style="width:100%">
+                                                        <tr>
+                                                            <td style="width:30%">
+                                                                <label>@displayNameAtual</label>
+                                                            </td>
+                                                            <td style="width:70%">
+                                                                @valorAtual
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:30%">
+                                                                <label>@displayNameAnt</label>
+                                                            </td>
+                                                            <td style="width:70%">
+                                                                @valorAnt
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+
+                                }
+                            }
+                        </ul>
+                    </div>
+                    @if (habBotao)
+                    {
+                        <div class="box-footer text-center" style="">
+                            <button type="button" class="btn btn-primary" id="btnRestaurar">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Restaurar
+                            </button>
+                            <button type="button" class="btn btn-info" id="btnRestaurarTodos">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span> Restaurar Todos
+                            </button>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div style="text-align-last:right" class="col-lg-12">
+            <a href="#" onclick="FecharModal();return false;" id="lnkFechar" class="btn btn-default">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Fechar
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlRestaurarMembro = "@Url.Action("RestaurarMembro", "Membro", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script src="~/js/membroconfirmado.min.js"></script>
+}

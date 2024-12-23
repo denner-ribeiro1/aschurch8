@@ -1,0 +1,49 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.MembroViewModel
+
+@{
+    ViewBag.Title = "Membro_Edit";
+}
+
+@using (Html.BeginForm("Edit", "Membro", FormMethod.Post, new { id = "frmMembro" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Membro - Edição
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_Membro", Model)
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("Index", "Membro")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script>
+    var cargos = JSON.parse('@Html.Raw(Json.Serialize(Model.Cargos))');
+    var obs = JSON.parse('@Html.Raw(Json.Serialize(Model.Observacoes))');
+    var sit = JSON.parse('@Html.Raw(Json.Serialize(Model.Situacoes))');
+    var arquivosMembros = JSON.parse('@Html.Raw(Json.Serialize(Model.ArquivosMembro))');
+    var urlSubmit = "@Url.Action("Edit", "Membro", new { Area = "Secretaria" })";
+</script>
+
+
+@section scripts
+{
+    <script src="~/js/membros.min.js"></script>
+    <script src="~/js/shared_pessoa.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>  
+}

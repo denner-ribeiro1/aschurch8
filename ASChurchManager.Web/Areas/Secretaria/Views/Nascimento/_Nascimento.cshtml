@@ -1,0 +1,140 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Nascimento.NascimentoViewModel
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+</style>
+
+<div class="box-body">
+    <div class="form-group">
+        <div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-sm-3 ">
+                        @Html.LabelFor(model => model.DataApresentacao, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.DataApresentacao, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                        @Html.ValidationMessageFor(model => model.DataApresentacao, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <legend>Congregação</legend>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    @if (!Model.IsReadOnly)
+                                    {
+                                        <a href="javascript:void(0)" id="lnkBuscarCongregacao" class="control-label">Cód. Congregação</a>
+                                    }
+                                    else
+                                    {
+                                        @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                                    }
+                                    @Html.TextBoxFor(model => model.CongregacaoId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                                    @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-7">
+                                    @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.CongregacaoNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.CongregacaoNome, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.PastorMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Pastor", data_off = "Pastor Visitante" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Pastor", data_off = "Pastor Visitante" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="javascript:void(0)" id="lnkPastorId" class="control-label">Cód. Pastor</a>
+                                    @Html.LabelFor(model => model.PastorId, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.PastorId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.LabelFor(model => model.Pastor, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Pastor, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                                    @Html.ValidationMessageFor(model => model.Pastor, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <fieldset>
+                        <legend>Dados da Criança</legend>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    @Html.LabelFor(model => model.Crianca, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Crianca, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                                    @Html.ValidationMessageFor(model => model.Crianca, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-sm-2 ">
+                                    @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.DataNascimento, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-2">
+                                    @Html.LabelFor(model => model.Sexo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.Sexo, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Sexo)), Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <br />
+                                    @Html.CheckBoxFor(model => model.PaiMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="javascript:void(0)" id="lnkIdPai" class="control-label">Cód. Pai</a>
+                                    @Html.LabelFor(model => model.IdMembroPai, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.IdMembroPai, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.LabelFor(model => model.NomePai, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.NomePai, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                                    @Html.ValidationMessageFor(model => model.NomePai, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <br />
+                                    @Html.CheckBoxFor(model => model.MaeMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                                </div>
+                                <div class="col-sm-1">
+                                    <a href="javascript:void(0)" id="lnkIdMae" class="control-label">Cód. Mãe</a>
+                                    @Html.LabelFor(model => model.IdMembroMae, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.IdMembroMae, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.LabelFor(model => model.NomeMae, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.NomeMae, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                                    @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var actionName = '@ViewContext.RouteData.Values["Action"].ToString()';
+</script>

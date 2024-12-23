@@ -1,0 +1,35 @@
+﻿@*@using GridMvc.Html;
+@using ASChurchManager.Web.Lib
+@using ASChurchManager.Domain.Types
+
+@model IEnumerable<ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregado.GridCongregadoViewModel>
+
+@helper GridManageItemColumn(long id, bool enviarBatismo)
+    {
+
+        <a href="@Url.Action("Details", "Congregado", new { Id = id, Batismo = 0 })" class="btn btn-info btn-sm">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Detalhes
+        </a><span>&nbsp</span>
+
+        if (enviarBatismo)
+        {
+            <a href="@Url.Action("EnviarBatismo", "Congregado", new { Id = id })" class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Enviar p/Batismo
+            </a><span>&nbsp</span>
+        }
+}
+
+
+<div class="table-responsive">
+    @Html.Grid(Model).EmptyText("Nenhum registro encontrado").Sortable().Filterable().WithPaging(20).SetRowCssClasses(css => "table table-striped").Columns(columns =>
+             {
+                 columns.Add(s => s.Id).Titled("Cód. Registro").Encoded(false).Sanitized(false);
+                 columns.Add(s => s.Nome).Titled("Nome").Encoded(false).Sanitized(false);
+                 columns.Add(s => s.Congregacao).Titled("Congregação").Encoded(false).Sanitized(false);
+                 columns.Add()
+                     .Encoded(false)
+                     .Sanitized(false)
+                     .Filterable(false)
+                     .RenderValueAs(v => GridManageItemColumn(v.Id, v.EnviarBatismo).ToHtmlString());
+             }).Sortable(true).Filterable(true)
+</div>*@

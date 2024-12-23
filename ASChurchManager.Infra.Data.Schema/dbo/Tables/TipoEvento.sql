@@ -1,0 +1,11 @@
+CREATE TABLE [dbo].[TipoEvento]
+(
+	Id INT IDENTITY(1, 1) NOT NULL,
+    Descricao VARCHAR(100),
+	DataCriacao   DATETIMEOFFSET NULL,
+    DataAlteracao DATETIMEOFFSET NULL,
+    CONSTRAINT Evento_PK PRIMARY KEY(Id)
+	)
+
+
+	

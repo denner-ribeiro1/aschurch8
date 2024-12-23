@@ -1,0 +1,133 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregacao.CongregacaoVM
+
+<style>
+    .card-box {
+        padding: 20px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .file-man-box {
+        padding: 20px;
+        border: 1px solid #e3eaef;
+        border-radius: 5px;
+        position: relative;
+        margin-bottom: 15px
+    }
+
+        .file-man-box .file-close {
+            color: #f1556c;
+            position: absolute;
+            line-height: 24px;
+            font-size: 24px;
+            right: 10px;
+            top: 10px;
+            visibility: hidden
+        }
+
+        .file-man-box .file-img-box {
+            line-height: 80px;
+            text-align: center
+        }
+
+            .file-man-box .file-img-box img {
+                height: 64px
+            }
+
+        .file-man-box .file-download {
+            font-size: 32px;
+            color: #98a6ad;
+            position: absolute;
+            right: 10px
+        }
+
+            .file-man-box .file-download:hover {
+                color: #313a46
+            }
+
+        .file-man-box .file-man-title {
+            padding-right: 15px
+        }
+
+        .file-man-box:hover {
+            -webkit-box-shadow: 0 0 24px 0 rgba(0, 0, 0, .06), 0 1px 0 0 rgba(0, 0, 0, .02);
+            box-shadow: 0 0 24px 0 rgba(0, 0, 0, .06), 0 1px 0 0 rgba(0, 0, 0, .02)
+        }
+
+            .file-man-box:hover .file-close {
+                visibility: visible
+            }
+
+    .text-overflow {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        width: 115%;
+        overflow: hidden;
+        margin-left: -4px;
+    }
+
+    h5 {
+        font-size: 15px;
+    }
+
+    .file-img-dowload {
+        position: relative;
+        left: 10px;
+        top: -30px;
+    }
+</style>
+<div>
+    <fieldset>
+        <legend>Arquivos</legend>
+        @if (Model.Acao == ASChurchManager.Domain.Types.Acao.Update)
+        {
+            <div class="row">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Arquivo, new { @class = "form-control", type = "file", name = "Arquivo", accept = "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/pdf, zip, application/zip, application/x-zip, application/x-zip-compressed" })
+                    @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+                    
+                    @Html.Label("Tamanho do Arquivo: ")<span class="size-file"></span>
+                </div>
+
+                <div class="col-sm-4">
+                    <br />
+                    <button type="submit" class="btn btn-primary" id="btnIncluir" onclick="AJAXSubmit(this);return false;">
+                        <span class="glyphicon glyphicon-upload"></span> Incluir
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnCancelar">
+                        <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                    </button>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-6">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success"
+                             role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                             style="">
+                            <span class="percent-progress"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-box" id="divCard">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <label>Não há arquivos armazenados para a Congregação.</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </fieldset>
+</div>
+

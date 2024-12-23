@@ -1,0 +1,43 @@
+﻿@*@using GridMvc.Html;
+@using ASChurchManager.Web.Lib
+@using ASChurchManager.Domain.Types
+
+
+@model IEnumerable<ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.GridMembroItem>
+
+@helper GridManageItemColumn(long id, Status status)
+        {
+            <a href="@Url.Action("Details", "Membro", new { Id = id })" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Detalhes
+            </a><span>&nbsp</span>
+
+            if (status == Status.PendenteAprovacao && UserAppContext.Current.Usuario.Congregacao.Sede && UserAppContext.Current.Usuario.PermiteAprovarMembro)
+            {
+                <a href="@Url.Action("AprovarReprovar", "Membro", new { Id = id })" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Aprovar/Reprovar
+                </a><span>&nbsp</span>
+            }
+            else if (status == Status.Ativo && UserAppContext.Current.Usuario.PermiteImprimirCarteirinha)
+            {
+                <a href="@Url.Action("Imprimir", "Membro", new { Id = id })" class="btn btn-warning btn-sm imprimir-carteirinha-membro-grid">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Carteirinha
+                </a>
+            }
+    }
+
+    <div class="table-responsive">
+        @Html.Grid(Model).EmptyText("Nenhum registro encontrado").Sortable().Filterable().WithPaging(20).SetRowCssClasses(css => "table table-striped").Columns(columns =>
+             {
+                 columns.Add(s => s.Id).Titled("Cód. Registro").Encoded(false).Sanitized(false);
+                 columns.Add(s => s.Nome).Titled("Nome").Encoded(false).Sanitized(false);
+                 columns.Add(s => s.NomeMae).Titled("Nome da Mãe").Encoded(false).Sanitized(false);
+                 columns.Add(s => s.StatusDescr).Titled("Status").Encoded(false).Sanitized(false);
+                 columns.Add(s => s.Congregacao).Titled("Congregação").Encoded(false).Sanitized(false);
+                 columns.Add()
+                     .Encoded(false)
+                     .Sanitized(false)
+                     .Filterable(false)
+                     .RenderValueAs(v => GridManageItemColumn(v.Id, v.Status).ToHtmlString());
+             }).Sortable(true).Filterable(true)
+    </div>*@
+

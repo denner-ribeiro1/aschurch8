@@ -1,0 +1,165 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration _configuration
+
+@{
+    Layout = "";
+}
+
+@using ASChurchManager.Web.Lib
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="Refresh" content="300">
+    <link rel="stylesheet" href="~/css/plugins/jQueryUI/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/css/plugins/adminlte/AdminLTE.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/adminlte/skins/_all-skins.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/morris/morris.css" />
+    <link rel="stylesheet" href="~/css/plugins/jvectormap/jquery-jvectormap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/datepicker/datepicker.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap-daterangepicker/daterangepicker.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap-toggle/bootstrap-toggle.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/jquery.fancybox/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/jtable/themes/lightcolor/blue/jtable.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/icheck/minimal/minimal.css" />
+    <link rel="stylesheet" href="~/css/plugins/bootstrap-dialog/bootstrap-dialog.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/waitMe/waitMe.min.css" />
+    <link rel="stylesheet" href="~/css/app/layout.min.css" />
+    <link rel="stylesheet" href="~/css/plugins/timepicker/bootstrap-timepicker.min.css" />
+</head>
+
+<style>
+    body, html {
+        height: 100%;
+        display: grid;
+    }
+
+    .center-me {
+        height: 100%;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: -10px;
+        margin-bottom: -30px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+
+    .center1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+    }
+</style>
+<body>
+    <header class="main-header">
+        <!-- Logo -->
+        <a href='/' class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>@_configuration["ParametrosSistema:NomeAcronimo"]</b></span>
+            <div class="logo-lg">
+                <img src="@_configuration["ParametrosSistema:ImagemPadrao"]" style="width:200px" />
+            </div>
+        </a>
+    </header>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmPresenca" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+
+    <div class="row" id="divMembro" style="padding-left: 30px; padding-right: 30px">
+        <div class="wrapper">
+            <section class="content">
+                <div class="box box-primary">
+                    <div class="row">
+                        <section class="col-lg-12 ">
+                            <div class="row" style="text-align:center">
+                                <div class="col-lg-12">
+                                    <h4 style="font-weight:bold">Confirmação de Frequência - Automática </h4>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:center">
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <label style="font-weight:bold;font-size:x-large" id="lblretorno">Aguardando Leitor</label>
+                                    <br />
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                            <div class="box-footer">
+
+                                <div class="col-lg-12" style="text-align:center">
+                                    <a href="javascript:window.open('','_self').close();" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Fechar
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+
+
+    <script src="~/lib/jquery.min.js"></script>
+    <script src="~/lib/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery.validate.min.js"></script>
+    <script src="~/lib/additional-methods.min.js"></script>
+    <script src="~/lib/localization.min.js"></script>
+    <script src="~/lib/jshashtable.min.js"></script>
+    <script src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <script src="~/lib/jquery.sparkline.min.js"></script>
+    <script src="~/lib/jquery-jvectormap.min.js"></script>
+    <script src="~/lib/jquery.knob.min.js"></script>
+    <script src="~/lib/daterangepicker.min.js"></script>
+    <script src="~/lib/fastclick.min.js"></script>
+    <script src="~/lib/adminlte.min.js"></script>
+    <script src="~/lib/chart.min.js"></script>
+    <script src="~/lib/fancybox.min.js"></script>
+    <script src="~/lib/icheck.min.js"></script>
+    <script src="~/lib/sweetalert2.min.js"></script>
+    <script src="~/lib/qtip.min.js"></script>
+    <script src="~/lib/waitMe.min.js"></script>
+    <script src="~/lib/jtable.min.js"></script>
+    <script src="~/js/_core.min.js"></script>
+    <script src="~/js/_defaultSettings.min.js"></script>
+    <script src="~/js/layout.min.js"></script>
+    <script src="~/lib/plugins/onscan/onscan.js"></script>
+    <script src="~/js/popupfrequencia.min.js"></script>
+
+    @{
+        if (TempData.ContainsKey("AlertMessage"))
+        {
+            var alertMsg = Newtonsoft.Json.JsonConvert.DeserializeObject<AlertMessage>(@TempData["AlertMessage"].ToString());
+            <script type="text/javascript">
+                $.bsMessage("@alertMsg.Title", "@alertMsg.Message", "@alertMsg.Type.ToString()");
+            </script>
+        }
+    }
+    <script type="text/javascript">
+        var urlConfirmarPresenca = '@Url.Action("MarcarPresenca", "Externo", new { area = ""})';
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregado.CongregadoViewModel
+
+@{
+    ViewBag.Title = "Batismo_Details";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Congregados - Detalhes
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div style="height: 100%;"></div>
+                    <div>
+
+                        <div>
+                            <p style="clear: both" />
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.CongregacaoId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                <div class="col-sm-9">
+                                    @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.CongregacaoNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <p style="clear: both" />
+                            <fieldset>
+                                <legend>Dados Pessoais</legend>
+                                <div>
+                                    <div class="col-sm-6">
+                                        @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control datepicker", @readonly = "readonly" } })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.LabelFor(model => model.Ativo, htmlAttributes: new { @class = "control-label" })
+                                        <br />
+                                        @Html.CheckBoxFor(model => model.Ativo, new { @class = "form-control", @disabled = "disabled", data_toggle = "toggle", data_on = "Ativo", data_off = "Inativo" })
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                            <p style="clear: both" />
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Endereco, "Endereco")
+                            </div>
+                            <p style="clear: both" />
+                            <div class="form-group">
+                                <fieldset>
+                                    <legend>Contatos</legend>
+                                    <div class="col-sm-2" id="divTelResBr">
+                                        @Html.LabelFor(model => model.TelefoneResidencial)
+                                        @Html.TextBoxFor(model => model.TelefoneResidencial, (object)new { @class = "form-control phone", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.TelefoneResidencial, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-2" id="divTelResEst" style="display:none">
+                                        @Html.LabelFor(model => model.TelefoneResidencialEstrangeiro)
+                                        @Html.TextBoxFor(model => model.TelefoneResidencialEstrangeiro, (object)new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.TelefoneResidencialEstrangeiro, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-2" id="divTelCelBr">
+                                        @Html.LabelFor(model => model.TelefoneCelular)
+                                        @Html.TextBoxFor(model => model.TelefoneCelular, (object)new { @class = "form-control phone", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-sm-2" id="divTelCelEst" style="display:none">
+                                        @Html.LabelFor(model => model.TelefoneCelularEstrangeiro)
+                                        @Html.TextBoxFor(model => model.TelefoneCelularEstrangeiro, (object)new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-sm-2" id="divTelComBr">
+                                        @Html.LabelFor(model => model.TelefoneComercial)
+                                        @Html.TextBoxFor(model => model.TelefoneComercial, (object)new { @class = "form-control phone", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-sm-2" id="divTelComEst" style="display:none">
+                                        @Html.LabelFor(model => model.TelefoneComercialEstrangeiro)
+                                        @Html.TextBoxFor(model => model.TelefoneComercialEstrangeiro, (object)new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-sm-5">
+                                        @Html.LabelFor(model => model.Email)
+                                        @Html.TextBoxFor(model => model.Email, (object)new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a href="@Url.Action("Edit", "Congregado", new { id = Model.Id })" class="btn btn-primary" id="lnkEdit">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                    </a>
+                    <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-membroid="@Model.Id">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                    </a>
+                    <a href="@Url.Action("Index", "Congregado")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var urlExcluir = "@Url.Action("Delete", "Congregado", new { Area = "Secretaria" })"
+</script>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/congregado.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>
+}

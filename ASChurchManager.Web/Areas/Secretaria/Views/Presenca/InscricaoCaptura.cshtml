@@ -1,0 +1,105 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.InscricaoVM
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+</style>
+
+@Html.HiddenFor(m => m.IsReadOnly)
+@Html.HiddenFor(m => m.Presenca)
+@Html.HiddenFor(m => m.Valor)
+@Html.HiddenFor(m => m.PermiteInscricoes)
+@Html.HiddenFor(m => m.NaoMembro)
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Inscrição - Captura - Controle de Presença</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.DataMaxima, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DataMaxima, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.DataHoraInicio, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DataHoraInicio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+        </div>
+        @if (!Model.PermiteInscricoes)
+        {
+            <p style="clear: both" />
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <font color="darkred"><label>Curso/Evento com as inscrições já finalizadas. Favor entrar em contato com a Secretaria da Sede.</label></font>
+                </div>
+            </div>
+        }
+        else
+        {
+            @if (!Model.IsReadOnly)
+            {
+                <p style="clear: both" />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <fieldset>
+                            <legend>Captura de Arquivo de Inscrições</legend>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Arquivo, new { @class = "form-control", type = "file", name = "Arquivo", accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })
+                                    @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-4">
+                                    <br />
+                                    <button type="button" class="btn btn-primary" id="btnCapturar">
+                                        <span class="glyphicon glyphicon-upload"></span> Capturar
+                                    </button>
+                                    <button type="button" class="btn btn-warning" id="btnCancelar">
+                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="box-footer">
+            <a href="@Url.Action("IndexInscricaoCaptura", "Presenca" )" class="btn btn-default">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+            </a>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/inscricaocaptura.min.js"></script>
+
+    <script type="text/javascript">
+        var urlExcluir = '@Url.Action("DelMembros", "Presenca", new { area = "Secretaria" })';
+        var urlIncluir = '@Url.Action("AddNaoMembros", "Presenca", new { area = "Secretaria"})';
+        var urlAtualizarPago = '@Url.Action("AtualizarPago", "Presenca", new { area = "Secretaria"})';
+        var urlBuscarMembro = '@Url.Action("BuscarMembroGeral", "Membro", new { area = "Secretaria"})';
+        var urlBuscarLista = '@Url.Action("GetMembros", "Presenca", new { area = "Secretaria"})';
+        var urlCarregarArquivo = '@Url.Action("UploadFile", "Presenca", new { area = "Secretaria"})';
+        var urlPopUp = '@Url.Action("DadosArquivo", "Presenca", new { area = "Secretaria"})';
+        var urlRedirect = '@Url.Action("IndexInscricaoCaptura", "Presenca", new { area = "Secretaria" })';
+    </script>
+}

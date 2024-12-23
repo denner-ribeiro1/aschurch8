@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE [dbo].[ExisteInscricaoDatas]
+	@Id int
+AS
+BEGIN
+    IF EXISTS (SELECT TOP 1 P.DataId FROM PresencaInscricaoDatas P WHERE P.DataId = @Id)
+		SELECT 1 AS EXISTEINSCRICAO
+	ELSE
+		SELECT 0 AS EXISTEINSCRICAO
+END

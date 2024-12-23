@@ -1,0 +1,53 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.MembroViewModel
+@{
+    ViewBag.Title = "Membro_AprovarReprovar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("AprovarMembro", "Membro", FormMethod.Post, new { id = "frmAprovarMembro" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Membro - Aprovar/Reprovar
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_Membro", Model)
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-success" id="btnAprovarMembro">
+                            <span class="glyphicon glyphicon-check"></span> Aprovar
+                        </button>
+                        <a href="javascript:void(0)" id="btnReprovar" class="btn btn-danger" data-membroid="@Model.Id">
+                            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Reprovar
+                        </a>
+                        <a href="@Url.Action("Edit", "Membro", new { id = Model.Id })" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                        </a>
+                        <a href="@Url.Action("Index", "Membro")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+    var cargos = JSON.parse('@Html.Raw(Json.Serialize(Model.Cargos))');
+    var obs = JSON.parse('@Html.Raw(Json.Serialize(Model.Observacoes))');
+    var sit = JSON.parse('@Html.Raw(Json.Serialize(Model.Situacoes))');
+    var arquivosMembros = JSON.parse('@Html.Raw(Json.Serialize(Model.ArquivosMembro))');
+    var urlAprovarMembro = "@Url.Action("AprovarMembro", "Membro", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script src="~/js/membros.min.js"></script>
+    <script src="~/js/shared_pessoa.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>
+}

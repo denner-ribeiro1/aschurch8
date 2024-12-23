@@ -1,0 +1,63 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Relatorio.CandidatosBatismoViewModel
+
+<section class="content">
+    <div class="row" />
+    <div class="col-lg-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Relatório de Candidatos ao Batismo
+                </h3>
+            </div>
+            <div class="box-body">
+                <div>
+                    <fieldset>
+                        <legend>Filtros</legend>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.DataBatismo, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.DataBatismo, Model.SelectDatasBatismo, "Todas", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DataBatismo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.Congregacao, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.Congregacao, Model.SelectCongregacoes, "Todas", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Congregacao, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.Situacao, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.Situacao, Model.SelectSituacao, "", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Situacao, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.LabelFor(model => model.TipoSaida, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(model => model.TipoSaida, Model.SelectTipoSaida, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TipoSaida, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="button" class="btn btn-primary" id="btnRelCandidatoBatismo">
+                    <span class="glyphicon glyphicon-print"></span> Gerar Relatório
+                </button>
+                <a href="@Url.Action("Index", "", new { area = "" })" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var urlRelCadBat = "@Url.Action("RelatorioCandidatosBatismo", "Relatorios", new { Area = "Secretaria" })";
+</script>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/relatorios.min.js"></script>
+}

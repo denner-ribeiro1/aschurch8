@@ -1,0 +1,188 @@
+﻿@using ASChurchManager.Web.Lib
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Batismo.BatismoViewModel
+
+@{
+    ViewBag.Title = "Membro_Edit";
+}
+
+@using (Html.BeginForm("Edit", "Batismo", FormMethod.Post, new { id = "frmMembro" }))
+{
+    @Html.HiddenFor(model => model.Acao)
+    @Html.HiddenFor(model => model.Obs)
+    @Html.HiddenFor(model => model.PermiteExcluirObservacaoMembro)
+    @Html.HiddenFor(model => model.IsReadOnly)
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                @Html.HiddenFor(model => model.EnviarBatismo)
+                <div class="box box-primary">
+                    @if (Model.EnviarBatismo)
+                    {
+                        <div class="box-header">
+                            <h3 class="box-title">
+                                Enviar para o Batismo
+                            </h3>
+                            <h5 style="color: red">Favor preencher os Dados Adicionais do Congregado.</h5>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="box-header">
+                            <h3 class="box-title">
+                                Batismo - Edição
+                            </h3>
+                        </div>
+                    }
+                    <div class="box-body">
+                        <div style="height: 100%;"></div>
+                        <div>
+                            <div>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Id)
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <a href="javascript:void(0)" id="lnkBuscarCongregacao" class="control-label">Cód. Congregação</a>
+                                        @Html.EditorFor(model => model.CongregacaoId, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.CongregacaoNome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.CongregacaoNome, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-sm-3">
+                                        @Html.LabelFor(model => model.BatismoId, htmlAttributes: new { @class = "control-label" })
+                                        @if (Model.ListaDatasBatismo.Count > 1)
+                                        {
+                                            @Html.DropDownListFor(m => m.BatismoId, Model.ListaDatasBatismo, "", htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.BatismoId, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            @Html.HiddenFor(model => model.BatismoId)
+                                            @Html.EditorFor(model => model.DataPrevistaBatismo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            @Html.ValidationMessageFor(model => model.DataPrevistaBatismo, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Pessoa, "Pessoa")
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Endereco, "Endereco")
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Pessoa, "Contato")
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    <fieldset>
+                                        <legend>Batismo</legend>
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div class="checkbox" style="padding:10px">
+                                                    @Html.CheckBoxFor(model => model.BatimoEspiritoSanto, new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                                                    @Html.LabelFor(model => model.BatimoEspiritoSanto, htmlAttributes: new { @class = "control-label" })
+                                                    @Html.ValidationMessageFor(model => model.BatimoEspiritoSanto, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                @Html.LabelFor(model => model.TamanhoCapa)
+                                                @Html.DropDownListFor(model => model.TamanhoCapa, Model.SelectTamanhoCapa, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.TamanhoCapa, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <p style="clear: both" />
+                                        <div class="form-group">
+                                            @await Html.PartialAsync("_Observacao", Model.Observacao)
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    @await Html.PartialAsync("_Arquivos", Model.CursoMembro)
+                                </div>
+                                <p style="clear: both" />
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model, "DataCriacaoAlteracao")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.EnviarBatismo)
+                    {
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success" id="btnSalvar">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Enviar p/Batismo
+                            </button>
+                            <a href="@Url.Action("Index", "Congregado")" class="btn btn-default">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-primary" id="btnSalvar">
+                                <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                            </button>
+                            <a href="@Url.Action("Index", "Batismo")" class="btn btn-default">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<div class="modal fade" id="modalSalvar" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Salvando o Candidato:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body scrollModal">
+                    <div class="table-responsive">
+                        <table id="tbStatus" class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th style="width:70%">Tarefa</th>
+                                    <th style="width:30%">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+            </div>
+            <div class="modal-footer" id="divFooter" style="display:none">
+                <button id="btnFecharModal" type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlExcluir = "@Url.Action("Delete", "Batismo", new { Area = "Secretaria" })"
+    var urlBuscarBatismo = "@Url.Action("BuscarBatismo", "Batismo", new { Area = "Secretaria" })";
+    var obs = JSON.parse('@Html.Raw(Json.Serialize(Model.Observacoes))');
+    var arquivosMembros = JSON.parse('@Html.Raw(Json.Serialize(Model.ArquivosMembro))');
+</script>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/batismo.min.js"></script>
+    <script src="~/js/shared_pessoa.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>
+}

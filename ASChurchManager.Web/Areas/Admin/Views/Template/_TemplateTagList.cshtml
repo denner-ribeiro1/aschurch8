@@ -1,0 +1,33 @@
+﻿@model List<ASChurchManager.Domain.Entities.TemplateTag>
+
+<div class="panel panel-default" id="divTagList">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                Tags Disponíveis
+            </a>
+        </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <ul>
+                    @foreach (var tag in Model)
+                    {
+                        <li>@tag.Descricao = <strong>@tag.Tag</strong></li>
+                    }
+
+                    @*<li>Data Atual = <strong>[DataAtual]</strong></li>
+            <li>Nome do Membro = <strong>[NomeMembro]</strong></li>
+            <li>Membro desde a Data = <strong>[MembroDesdeData]</strong></li>
+            <li>Data Validade da Carta = <strong>[DataValidadeCarta]</strong></li>*@
+                </ul>
+            </div>
+            @*<div class="col-md-6">
+                <ul>
+                    <li>Data Atual = <strong>[DataAtual]</strong></li>
+                </ul>
+            </div>*@
+        </div>
+    </div>
+</div>

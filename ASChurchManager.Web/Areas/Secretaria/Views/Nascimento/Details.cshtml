@@ -1,0 +1,40 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Nascimento.NascimentoViewModel
+
+<section class="content">
+    <div class="row" />
+    <div class="col-lg-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Nascimento - Detalhes
+                </h3>
+            </div>
+            <div class="box-body">
+                <div style="height: 100%;"></div>
+                @await Html.PartialAsync("_Nascimento", Model)
+            </div>
+            <div class="box-footer">
+                <div class="box-footer">
+                    <a href="@Url.Action("Edit", "Nascimento", new { id = Model.Id })" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                    </a>
+
+                    <a href="javascript:excluirNascimento()" id="lnkExcluir" class="btn btn-danger" data-nascimentoid="@Model.Id">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                    </a>
+                    <a href="@Url.Action("Index", "Nascimento")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    var urlExcluir = "@Url.Action("Delete", "Nascimento", new { Area = "Secretaria" })";
+</script>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/nascimento.min.js"></script>
+}

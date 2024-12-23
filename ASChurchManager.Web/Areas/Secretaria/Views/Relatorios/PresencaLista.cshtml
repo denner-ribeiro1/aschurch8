@@ -1,0 +1,96 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Relatorio.PresencaListaVM
+
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+</style>
+
+@Html.HiddenFor(model => model.ViewModelTitle)
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Relatório de Presença - Planilha de Frequência</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-8">
+                @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.CongregacaoId, Model.ListaCongregacoes, "Todas", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.DataInicio, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.DataInicio, Model.IsReadOnly ? (object)new { @readonly = "readonly", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.DataFinal, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.DataFinal, Model.IsReadOnly ? (object)new { @readonly = "readonly", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(model => model.DataFinal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <fieldset>
+                    <legend>Cargos</legend>
+                    <select multiple="multiple" size="8" name="duallistbox_cargos[]" style="display: none;">
+                        @foreach (var item in Model.ListaCargos)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </fieldset>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <fieldset>
+                    <legend>Tipo de Evento</legend>
+                    <select multiple="multiple" size="8" name="duallistbox_eventos[]" style="display: none;">
+                        @foreach (var item in Model.ListaTipoEventos)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </fieldset>
+
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="button" class="btn btn-primary" id="btnRelPresLista">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                    </button>
+                    <a href="@Url.Action("Index", "Home", new { Area = ""})" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/relatorios.min.js"></script>
+
+    <script type="text/javascript">
+        var urlRelFreqLista = '@Url.Action("RelatorioPresencaFrequenciaLista", "Relatorios", new { area = "Secretaria"})';
+    </script>
+}

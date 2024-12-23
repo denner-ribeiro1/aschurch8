@@ -1,0 +1,98 @@
+﻿@*@using GridMvc.Html*@
+
+
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Batismo.ConfiguracaoBatismoViewModel
+@{
+    Layout = "~/Views/Shared/_PopUp.cshtml";
+}
+<div class="box box-primary">
+    <div class="box-header">
+        <h4 class="box-title" id="myModalLabel">Batismo</h4>
+    </div>
+    <div class="box-body">
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    @Html.LabelFor(model => model.IdadeMinima, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.IdadeMinima, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.DataBatismo, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataBatismo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-3">
+                    @Html.LabelFor(model => model.HoraBatismo, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.HoraBatismo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.DataMaximaCadastro, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataMaximaCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12 jtable-main-container">
+                    <table style="width:100%" id="tbPastor" class="jtable">
+                        <thead>
+                            <tr>
+                                <th class="jtable-column-header" style="width: 10%;">
+                                    <div class="jtable-column-header-container">
+                                        <span class="jtable-column-header-text">Código</span>
+                                    </div>
+                                </th>
+                                <th class="jtable-column-header" style="width: 70%;">
+                                    <div class="jtable-column-header-container">
+                                        <span class="jtable-column-header-text">Nome do Pastor</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.PastoresCelebrantes.Count() == 0)
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        Não existem Pastores cadastrados para o Batismo
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                var i = 0;
+                                foreach (var item in Model.PastoresCelebrantes)
+                                {
+                                    string css = $"jtable-data-row{((i % 2 == 0) ? " jtable-row-even" : "")}";
+                                    <tr class="@css">
+                                        <td>
+                                            @item.Id
+                                        </td>
+                                        <td>
+                                            @item.Nome
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="row">
+            <div style="text-align-last:right" class="col-lg-12">
+                <a href="javascript:FecharModal();" id="lnkFechar" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Fechar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function FecharModal() {
+        parent.$.fancybox.close();
+    }
+</script>

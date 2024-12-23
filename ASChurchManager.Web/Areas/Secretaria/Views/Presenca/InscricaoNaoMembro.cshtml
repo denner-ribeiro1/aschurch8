@@ -1,0 +1,212 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.InscricaoVM
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+</style>
+
+@Html.HiddenFor(m => m.IsReadOnly)
+@Html.HiddenFor(m => m.Presenca)
+@Html.HiddenFor(m => m.Valor)
+@Html.HiddenFor(m => m.PermiteInscricoes)
+@Html.HiddenFor(m => m.NaoMembro)
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Inscrição - Não Membros - Controle de Presença</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.DataMaxima, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DataMaxima, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.DataHoraInicio, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DataHoraInicio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+        </div>
+        @if (!Model.PermiteInscricoes)
+        {
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="glyphicon glyphicon-calendar"></span>
+                <font color="darkred"><label>Curso/Evento com as inscrições já finalizadas. Favor entrar em contato com a Secretaria da Sede.</label></font>
+            </div>
+        </div>
+        }
+        else
+        {
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-lg-12">
+                <fieldset>
+                    <legend>Dados do Membro</legend>
+                    @if (!Model.IsReadOnly)
+                    {
+                    @using (Html.BeginForm("Create", "TipoEvento", FormMethod.Post, new { id = "frmInscricao" }))
+                    {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control capitalizedCase" } })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.Cpf, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Cpf, new { htmlAttributes = new { @class = "form-control cpf" } })
+                            @Html.ValidationMessageFor(model => model.Cpf, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <p style="clear: both" />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.Igreja, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Igreja, new { htmlAttributes = new { @class = "form-control capitalizedCase" } })
+                            @Html.ValidationMessageFor(model => model.Igreja, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Cargo, new { htmlAttributes = new { @class = "form-control capitalizedCase" } })
+                        </div>
+                        @if (Model.Valor > 0)
+                        {
+                        <div class="col-sm-2">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.Pago, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Pago", data_off = "Não Pago" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Pago", data_off = "Não Pago" })
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    <p style="clear: both" />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-primary" id="btnAddLista">
+                                <span class="glyphicon glyphicon-plus"></span> Adicionar
+                            </button>
+                            <button type="button" class="btn btn-warning" id="btnCancLista">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    }
+                    }
+                </fieldset>
+            </div>
+        </div>
+        }
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-default collapsed-box">
+                    <div class="box-header with-border">
+                        <h5 class="box-title">Filtros</h5>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.LabelFor(model => model.Filtro, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.Filtro, Model.Filtros, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.Conteudo, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Conteudo, new { htmlAttributes = new { @class = "form-control", @style = "display:block" } })
+                                @Html.EditorFor(model => model.CpfFiltro, new { htmlAttributes = new { @class = "form-control cpf", @style = "display:none" } })
+                                @Html.DropDownListFor(model => model.CongregacaoSelecionado, Model.ListaCongregacoes, "Todas", htmlAttributes: new { @class = "form-control", @style = "display:none" })
+                            </div>
+                            <div class="col-md-2">
+                                <br />
+                                <button type="button" class="btn btn-default" id="btnPesquisar">
+                                    <span class="glyphicon glyphicon-search"></span> Pesquisar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box-body jtable-main-container">
+                    <table style="width:99%" id="tbMembro" class="jtable">
+                        <thead>
+                            <tr>
+                                @if (!Model.IsReadOnly)
+                                {
+                                <th class="jtable-column-header" style="width:5%;"><span class="jtable-column-header-text">Inscr.N.º</span></th>
+                                <th class="jtable-column-header" style="width:22%;"><span class="jtable-column-header-text">Nome</span></th>
+                                <th class="jtable-column-header" style="width:10%;"><span class="jtable-column-header-text">CPF</span></th>
+                                <th class="jtable-column-header" style="width:22%;"><span class="jtable-column-header-text">Igreja</span></th>
+                                <th class="jtable-column-header" style="width:15%;"><span class="jtable-column-header-text">Cargo</span></th>
+                                <th class="jtable-column-header" style="width:15%;"><span class="jtable-column-header-text"></span></th>
+                                }
+                                else
+                                {
+                                <th class="jtable-column-header" style="width:10%;"><span class="jtable-column-header-text">Inscr.N.º</span></th>
+                                <th class="jtable-column-header" style="width:20%;"><span class="jtable-column-header-text">Membro</span></th>
+                                <th class="jtable-column-header" style="width:30%;"><span class="jtable-column-header-text">CPF</span></th>
+                                <th class="jtable-column-header" style="width:30%;"><span class="jtable-column-header-text">Igreja</span></th>
+                                <th class="jtable-column-header" style="width:30%;" colspan="2"><span class="jtable-column-header-text">Cargo</span></th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if (!Model.IsReadOnly)
+                                {
+                                <td colspan="6">Não há Membros cadastrados para o Curso/Evento</td>
+                                }
+                                else
+                                {
+                                <td colspan="5">Não há Membros cadastrados para o Curso/Evento</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Url.Action("IndexInscricaoNaoMembros", "Presenca" )" class="btn btn-default">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+            </a>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/inscricaonaomembro.min.js"></script>
+
+    <script type="text/javascript">
+            var urlExcluir = '@Url.Action("DelMembros", "Presenca", new { area = "Secretaria" })';
+            var urlIncluir = '@Url.Action("AddNaoMembros", "Presenca", new { area = "Secretaria"})';
+            var urlAtualizarPago = '@Url.Action("AtualizarPago", "Presenca", new { area = "Secretaria"})';
+            var urlBuscarMembro = '@Url.Action("BuscarMembroGeral", "Membro", new { area = "Secretaria"})';
+            var urlBuscarLista = '@Url.Action("GetMembros", "Presenca", new { area = "Secretaria"})';
+            var urlCarregarArquivo = '@Url.Action("UploadFile", "Presenca", new { area = "Secretaria"})';
+            var urlPopUp = '@Url.Action("DadosArquivo", "Presenca", new { area = "Secretaria"})';
+    </script>
+}

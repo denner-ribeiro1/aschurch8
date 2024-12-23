@@ -1,0 +1,212 @@
+﻿@using ASChurchManager.Web.Lib
+@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.PresencaVM
+
+<style>
+    .card-box {
+        padding: 20px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+
+    .file-man-box {
+        padding: 20px;
+        border: 1px solid #e3eaef;
+        border-radius: 5px;
+        position: relative;
+        margin-bottom: 15px
+    }
+
+        .file-man-box .file-close {
+            color: #f1556c;
+            position: absolute;
+            line-height: 24px;
+            font-size: 24px;
+            right: 10px;
+            top: 10px;
+            visibility: hidden
+        }
+
+        .file-man-box .file-img-box {
+            line-height: 80px;
+            text-align: center
+        }
+
+            .file-man-box .file-img-box img {
+                height: 64px
+            }
+
+        .file-man-box .file-download {
+            font-size: 32px;
+            color: #98a6ad;
+            position: absolute;
+            right: 10px
+        }
+
+            .file-man-box .file-download:hover {
+                color: #313a46
+            }
+
+        .file-man-box .file-man-title {
+            padding-right: 15px
+        }
+
+        .file-man-box:hover {
+            -webkit-box-shadow: 0 0 24px 0 rgba(0, 0, 0, .06), 0 1px 0 0 rgba(0, 0, 0, .02);
+            box-shadow: 0 0 24px 0 rgba(0, 0, 0, .06), 0 1px 0 0 rgba(0, 0, 0, .02)
+        }
+
+            .file-man-box:hover .file-close {
+                visibility: visible
+            }
+
+    .text-overflow {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        width: 115%;
+        overflow: hidden;
+        margin-left: -4px;
+    }
+
+    h5 {
+        font-size: 15px;
+    }
+
+    .file-img-dowload {
+        position: relative;
+        left: 10px;
+        top: -30px;
+    }
+</style>
+
+@using (Html.BeginForm("PersistirConfiguracao", "Presenca", FormMethod.Post, new { id = "frmPresenca" }))
+{
+    @Html.HiddenFor(m => m.Acao)
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Configuração - Controle de Presença
+                        </h3>
+                    </div>
+                    @{
+                        if (Model.Acao != ASChurchManager.Domain.Types.Acao.Create)
+                        {
+                            <div class="col-lg-12">
+                                <p style="clear: both" />
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab_Pres" data-toggle="tab"><span class="fa fa-bank"></span> Dados Gerais</a></li>
+                                        <li><a href="#tab_Arquivo" data-toggle="tab"><span class="fa fa-file"></span> Anexos</a></li>
+                                    </ul>
+                                </div>
+                                <p style="clear: both" />
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_Pres">
+                                        <div class="form-group">
+                                            <fieldset>
+                                                <legend>Dados Gerais</legend>
+                                                @await Html.PartialAsync("_Configuracao", Model)
+                                            </fieldset>
+                                            <p style="clear: both" />
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_Arquivo">
+                                        <p style="clear: both" />
+                                        <fieldset>
+                                            <legend>Arquivos</legend>
+                                            @if (Model.Acao == ASChurchManager.Domain.Types.Acao.Update)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        @Html.LabelFor(model => model.Arquivo, htmlAttributes: new { @class = "control-label" })
+                                                        @Html.TextBoxFor(m => m.Arquivo, new { @class = "form-control", type = "file", name = "Arquivo", accept = "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/pdf, zip, application/zip, application/x-zip, application/x-zip-compressed" })
+                                                        @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <br />
+                                                        <button type="button" class="btn btn-primary" id="btnIncluir">
+                                                            <span class="glyphicon glyphicon-upload"></span> Incluir
+                                                        </button>
+                                                        <button type="button" class="btn btn-warning" id="btnCancelar">
+                                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="card-box" id="divCard">
+                                                        <div class="row">
+                                                            <div class="col-lg-10">
+                                                                <label>Não há arquivos armazenados para o Curso/Evento.</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="box-body">
+                                @await Html.PartialAsync("_Configuracao", Model)
+                            </div>
+                        }
+                    }
+
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        @{
+                            if (Model.Acao == ASChurchManager.Domain.Types.Acao.Create ||
+                               Model.Acao == ASChurchManager.Domain.Types.Acao.Update)
+                            {
+                                <button type="button" class="btn btn-primary" id="btnSalvar">
+                                    <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                                </button>
+                                <a href="@Url.Action("IndexConfiguracao", "Presenca")" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                                </a>
+                            }
+                            else if (Model.Acao == ASChurchManager.Domain.Types.Acao.Read)
+                            {
+                                <a href="@Url.Action("EditConfiguracao", "Presenca", new { id=Model.Id })" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                                </a>
+                                @*@if (Model.Status == ASChurchManager.Domain.Types.StatusPresenca.EmAberto)
+                                    {*@
+                                <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-eventoid="@Model.Id">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                                </a>
+                                //}
+                                <a href="@Url.Action("IndexConfiguracao", "Presenca")" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@section scripts
+{
+    <script>
+        var arquivos = JSON.parse('@Html.Raw(Json.Serialize(Model.Arquivos))');
+        var urlDownload = '@Url.Action("DownloadArquivo", "Presenca", new { area = "Secretaria"})';
+        var urlExcArq = "@Url.Action("DeleteArquivo", "Presenca", new { Area = "Secretaria" })";
+        var urlUplArq = "@Url.Action("UploadArquivo", "Presenca", new { Area = "Secretaria" })";
+        var urlArqJaExiste = "@Url.Action("ArquivoJaExiste", "Presenca", new { Area = "Secretaria" })";
+        var urlExisteInscricaoData = "@Url.Action("ExisteInscricaoData", "Presenca", new { Area = "Secretaria" })";
+    </script>
+
+    <script type="text/javascript" src="~/js/presenca.min.js"></script>
+}

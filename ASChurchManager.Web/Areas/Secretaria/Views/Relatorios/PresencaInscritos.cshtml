@@ -1,0 +1,82 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Relatorio.PresencaVM
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+
+    .Centeralign {
+        text-align: center;
+    }
+</style>
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Relatório de Inscritos</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.PresencaId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.PresencaId, Model.ListaPresenca, "Todos", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PresencaId, "", new { @class = "text-danger" })
+            </div>
+            @if (Model.ListaCongregacoes.Count > 1)
+            {
+                <div class="col-sm-4">
+                    @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.CongregacaoId, Model.ListaCongregacoes, "Todas", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+                </div>
+            }
+            else
+            {
+                @Html.HiddenFor(m => m.CongregacaoId)
+            }
+        </div>
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.TipoInscricao, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.TipoInscricao, Model.ListaTipoInscricao, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoInscricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <p style="clear: both" />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Carimbo, new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                    <b>@Html.LabelFor(model => model.Carimbo, htmlAttributes: new { @class = "control-label" })</b>
+                    @Html.ValidationMessageFor(model => model.Carimbo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" id="btnRelPresInscritos">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                    </button>
+                    <a href="@Url.Action("Index", "Home", new { Area = ""})" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/relatorios/relatorios.js"></script>
+
+    <script type="text/javascript">
+        var urlRelInscr = '@Url.Action("RelatorioPresencaInscritos", "Relatorios", new { area = "Secretaria"})';
+    </script>
+}

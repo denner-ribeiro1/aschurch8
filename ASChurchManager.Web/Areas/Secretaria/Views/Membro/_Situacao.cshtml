@@ -1,0 +1,63 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Membro.SituacaoVM
+
+<fieldset>
+    <legend>Situação</legend>
+    @if (!Model.IsReadOnly)
+    {
+        <div class="form-group">
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.IdSit, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.IdSit, Model.SelectMembroSituacao, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdSit, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.DataSit, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.DataSit, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.DataSit, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.ObservacaoSit, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ObservacaoSit, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ObservacaoSit, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <button type="button" class="btn btn-primary" id="btnAddSit">
+                    <span class="glyphicon glyphicon-plus"></span> Adicionar
+                </button>
+                <button type="button" class="btn btn-warning" id="btnCancSit">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                </button>
+            </div>
+        </div>
+        <p style="clear: both" />
+    }
+
+    <div class="box-body jtable-main-container">
+        <table style="width:100%" id="tbSit" class="jtable">
+            <thead>
+                <tr>
+                    <th class="jtable-column-header" style="width:20%;"><span class="jtable-column-header-text">Situação</span></th>
+                    <th class="jtable-column-header" style="width:10%;"><span class="jtable-column-header-text">Data</span></th>
+                    <th class="jtable-column-header" style="width:50%;"><span class="jtable-column-header-text">Observação</span></th>
+                    @if (!Model.IsReadOnly)
+                    {
+                        <th class="jtable-column-header" style="width:20%;"></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @if (!Model.IsReadOnly)
+                    {
+                        <td colspan="4">Não há Situações cadastradas para o Membro</td>
+                    }
+                    else
+                    {
+                        <td colspan="3">Não há Situações cadastradas para o Membro</td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</fieldset>

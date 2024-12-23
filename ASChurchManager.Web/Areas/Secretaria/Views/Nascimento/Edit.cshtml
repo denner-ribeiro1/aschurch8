@@ -1,0 +1,33 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Nascimento.NascimentoViewModel
+
+
+@using (Html.BeginForm("Edit", "Nascimento", FormMethod.Post, new { id = "frmNascimento", enctype = "multipart/form-data" }))
+{
+    <section class="content">
+        <div class="row" />
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Nascimento - Edição
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @await Html.PartialAsync("_Nascimento", Model)
+                </div>
+                <div class="box-footer">
+                    <button type="button" class="btn btn-primary" id="btnSalvar">
+                        <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                    </button>
+                    <a href="@Url.Action("Index", "Nascimento")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section scripts{
+    <script type="text/javascript" src="~/js/nascimento.min.js"></script>
+}

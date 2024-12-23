@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  aschurchmanager.web:
+    image: ${DOCKER_REGISTRY-}aschurchprod
+    build:
+      context: .
+      dockerfile: ASChurchManager.Web/Dockerfile
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Production

@@ -1,0 +1,173 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.IndexFrequenciaVM
+
+@Html.HiddenFor(model => model.PresencaId)
+@Html.HiddenFor(model => model.Descricao)
+@Html.HiddenFor(model => model.Status)
+
+<script>
+    async function Justificativa(id, value) {
+        (async () => {
+
+            let dados = {
+                id: $(value).data("inscrid"),
+                idData: $('option:selected', $("#DataId")).val(),
+                situacao: $(value).prop('checked'),
+                justificativa: $(value).data("justificativa")
+            };
+
+            var somenteLeitura = $(value).data("somenteleitura");
+            let conf = false;
+
+            let values = "";
+            if (somenteLeitura) {
+                await Swal.fire({
+                    title: 'Justificativa',
+                    html:
+                        `<textarea id="txtJusti" rows="4" cols="50" style="resize: none;" maxlength="100" readonly="readonly">${dados.justificativa}</textarea>`,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: '<i class="glyphicon glyphicon-home"></i> Fechar'
+                })
+            }
+            else {
+                values = await Swal.fire({
+                    title: 'Justificativa',
+                    html:
+                        `<textarea id="txtJusti" rows="4" cols="50" style="resize: none;" maxlength="100">${dados.justificativa}</textarea>`,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="glyphicon glyphicon-floppy-saved"></i> Salvar',
+                    cancelButtonText: '<i class="glyphicon glyphicon-home"></i> Fechar',
+                    preConfirm: () => {
+                        conf = true;
+                        return document.getElementById('txtJusti').value;
+                    }
+                })
+            }
+
+            const { value: formValues } = values;
+
+            if (conf) {
+                if (formValues) {
+                    let chb = `#chb_${id}`;
+                    let request = {
+                        id: $(value).data("inscrid"),
+                        idData: $('option:selected', $("#DataId")).val(),
+                        situacao: $(chb).prop('checked'),
+                        justificativa: formValues
+                    };
+                    $.ajaxPost(urlAtualFreqManual, request, function (result) {
+                        if (result.status === "OK") {
+                            $('#grdInscricoes').jtable('reload');
+                        }
+                        else {
+                            $.alertError("Frequência", result.Message);
+                        }
+                    });
+                }
+            }
+        })()
+    }
+</script>
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Controle de Frequência Cursos e Eventos - Manual</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-7">
+                @Html.LabelFor(model => model.DataId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.DataId, Model.ListaData, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5">
+                <div id="divFinalizar" style="display:none">
+                    <br />
+                    <button type="button" class="btn btn-warning" id="btnFinalizar">
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Finalizar
+                    </button>
+                </div>
+                <div id="divReabrir" style="display:none">
+                    <br />
+                    <button type="button" class="btn btn-primary" id="btnReabrir">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Reabrir
+                    </button>
+                    <button type="button" class="btn btn-info" id="btnImprimir">
+                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Imprimir
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <div id="divCheck" style="display:block">
+                    <input type="checkbox" id="chkDatasFinalizadas" />&ensp;
+                    <label for="chkDatasFinalizadas">Exibir somente datas finalizadas.</label>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div id="divFiltro">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box box-default collapsed-box">
+                        <div class="box-header with-border">
+                            <h5 class="box-title">Filtros</h5>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Filtro, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.Filtro, Model.Filtros, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.LabelFor(model => model.Conteudo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Conteudo, new { htmlAttributes = new { @class = "form-control", @style = "display:block" } })
+                                    @Html.EditorFor(model => model.CpfFiltro, new { htmlAttributes = new { @class = "form-control cpf", @style = "display:none" } })
+                                    @Html.DropDownListFor(model => model.CongregacaoSelecionado, Model.ListaCongregacoes, "Todas", htmlAttributes: new { @class = "form-control", @style = "display:none" })
+                                </div>
+                                <div class="col-md-2">
+                                    <br />
+                                    <button type="button" class="btn btn-default" id="btnPesquisar">
+                                        <span class="glyphicon glyphicon-search"></span> Pesquisar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="grdInscricoes"></div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Url.Action("IndexFrequenciaManual", "Presenca", new { Area = "Secretaria"})" class="btn btn-default">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+            </a>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/frequenciamanual.min.js"></script>
+
+    <script type="text/javascript">
+        var urlInscricoes = '@Url.Action("ListaInscricoes", "Presenca", new { area = "Secretaria" })';
+        var urlSalvar = '@Url.Action("SalvarFrequenciaManual", "Presenca", new { area = "Secretaria" })';
+        var urlBuscarDatas = '@Url.Action("GetDatas", "Presenca", new { area = "Secretaria"})';
+        var urlImpLista = '@Url.Action("RelatorioPresencaLista", "Relatorios", new { area = "Secretaria"})';
+        var urlAtualFreqManual = '@Url.Action("AtualizarFrequenciaManual", "Presenca", new { area = "Secretaria"})';
+    </script>
+}

@@ -1,0 +1,197 @@
+﻿
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Casamento.CasamentoViewModel
+
+<style type="text/css">
+    .alinhar {
+        margin-top: 5px;
+    }
+
+    .checkbox {
+        margin-top: 25px;
+    }
+</style>
+
+<div class="box-body">
+    <div style=" height: 100%;"></div>
+    <div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CasamentoId)
+        <div class="row">
+            <fieldset>
+                <legend>Congregação</legend>
+                <div class="form-group">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            @if (!Model.IsReadOnly)
+                            {
+                                <a href="javascript:void(0)" class="control-label" id="lnkBuscarCongregacao">Cód. Congregação</a>
+                            }
+                            else
+                            {
+                                @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                            }
+                            @Html.TextBoxFor(model => model.CongregacaoId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                            @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-7">
+                            @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.CongregacaoNome, (object)new { @readonly = "readonly", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CongregacaoNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <p style="clear: both" />
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(model => model.PastorMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Pastor", data_off = "Pastor Visitante" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Pastor", data_off = "Pastor Visitante" })
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkPastorId" class="control-label">Cód. Pastor</a>
+                            @Html.LabelFor(model => model.PastorId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.PastorId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.PastorNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.PastorNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.PastorNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <p style="clear: both" />
+                    <div class="form-group">
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(model => model.DataCasamento, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DataCasamento, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control datepicker" } : new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.DataCasamento, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.HoraInicio, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.HoraInicio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2 ">
+                            @Html.LabelFor(model => model.HoraFim, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.HoraFim, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.HoraFim, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="row">
+            <fieldset>
+                <legend>Dados do Noivo</legend>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <br />
+                            @Html.CheckBoxFor(model => model.NoivoMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkNoivoId" class="control-label">Cód.Reg</a>
+                            @Html.LabelFor(model => model.NoivoId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.NoivoId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.NoivoNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.NoivoNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.NoivoNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <br />
+                            @Html.CheckBoxFor(model => model.PaiNoivoMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkPaiNoivoId" class="control-label">Cód.Reg.Pai</a>
+                            @Html.LabelFor(model => model.PaiNoivoId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.PaiNoivoId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.PaiNoivoNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.PaiNoivoNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.PaiNoivoNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <br />
+                            @Html.CheckBoxFor(model => model.MaeNoivoMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkMaeNoivoId" class="control-label">Cód.Reg.Mãe</a>
+                            @Html.LabelFor(model => model.MaeNoivoId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.MaeNoivoId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.MaeNoivoNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.MaeNoivoNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.MaeNoivoNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="row">
+            <fieldset>
+                <legend>Dados da Noiva</legend>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <br />
+                            @Html.CheckBoxFor(model => model.NoivaMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkNoivaId" class="control-label">Cód.Reg</a>
+                            @Html.LabelFor(model => model.NoivaId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.NoivaId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.NoivaNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.NoivaNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.NoivaNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <br />
+                            @Html.CheckBoxFor(model => model.PaiNoivaMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkPaiNoivaId" class="control-label">Cód.Reg.Pai</a>
+                            @Html.LabelFor(model => model.PaiNoivaId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.PaiNoivaId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.PaiNoivaNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.PaiNoivaNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.PaiNoivaNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <br />
+                            @Html.CheckBoxFor(model => model.MaeNoivaMembro, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Membro", data_off = "Não Membro" })
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="javascript:void(0)" id="lnkMaeNoivaId" class="control-label">Cód.Reg.Mãe</a>
+                            @Html.LabelFor(model => model.MaeNoivaId, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.MaeNoivaId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.LabelFor(model => model.MaeNoivaNome, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.MaeNoivaNome, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control capitalizedCase" })
+                            @Html.ValidationMessageFor(model => model.MaeNoivaNome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<script>
+    var actionName = '@ViewContext.RouteData.Values["Action"].ToString()';
+</script>

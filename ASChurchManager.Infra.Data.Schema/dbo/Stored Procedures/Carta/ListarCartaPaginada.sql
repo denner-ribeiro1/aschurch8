@@ -1,0 +1,92 @@
+﻿CREATE PROCEDURE ListarCartaPaginada
+	@PAGESIZE INT,
+	@ROWSTART INT,
+	@SORTING VARCHAR(30),
+	@USUARIOID INT,
+	@CAMPO VARCHAR(255) = NULL,
+	@VALOR VARCHAR(255) = NULL,
+	@STATUSCARTA INT = NULL
+AS
+BEGIN
+	SET NOCOUNT ON
+	DECLARE 
+		@SQLQUERY NVARCHAR(4000),
+		@SQLFILTRO NVARCHAR(4000),
+		@PARMDEFINITION NVARCHAR(500),
+		@ORDERBY NVARCHAR(400)
+
+	/* CONFIGURAÇÃO DO FILTRO */
+	IF (CHARINDEX('Id', @SORTING) > 0 OR 
+		CHARINDEX('TipoCarta', @SORTING) > 0 OR CHARINDEX('DataValidade', @SORTING) > 0 OR
+		CHARINDEX('StatusCarta', @SORTING) > 0)
+		SET @ORDERBY =  'C.' + @SORTING
+	ELSE IF (CHARINDEX('Nome', @SORTING) > 0 )
+		SET @ORDERBY = REPLACE(@SORTING, 'Nome', 'M.Nome')
+	ELSE IF(CHARINDEX('CongregacaoOrigem', @SORTING) > 0)
+		SET @ORDERBY = REPLACE(@SORTING, 'CongregacaoOrigem', 'CO.Nome')
+	ELSE IF(CHARINDEX('CongregacaoDestino', @SORTING) > 0)
+		SET @ORDERBY = REPLACE(@SORTING, 'CongregacaoDestino', 'C.CongregacaoDest')
+	
+	SET @SQLFILTRO = ''	
+	IF (NULLIF(@VALOR,'') IS NOT NULL)
+	BEGIN
+		IF (@CAMPO = 'Id')
+			SET @SQLFILTRO = @SQLFILTRO + ' AND C.Id = @VALOR'
+		ELSE IF (@CAMPO = 'Nome')
+			SET @SQLFILTRO = @SQLFILTRO + ' AND M.Nome LIKE ''%' + @VALOR + '%'' COLLATE Latin1_General_CI_AI'
+		ELSE IF (@CAMPO = 'CongregacaoOrigem')
+			SET @SQLFILTRO = @SQLFILTRO + ' AND (CO.Id = @VALOR)'
+		ELSE IF (@CAMPO = 'CongregacaoDestino')
+			SET @SQLFILTRO = @SQLFILTRO + ' AND C.CongregacaoDest LIKE ''%' + @VALOR + '%'' COLLATE Latin1_General_CI_AI'
+		ELSE IF (@CAMPO = 'TipoCarta')
+			SET @SQLFILTRO = @SQLFILTRO + ' AND (C.TipoCarta  = @VALOR)'
+	END
+	IF (NULLIF(@STATUSCARTA, 0) IS NOT NULL)
+		SET @SQLFILTRO = @SQLFILTRO + ' AND (C.StatusCarta = ' + CONVERT(VARCHAR(1), @STATUSCARTA) + ')'
+	
+	IF OBJECT_ID('TEMPDB..#CONGR') IS NOT NULL 
+		DROP TABLE #CONGR
+	CREATE Table #CONGR (CongregacaoId INT NOT NULL) 
+	
+	INSERT INTO #CONGR
+	SELECT * FROM dbo.CongregacaoAcesso(@UsuarioId, default)
+	
+
+	SET @SQLQUERY =
+		'SELECT TOP(@PAGESIZE) * FROM (' +
+		'	SELECT '+
+		'		C.Id, M.Nome, CO.Nome AS CongregacaoOrigem, C.CongregacaoDestId, C.CongregacaoDest AS CongregacaoDestino,'+ 
+		'		C.TipoCarta, C.StatusCarta, C.DataValidade, C.TemplateId, '+
+		'		ROW_NUMBER() OVER (ORDER BY ' + @ORDERBY + ') AS NUM '+
+		'	FROM'+
+		'		Carta C WITH(NOLOCK)'+
+		'	INNER JOIN Membro M WITH(NOLOCK) ON C.MembroId = M.Id'+
+		'	INNER JOIN Congregacao CO WITH(NOLOCK) ON CO.Id = C.CongregacaoOrigemId'+
+		'	WHERE'+
+		'		(C.CongregacaoOrigemId IN (SELECT * FROM #CONGR) OR C.CongregacaoDestId IN (SELECT * FROM #CONGR)) '+
+		+ @SQLFILTRO +
+		') AS A '+
+		'WHERE '+
+			'NUM > @ROWSTART '
+
+
+	/* CONFIGURAÇÃO DA ORDENAÇÃO*/
+	SET @SQLQUERY = @SQLQUERY + ' ORDER BY A.' + @SORTING
+
+	/* EXECUCAÇÃO DA QUERY */
+	SET @PARMDEFINITION = '@PAGESIZE INT, @ROWSTART INT, @VALOR VARCHAR(255), @USUARIOID INT'
+	EXECUTE SP_EXECUTESQL @SQLQUERY, @PARMDEFINITION, @PAGESIZE, @ROWSTART, @VALOR, @USUARIOID
+
+	/*RETORNA A QUANTIDADE DE LINHAS TOTAIS COM O FILTRO*/
+	DECLARE @SQLCOUNT NVARCHAR(4000)
+
+	SET @SQLCOUNT = 
+		'	SELECT COUNT(*) FROM Carta C WITH(NOLOCK)'+
+		'	INNER JOIN Membro M WITH(NOLOCK) ON C.MembroId = M.Id'+
+		'	INNER JOIN Congregacao CO WITH(NOLOCK) ON CO.Id = C.CongregacaoOrigemId'+
+		'	WHERE (C.CongregacaoOrigemId IN (SELECT * FROM #CONGR) OR'+
+		'		 C.CongregacaoDestId IN (SELECT  * FROM #CONGR)) '+
+		+ @SQLFILTRO
+	EXECUTE SP_EXECUTESQL @SQLCOUNT, @PARMDEFINITION,@PAGESIZE, @ROWSTART, @VALOR, @USUARIOID
+
+END

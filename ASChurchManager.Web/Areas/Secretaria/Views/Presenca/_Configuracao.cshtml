@@ -1,0 +1,197 @@
+﻿@using ASChurchManager.Web.Lib
+@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.PresencaVM
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.Status)
+@Html.HiddenFor(model => model.Acao)
+@Html.HiddenFor(model => model.DatasJSON)
+@Html.HiddenFor(model => model.IsReadOnly)
+
+<div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.TipoEventoSelecionado, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.TipoEventoSelecionado, Model.SelectTiposEvento, "", htmlAttributes: Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoEventoSelecionado, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5">
+                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Descricao, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-3">
+                @Html.LabelFor(model => model.DataMaximaCadastro, htmlAttributes: new { @class = "control-label" })
+                @if (Model.Status == ASChurchManager.Domain.Types.StatusPresenca.EmAberto &&
+             (Model.Acao == ASChurchManager.Domain.Types.Acao.Create ||
+              Model.Acao == ASChurchManager.Domain.Types.Acao.Update))
+                {
+                    @Html.EditorFor(model => model.DataMaximaCadastro, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.DataMaximaCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                }
+                @Html.ValidationMessageFor(model => model.DataMaximaCadastro, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-2">
+                @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Valor, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-4">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Exclusivo, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                    <b>@Html.LabelFor(model => model.Exclusivo, htmlAttributes: new { @class = "control-label" })</b>
+                    @Html.ValidationMessageFor(model => model.Exclusivo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-2" id="divLnkCongr">
+                @if (!Model.IsReadOnly)
+                {
+                    <a href="javascript:void(0)" class="control-label" id="lnkBuscarCongregacao">Cód. Congregação</a>
+                }
+                else
+                {
+                    @Html.LabelFor(model => model.CongregacaoId, htmlAttributes: new { @class = "control-label" })
+                }
+                @Html.TextBoxFor(model => model.CongregacaoId, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control alinhar" })
+                @Html.ValidationMessageFor(model => model.CongregacaoId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-6" id="divCongr">
+                @Html.LabelFor(model => model.CongregacaoNome, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.CongregacaoNome, (object)new { @readonly = "readonly", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CongregacaoNome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.NaoMembros, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                    <b>@Html.LabelFor(model => model.NaoMembros, htmlAttributes: new { @class = "control-label" })</b>
+                    @Html.ValidationMessageFor(model => model.NaoMembros, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.GerarEventos, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                    <b>@Html.LabelFor(model => model.GerarEventos, htmlAttributes: new { @class = "control-label" })</b>
+                    @Html.ValidationMessageFor(model => model.GerarEventos, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="divInscAutom">
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.InscricaoAutomatica, Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" } : new { @class = "form-control", data_toggle = "toggle", data_on = "Sim", data_off = "Não" })
+                    <b>@Html.LabelFor(model => model.InscricaoAutomatica, htmlAttributes: new { @class = "control-label" })</b>
+                    @Html.ValidationMessageFor(model => model.InscricaoAutomatica, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <fieldset>
+                <legend>Data</legend>
+                <div class="row">
+                    <div class="col-lg-12" id="divDatas">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Data, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control datepicker" } })
+                            @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.HoraInicio, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HoraInicio, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control timepicker" } })
+                            @Html.ValidationMessageFor(model => model.HoraInicio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.HoraFinal, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.HoraFinal, new { htmlAttributes = Model.IsReadOnly ? (object)new { @disabled = "disabled", @class = "form-control" } : new { @class = "form-control timepicker" } })
+                            @Html.ValidationMessageFor(model => model.HoraFinal, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            <br />
+                            <button type="button" class="btn btn-primary" id="btnAddData">
+                                <span class="glyphicon glyphicon-plus"></span> Adicionar
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btnUpdData">
+                                <span class="glyphicon glyphicon-upload"></span> Atualizar
+                            </button>
+                            <button type="button" class="btn btn-warning" id="btnCancData">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px">
+                    <div class="col-md-12 jtable-main-container">
+                        <table style="width:100%" id="tbDatas" class="jtable">
+                            <thead>
+                                <tr>
+                                    <th class="jtable-column-header" style="width: 25%;">
+                                        <div class="jtable-column-header-container">
+                                            <span class="jtable-column-header-text">Data</span>
+                                        </div>
+                                    </th>
+                                    <th class="jtable-column-header" style="width: 25%;">
+                                        <div class="jtable-column-header-container">
+                                            <span class="jtable-column-header-text">Hora Inicio</span>
+                                        </div>
+                                    </th>
+                                    <th class="jtable-column-header" style="width: 25%;">
+                                        <div class="jtable-column-header-container">
+                                            <span class="jtable-column-header-text">Hora Final</span>
+                                        </div>
+                                    </th>
+                                    @if (!Model.IsReadOnly)
+                                    {
+                                        <th class="jtable-column-header" style="width: 20%;">
+                                            <div class="jtable-column-header-container">
+                                            </div>
+                                        </th>
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if (!Model.IsReadOnly)
+                                    {
+                                        <td colspan="4">
+                                            Não existem Datas cadastradas para o Curso/Evento
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td colspan="3">
+                                            Não existem Datas cadastradas para o Curso/Evento
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var datas = JSON.parse('@Html.Raw(Json.Serialize(Model.Datas))');
+    var urlExcluir = "@Url.Action("DeleteConfiguracao", "Presenca", new { Area = "Secretaria" })";
+    var urlBuscarCongregacao= "@Url.Action("BuscarCongregacao", "Congregacao", new { Area = "Secretaria" })";
+</script>

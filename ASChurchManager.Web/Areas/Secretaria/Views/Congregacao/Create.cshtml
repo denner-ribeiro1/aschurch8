@@ -1,0 +1,48 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Congregacao.CongregacaoVM
+
+@{
+    ViewBag.Title = "Congregacao_Create";
+    Model.IsReadOnly = false;
+}
+
+@using (Html.BeginForm("Create", "Congregacao", FormMethod.Post, new { id = "frmCongrecacao" }))
+{
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            Congregação - Inclusão
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        @await Html.PartialAsync("_Congregacao", Model)
+                    </div>
+                    <p style="clear: both" />
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-primary" id="btnSalvar">
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Salvar
+                        </button>
+                        <a href="@Url.Action("Index", "Congregacao")" class="btn btn-default">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script>
+    var grupos  = JSON.parse('@Html.Raw(Json.Serialize(Model.Grupos))');
+    var obreiros = JSON.parse('@Html.Raw(Json.Serialize(Model.Obreiros))');
+    var observacoes = JSON.parse('@Html.Raw(Json.Serialize(Model.Observacoes))');
+
+    var urlBuscarRespons = "@Url.Action("BuscarPastorRespEObreiros", "Congregacao", new { Area = "Secretaria" })";
+</script>
+
+@section scripts
+{
+    <script src="~/js/congregacao.min.js"></script>
+    <script src="~/js/shared_endereco.min.js"></script>
+}

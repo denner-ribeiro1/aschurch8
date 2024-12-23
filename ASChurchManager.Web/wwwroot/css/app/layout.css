@@ -1,0 +1,105 @@
+﻿fieldset {
+    margin-top: 10px;
+}
+
+legend {
+    margin-bottom: 5px;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.scrollModal {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+#div-loading {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    animation-name: show-overlay;
+    animation-delay: .5s;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+    display: flex;
+    display: -ms-flexbox;
+    align-items: center;
+    -ms-flex-align: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-direction: column;
+}
+
+    /*Define o padrão da div interna da div responsável pela animação de loading do sistema*/
+    #div-loading div {
+        width: 38px;
+        height: 38px;
+        background: url('../../images/hourglass.gif');
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+
+.as-loading-frame {
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 5px;
+    text-align: center;
+    /*visibility: hidden;*/
+    animation-name: show-loading-frame;
+    animation-delay: .5s;
+    animation-duration: .1s;
+    animation-fill-mode: forwards;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.as-loading-img {
+    background-image: url('../../images/hourglass.gif');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    height: 70px;
+}
+
+.as-overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    /* Green background with 30% opacity */
+    background-color: rgba(220,220,220, 0.5);
+    z-index: 5000;
+    top: 0;
+    left: 0;
+    animation-name: show-overlay;
+    animation-delay: .5s;
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+    display: flex;
+    display: -ms-flexbox;
+    align-items: center;
+    -ms-flex-align: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-direction: column;
+}
+
+
+.as-overlay.instantaneo {
+    animation-delay: 0s;
+    animation-duration: 0s;
+}
+
+
+.as-reload-img {
+    background-image: url('../../images/reload2.gif');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    height: 30px;
+    width: 30px;
+}

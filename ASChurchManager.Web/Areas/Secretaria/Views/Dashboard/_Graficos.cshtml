@@ -1,0 +1,101 @@
+﻿@{
+    Layout = null;
+}
+@model ASChurchManager.Web.Areas.Secretaria.ViewModels.Dashboard.DashboardVM
+
+<div class="row">
+    <div class="col-md-6" style="padding-right:5px; padding-bottom:0px">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title"> <i class="fa fa-user-circle-o"></i> Situação dos Membros</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart-responsive">
+                            <canvas id="pieChart" height="200"></canvas>
+                        </div>
+                        <!-- ./chart-responsive -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-4">
+                        <ul class="chart-legend clearfix">
+                            <li><i class="fa fa-circle-o text-aqua"></i> Ativos</li>
+                            <li><i class="fa fa-circle-o text-green"></i> Inativo</li>
+                            <li><i class="fa fa-circle-o text-yellow"></i> Pendente Aprovação</li>
+                            <li><i class="fa fa-circle-o text-red"></i> Não Aprovado</li>
+                            <li><i class="fa fa-circle-o text-light-blue"></i> Mudou-se</li>
+                            <li><i class="fa fa-circle-o text-gray"></i> Falecido</li>
+                        </ul>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-lg-6 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@Html.DisplayFor(model => model.QuantidadeCongregados)</h3>
+                        <p>Congregados</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-email"></i>
+                    </div>
+                    <a href="@Url.Action("", "Congregado", new { Area = "Secretaria"})" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red-active">
+                    <div class="inner">
+                        <h3>@Html.DisplayFor(model => model.MembrosReprovados)</h3>
+                        <p>Membros Reprovados</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person"></i>
+                    </div>
+                    <a href="@Url.Action("", "Membro", new { Area = "Secretaria", Status = "4" })" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>@Html.DisplayFor(model => model.MembrosPendentes)</h3>
+                        <p>Membros Pendentes de Aprovação</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="@Url.Action("", "Membro", new { Area = "Secretaria", Status = "3"})" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-orange">
+                    <div class="inner">
+                        <h3>@Html.DisplayFor(model => model.QuantidadeCartasPendentes)</h3>
+                        <p>Cartas Pendentes para Aprovação</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-email"></i>
+                    </div>
+                    <a href="@Url.Action("", "Carta", new { Area = "Secretaria", Status = "1"})" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var sit = JSON.parse('@Html.Raw(Json.Serialize(Model.SituacaoMembro))');
+</script>

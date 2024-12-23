@@ -1,0 +1,65 @@
+﻿@model ASChurchManager.Web.Areas.Secretaria.Models.Presenca.IndexFrequenciaVM
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Frequência Automática - Controle de Presença</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                @Html.LabelFor(model => model.PresencaId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.PresencaId, Model.ListaPresencaAberto, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PresencaId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.DataId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.DataId, Model.ListaData, "", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DataId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-app" id="btnIniciar" style="margin-left:-10px;margin-top:10px;padding: 9px 5px;height:52px">
+                    <i class="fa fa-play"></i> Iniciar
+                </button>
+            </div>
+        </div>
+        <p style="clear: both" />
+        <div class="row">
+            <div class="box-body jtable-main-container">
+                <table style="width:99%" id="tbEvento" class="jtable">
+                    <thead>
+                        <tr>
+                            <th class="jtable-column-header" style="width:5%;"><span class="jtable-column-header-text"></span></th>
+                            <th class="jtable-column-header" style="width:85%;"><span class="jtable-column-header-text">Curso/Evento</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">Não há Cursos/Eventos iniciados.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="button" class="btn btn-primary" id="btnRegistrar">
+                <span class="glyphicon glyphicon-qrcode"></span> Registrar Frequência
+            </button>
+            <a href="@Url.Action("Index", "Home", new { Area = ""})" class="btn btn-default">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+            </a>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/indexfrequencia.min.js"></script>
+
+    <script type="text/javascript">
+        var urlPopUp = '@Url.Action("Frequencia", "Externo", new { area = ""})';
+        var urlBuscarDatas = '@Url.Action("GetDatas", "Presenca", new { area = "Secretaria"})';
+        var urlIniciarLista = '@Url.Action("IniciarPararPresenca", "Presenca", new { area = "Secretaria"})';
+
+        var lPresAnd = JSON.parse('@Html.Raw(Json.Serialize(Model.ListaPresencaAndamento))');
+    </script>
+}

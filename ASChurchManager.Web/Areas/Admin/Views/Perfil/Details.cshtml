@@ -1,0 +1,139 @@
+﻿@model ASChurchManager.Web.Areas.Admin.ViewModels.Perfil.PerfilViewModel
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Perfil - Detalhes
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <div style="height: 100%;"></div>
+                    <div>
+                        <div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
+                            <div>
+                                <hr />
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TipoPerfil, htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.TipoPerfil, Html.GetEnumSelectList(Model.TipoPerfil.GetType()), optionLabel: "", htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+
+                            </div>
+                            <div>
+                                <fieldset>
+                                    <legend>
+                                        <h3>Permissões de Acesso</h3>
+                                    </legend>
+                                    @{
+
+                                        var menu = from p in Model.Rotinas
+                                                   group p by new { p.Key.Area, p.Key.AreaDescricao, p.Key.AreaIcone }
+                                                       into m
+                                                   select new
+                                                   {
+                                                       Area = m.Key.Area,
+                                                       Descricao = m.Key.AreaDescricao,
+                                                       Icone = m.Key.AreaIcone
+                                                   };
+
+                                        string sMenu = string.Empty;
+
+                                        foreach (var menuPrinc in menu.OrderBy(p => p.Descricao))
+                                        {
+
+                                            <fieldset>
+                                                <legend>
+                                                    <h4><label>Menu de @menuPrinc.Descricao</label></h4>
+                                                </legend>
+
+                                                @{
+                                                    var menuGrp = from p in Model.Rotinas
+                                                                  where p.Key.Area == menuPrinc.Area
+                                                                  group p by new
+                                                                  {
+                                                                      p.Key.Area,
+                                                                      p.Key.MenuDescricao,
+                                                                      p.Key.MenuIcone
+                                                                  }
+                                                                      into g
+                                                                  select new
+                                                                  {
+                                                                      Menu = g.Key.MenuDescricao,
+                                                                      Icone = g.Key.MenuIcone,
+                                                                      Area = g.Key.Area
+                                                                  };
+
+                                                    foreach (var m in menuGrp.OrderByDescending(a => a.Menu.Count()))
+                                                    {
+                                                        var itens = Model.Rotinas.Where(p => p.Key.MenuDescricao == m.Menu);
+
+                                                        if (itens.Count() == 1)
+                                                        {
+                                                            var item = itens.FirstOrDefault();
+                                                            if (item.Key != null)
+                                                            {
+                                                                @Html.CheckBox("chkRotina_" + item.Key.Id.ToString(), item.Value, htmlAttributes: new { @disabled = "disabled" })
+                                                                @item.Key.MenuDescricao
+                                                                <br />
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <h4>@m.Menu</h4>
+                                                            foreach (var sub in itens.OrderBy(p => p.Key.MenuDescricao))
+                                                            {
+                                                                @Html.CheckBox("chkRotina_" + sub.Key.Id.ToString(), sub.Value, htmlAttributes: new { @disabled = "disabled" })
+                                                                @sub.Key.SubMenuDescricao
+                                                                <br />
+                                                            }
+
+                                                        }
+
+                                                    }
+
+                                                }
+                                                <p style="clear: both" />
+                                            </fieldset>
+                                        }
+                                    }
+
+                                </fieldset>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a href="@Url.Action("Edit", "Perfil", new { id = Model.Id })" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
+                    </a>
+                    <a href="javascript:void(0)" id="lnkExcluir" class="btn btn-danger" data-cargoid="@Model.Id">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Excluir
+                    </a>
+                    <a href="@Url.Action("Index", "Perfil")" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    var urlExcluir = "@Url.Action("Delete", "Perfil", new { Area = "Admin" })"
+</script>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/perfil.min.js"></script>
+}

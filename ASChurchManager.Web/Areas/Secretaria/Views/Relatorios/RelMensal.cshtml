@@ -1,0 +1,50 @@
+﻿@model ASChurchManager.Web.ViewModels.Shared.RelatorioViewModel
+
+<section class="content">
+    <div class="row" />
+    <div class="col-lg-12">
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">
+                    Relatório Mensal
+                </h3>
+            </div>
+            <div class="box-body">
+                <div>
+                    <fieldset>
+                        <legend>Filtros</legend>
+                        <div class="col-sm-5">
+                            @Html.LabelFor(model => model.Congregacao, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Congregacao, Model.SelectCongregacoes, "", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Congregacao, "", new { @class = "text-danger" })
+                        </div>
+                        <p style="clear: both" />
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.Mes, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.Mes, Html.GetEnumSelectList(typeof(ASChurchManager.Domain.Types.Meses)), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Mes, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Ano, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Ano, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Ano, "", new { @class = "text-danger" })
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="button" class="btn btn-primary" id="btnRelatorioMensal">
+                    <span class="glyphicon glyphicon-print"></span> Gerar Relatório
+                </button>
+                <a href="@Url.Action("Index", "", new { area = "" })" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/relatorios.min.js"></script>
+}
