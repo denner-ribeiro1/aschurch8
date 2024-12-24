@@ -1,6 +1,12 @@
 @HostAddress = http://localhost:5140
 
-GET {{HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{HostAddress}}/api/Login
+Content-Type: application/json
+
+{
+    "cpf": "111.111.111-11", 
+    "senha": "Ls2pVIK/ZgAcZkipqe1vRg=="
+}
+
 
 ###

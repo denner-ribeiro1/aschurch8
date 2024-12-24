@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services
     .AddAuthentication(x =>
     {
@@ -26,8 +27,8 @@ builder.Services
 builder.Services.AddTransient<TokenServices>();
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,6 +39,12 @@ builder.Configuration
 // Adiciona variáveis de ambiente (útil para servidores em produção)
 builder.Configuration.AddEnvironmentVariables();
 
+/*Injeção de dependência das classes que serão utilizadas no projeto*/
+var config = builder.Configuration;
+builder.Services.AddSingleton<IConfiguration>(config);  
+ASChurchManager.Infra.CrossCutting.IoC.DependencyResolver.Dependency(builder.Services);
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
