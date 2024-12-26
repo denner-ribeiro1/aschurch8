@@ -1,9 +1,11 @@
-﻿using ASChurchManager.Application.Interfaces;
+﻿using ASBaseLib.Security.Cryptography.Providers;
+using ASChurchManager.Application.Interfaces;
 using ASChurchManager.Domain.Entities;
 using ASChurchManager.Domain.Entities.Relatorios.API.In;
 using ASChurchManager.Domain.Entities.Relatorios.API.Out;
 using ASChurchManager.Domain.Intefaces.Repository;
 using ASChurchManager.Domain.Interfaces.Repository;
+using ASChurchManager.Domain.Lib;
 using ASChurchManager.Domain.Types;
 using ASChurchManager.WebApi.Oauth.Client;
 using Microsoft.Azure.Storage;
@@ -339,6 +341,44 @@ namespace ASChurchManager.Application.AppServices
         public IEnumerable<Carteirinha> ListarCarteirinhaMembros(int[] membroId)
         {
             return _membroRepository.ListarCarteirinhaMembros(membroId);
+        }
+
+        public (bool, Membro) ValidarLogin(string cpf, string senha)
+        {
+            var membro = _membroRepository.GetByCPF(cpf, false);
+            var Senha = Hash.GetHash(senha, CryptoProviders.HashProvider.MD5);
+
+            return (Senha == membro.Senha, membro);
+        }
+
+        public bool ValidarSenha(int id, string senhaAtual)
+        {
+            var membro = _membroRepository.GetById(id, 0);
+            if (membro.Id == id)
+            {
+                var senha = Hash.GetHash(senhaAtual, CryptoProviders.HashProvider.MD5);
+                return senha == membro.Senha;
+            }
+            else
+                return false;
+        }
+
+        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha)
+        {
+            var membro = _membroRepository.GetById(Id, 0);
+            if (membro.Id == Id)
+            {
+                var senha = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
+                if (senha == membro.Senha)
+                {
+                    var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
+                    _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNova);
+                }
+                else
+                    throw new Erro("Senha atual incorreta");
+            }
+            else
+                throw new Erro("Membro não encontrado");
         }
     }
 }

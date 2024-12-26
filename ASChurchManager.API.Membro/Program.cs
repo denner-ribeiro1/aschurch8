@@ -41,10 +41,11 @@ builder.Configuration.AddEnvironmentVariables();
 
 /*Injeção de dependência das classes que serão utilizadas no projeto*/
 var config = builder.Configuration;
-builder.Services.AddSingleton<IConfiguration>(config);  
+builder.Services.AddSingleton<IConfiguration>(config);
 ASChurchManager.Infra.CrossCutting.IoC.DependencyResolver.Dependency(builder.Services);
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
+
 
 var app = builder.Build();
 
@@ -57,8 +58,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.MapControllers();
+
+// Usa o Middleware de autenticação
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

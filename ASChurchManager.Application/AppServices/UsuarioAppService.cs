@@ -29,7 +29,8 @@ namespace ASChurchManager.Application.AppServices
         #region Publicos
         public bool ValidarLogin(ref Usuario usuario)
         {
-            usuario.Senha = Hash.GetHash(usuario.Senha, CryptoProviders.HashProvider.MD5);
+
+
             if (_usuarioService.ValidarLogin(ref usuario))
                 return true;
             throw new InvalidOperationException("Usuário ou Senha inválidos");

@@ -12,5 +12,10 @@ namespace ASChurchManager.Application.Interfaces
         bool FichaMembro(int id, int usuarioId, out byte[] relatorio, out string mimeType);
         Task DeleteAndDeleteFilesAsync(long id);
         IEnumerable<Pais> ConsultarPaises();
+
+        (bool, Membro) ValidarLogin(string cpf, string senha);
+
+        bool ValidarSenha(int id, string senhaAtual);
+
     }
 }
