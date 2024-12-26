@@ -32,7 +32,8 @@ public class TokenServices
         var ci = new ClaimsIdentity();
         ci.AddClaim(new Claim(ClaimTypes.Sid, membro.Id.ToString()));
         ci.AddClaim(new Claim(ClaimTypes.Name, membro.Nome));
-        ci.AddClaim(new Claim(ClaimTypes.Email, membro.Email));
+        if (!string.IsNullOrWhiteSpace(membro.Email))
+            ci.AddClaim(new Claim(ClaimTypes.Email, membro.Email));
         ci.AddClaim(new Claim(ClaimTypes.Locality, membro.Congregacao.Nome));
 
         return ci;

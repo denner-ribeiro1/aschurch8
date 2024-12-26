@@ -78,6 +78,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
         private const string DeleteObreiroNaCongregacao = "DeleteObreiroNaCongregacao";
         private const string AtualMembroFotoUrl = "AtualizarMembroFotoUrl";
         private const string ListaCarteirinhaMembros = "ListaCarteirinhaMembros";
+        private const string AtualSenha = "AtualizarSenha";
         #endregion
 
         private SqlTransaction transaction = null;
@@ -1627,6 +1628,23 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
             }
 
             return lCarteirinha;
+        }
+
+        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha)
+        {
+            try
+            {
+                var lstParameters = new List<SqlParameter>
+                {
+                    new("@Id", Id),
+                    new("@NovaSenha", NovaSenha)
+                };
+                MicrosoftSqlHelper.ExecuteScalar(this.ConnectionString, CommandType.StoredProcedure, AtualSenha, lstParameters.ToArray());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

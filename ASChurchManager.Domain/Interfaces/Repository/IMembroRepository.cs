@@ -37,6 +37,7 @@ namespace ASChurchManager.Domain.Intefaces.Repository
         IEnumerable<Membro> ListarMembroObreiroPaginado(int pageSize, int rowStart, out int rowCount, string sorting, string campo, string valor, int congregacaoId, long usuarioID);
         long RestaurarMembroConfirmado(long membroId, string campos, long usuarioId);
         void AtualizarMembroFotoUrl(long id, string fotoUrl);
+        void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha);
 
     }
 }

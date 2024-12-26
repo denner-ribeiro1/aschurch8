@@ -1,6 +1,25 @@
-@HostAddress = http://localhost:5140
-
-GET {{HostAddress}}/weatherforecast/
-Accept: application/json
+@HostAddress = http://localhost:5140/api
 
 ###
+POST {{HostAddress}}/oauth/token
+Content-Type: application/json
+
+{
+    "cpf": "089.073.828-91", 
+    "senha": "nei06331"
+}
+
+###
+GET {{HostAddress}}/Membro/consultarMembro?id=3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTI0NzMwNCwiZXhwIjoxNzM1MjU0NTA0LCJpYXQiOjE3MzUyNDczMDR9.3bdGQM3auVwxO1UD5RUIEZQ7rUcHDjQZHCHBMWg0Xi0
+
+###
+PATCH  {{HostAddress}}/Membro/atualizarSenha
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTI1MTgyOCwiZXhwIjoxNzM1MjU5MDI4LCJpYXQiOjE3MzUyNTE4Mjh9.hE1G6tdgi7CWzD0sLZq79KdBAtO4EupUOy93tLio1fk
+Content-Type: application/json
+
+{
+    "Id": "3", 
+    "SenhaAtual": "nei06331",
+    "NovaSenha": "nei06332"
+}
