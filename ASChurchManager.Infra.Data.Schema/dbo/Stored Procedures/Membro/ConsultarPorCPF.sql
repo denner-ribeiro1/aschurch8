@@ -49,6 +49,7 @@ SELECT
 		, M.IdConjuge
 		, M.DataPrevistaBatismo
 		, M.BatismoId
+		, M.Senha
 		, ISNULL(M.BatismoSituacao, 0) AS SituacaoBatismo
 		-------------------------- Congregação
 		, CongregacaoNome = ISNULL(C.Nome, '')

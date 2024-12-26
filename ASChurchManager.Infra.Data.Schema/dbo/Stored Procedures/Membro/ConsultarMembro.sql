@@ -57,6 +57,7 @@ BEGIN
 		, CASE WHEN ISNULL(M.IdConjuge, 0) > 0 THEN M2.Nome ELSE M.NomeConjuge END AS NomeConjuge
 		, M.DataPrevistaBatismo
 		, M.BatismoId
+		, M.Senha
 		, ISNULL(M.BatismoSituacao, 0) AS SituacaoBatismo
 		-------------------------- Congregação
 		, CongregacaoNome = ISNULL(C.Nome,'')
