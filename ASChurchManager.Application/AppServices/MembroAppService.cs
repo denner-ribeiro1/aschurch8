@@ -18,6 +18,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
+
 
 namespace ASChurchManager.Application.AppServices
 {
@@ -363,7 +366,7 @@ namespace ASChurchManager.Application.AppServices
                 return false;
         }
 
-        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha)
+        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha)
         {
             var membro = _membroRepository.GetById(Id, 0);
             if (membro.Id == Id)
@@ -372,13 +375,76 @@ namespace ASChurchManager.Application.AppServices
                 if (senha == membro.Senha)
                 {
                     var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
-                    _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNova);
+                    _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNova, atualizarSenha);
                 }
                 else
                     throw new Erro("Senha atual incorreta");
             }
             else
                 throw new Erro("Membro não encontrado");
+        }
+
+        public (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento, string email)
+        {
+            var membro = _membroRepository.GetByCPF(cpf, false);
+
+            if (membro != null && membro.Id == 0)
+                return (false, "CPF não localizado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro");
+
+            if (membro.Status != Status.Ativo)
+                return (false, "Membro não localizado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+
+            if (!string.IsNullOrWhiteSpace(membro.NomeMae))
+            {
+                var nomeMaeBD = membro.NomeMae.Trim().Split(' ');
+                if (nomeMaeBD.Length > 0)
+                {
+                    if (string.IsNullOrEmpty(nomeMaeBD[0]) || nomeMaeBD[0].Trim().ToUpper() != nomeMae.Trim().ToUpper())
+                        return (false, "O Nome da Mãe não corresponde ao Cadastro! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+                }
+                else
+                    return (false, "O Nome da Mãe não corresponde ao Cadastro!Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+            }
+            else
+                return (false, "O Nome da Mãe não corresponde ao Cadastro! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+
+
+            if (membro.DataNascimento.Value.Date != dataNascimento.Date)
+                return (false, "Data de Nascimento! <br />Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+
+            var novaSenha = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
+            var senhaCriptografada = Hash.GetHash(novaSenha, CryptoProviders.HashProvider.MD5);
+
+            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
+
+            string smtpAuthUsername = "claudineijose@uol.com.br";
+            string smtpAuthPassword = "nei06331";
+            string sender = "claudineijose@uol.com.br";
+            string recipient = "claudineijose@gmail.comm";
+            string subject = "Welcome to Azure Communication Service Email SMTP";
+            string body = "This email message is sent from Azure Communication Service Email using SMTP.";
+
+            string smtpHostUrl = "smtps.uol.com.br";
+            var client = new SmtpClient(smtpHostUrl)
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(smtpAuthUsername, smtpAuthPassword),
+                EnableSsl = true
+            };
+
+            var message = new MailMessage(sender, recipient, subject, body);
+
+            try
+            {
+                client.Send(message);
+                Console.WriteLine("The email was successfully sent using Smtp.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Smtp send failed with the exception: {ex.Message}.");
+            }
+            return (true, "Inscrição realizada com Sucesso.");
+
         }
     }
 }
