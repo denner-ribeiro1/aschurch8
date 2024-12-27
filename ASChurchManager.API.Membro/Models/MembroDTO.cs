@@ -4,10 +4,11 @@ namespace ASChurchManager.API.Membro.Models;
 
 public class MembroDTO
 {
-    public int RM { get; set; }
-    public string? Nome { get; set; }
-    public string? Email { get; set; }
-    public string? Congregacao { get; set; }
-    public string? Cargo { get; set; }
+    public int rm { get; set; }
+    public string? nome { get; set; }
+    public string? email { get; set; }
+    public string? congregacao { get; set; }
+    public string? cargo { get; set; }
+    public bool atualizarSenha { get; set; }
 
 }

@@ -26,7 +26,8 @@ namespace ASChurchManager.API.Membro.Controllers
         {
             try
             {
-                var (senhaOk, membro) = _membroAppService.ValidarLogin(login.Cpf, login.Senha);
+                var (senhaOk, membro) = _membroAppService.ValidarLogin(login.cpf, login.senha);
+
                 if (senhaOk)
                 {
                     var token = new TokenServices().Generate(membro);

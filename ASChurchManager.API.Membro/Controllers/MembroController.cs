@@ -37,16 +37,17 @@ namespace ASChurchManager.API.Membro.Controllers
                 {
                     var mem = new MembroDTO
                     {
-                        RM = (int)membro.Id,
-                        Nome = membro.Nome,
-                        Email = membro.Email,
-                        Congregacao = membro.Congregacao.Nome
+                        rm = (int)membro.Id,
+                        nome = membro.Nome,
+                        email = membro.Email,
+                        congregacao = membro.Congregacao.Nome,
+                        atualizarSenha = membro.AtualizarSenha
                     };
 
                     var cargoMem = membro.Cargos.FirstOrDefault(c => c.DataCargo == membro.Cargos.Max(c => c.DataCargo));
                     if (cargoMem != null)
                     {
-                        mem.Cargo = cargoMem.TipoCarteirinha.ToString();
+                        mem.cargo = cargoMem.TipoCarteirinha.ToString();
                     }
                     return Ok(mem);
                 }
@@ -64,10 +65,10 @@ namespace ASChurchManager.API.Membro.Controllers
         {
             try
             {
-                if (!_membroAppService.ValidarSenha(senhaDTO.Id, senhaDTO.SenhaAtual))
+                if (!_membroAppService.ValidarSenha(senhaDTO.id, senhaDTO.senhaAtual))
                     return BadRequest("Senha atual está incorreta.");
 
-                _membroAppService.AtualizarSenha(senhaDTO.Id, senhaDTO.SenhaAtual, senhaDTO.NovaSenha);
+                _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.senhaAtual, senhaDTO.novaSenha, false);
                 return Ok("Senha atualizada com sucesso.");
             }
             catch (System.Exception ex)
@@ -76,5 +77,23 @@ namespace ASChurchManager.API.Membro.Controllers
             }
         }
 
+        [HttpPost("inscricao")]
+        [Authorize]
+        public ObjectResult Inscricao(InscricaoDTO inscricaoDTO)
+        {
+            try
+            {
+                var (validaOK, msgErro) = _membroAppService.InscricaoApp(inscricaoDTO.cpf, inscricaoDTO.nomeMae, inscricaoDTO.dataNascimento, inscricaoDTO.email);
+                if (!validaOK)
+                {
+                    return BadRequest(msgErro);
+                }
+                return Ok("Inscrição realizada com sucesso!");
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new Erro(ex.Message, ex));
+            }
+        }
     }
 }

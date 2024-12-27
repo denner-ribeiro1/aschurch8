@@ -70,5 +70,6 @@ namespace ASChurchManager.Domain.Entities
         public string IpConfirmado { get; set; }
         public Tamanho TamanhoCapa { get; set; }
         public string Senha { get; set; }
+        public bool AtualizarSenha { get; set; }
     }
 }
