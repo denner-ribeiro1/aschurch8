@@ -74,6 +74,7 @@ namespace ASChurchManager.Infra.CrossCutting.IoC
             services.AddScoped<IUsuarioLogado, UsuarioLogadoAppServices>();
             services.AddScoped<IPresencaAppService, PresencaAppService>();
             services.AddScoped<IImpressaoMembroAppService, ImpressaoMembroAppService>();
+            services.AddScoped<IEmailAppService, EmailAppService>();
         }
     }
 }

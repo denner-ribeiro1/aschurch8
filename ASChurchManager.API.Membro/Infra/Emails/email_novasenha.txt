@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<body>
+	<div>
+	  <table style="max-width:600px;width:100%;margin:0 auto;border-spacing:0;font-family:Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;color:#64625e">
+		<thead style="background-color:#f1efeb">
+		  <tr>
+			<th style="color:#94918c;padding-top:16px;font-weight:normal;font-size:14px;line-height:19px">Esqueceu a Senha?</th>
+		  </tr>
+		  <tr>
+			<th style="padding:24px 0 32px"><img src="https://i.imgur.com/05L6EA6.jpeg" alt="IeadMaua_logo" width="192px" class="CToWUd" data-bit="iit"></th>
+		  </tr>
+		</thead>
+		<tbody style="background-color:#fff;padding:0 32px;display:block">
+		  <tr>
+			<td style="font-size:20px;line-height:27px;padding:40px 0 16px;font-weight:600;color:#242423">Olá Membro!</td>
+		  </tr>
+		  <tr>
+			<td style="font-size:18px;line-height:24px;padding-bottom:16px">Você solicitou uma alteração de senha. Utilize essa senha temporária para criar uma nova.</td>
+		  </tr>
+		  <tr>
+			<td style="font-size:18px;line-height:24px;color:#f38c01;padding-bottom:8px">senha temporária é:</td>
+		  </tr>
+		  <tr>
+			<td style="font-size:36px;line-height:48px;padding-bottom:24px;color:#000"><a>[NovaSenha]</a></td>
+		  </tr>
+		  <tr style="display:block;width:100%;text-align:center">
+			<td style="font-size:18px;line-height:24px;color:#64625e;padding-bottom:18px;display:block">Baixe o aplicativo IEAD Mauá</td>
+		  </tr>
+		  <tr style="display:block;max-width:335px;margin:0 auto;padding-bottom:50px;text-align:center">
+			<td style="display:inline-block">
+				<img src="https://i.imgur.com/yE06fMZ.png" alt="Disponível na App Store" style="width:153px" class="CToWUd" data-bit="iit">
+			</td>
+			<td style="display:inline-block;margin-right:20px">
+				<img src="https://i.imgur.com/A2SqRDf.png" alt="Disponível no Google Play" style="width:153px" class="CToWUd" data-bit="iit">
+			</td>
+		  </tr>
+		</tbody>
+	  </table>
+	</div>
+</body>

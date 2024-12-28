@@ -22,6 +22,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
         private readonly IConfiguration _configuration;
         private string ConnectionString { get; set; }
 
+
         private readonly StorageCredentials storageCredentials;
 
         private readonly CloudStorageAccount storageAccount;
@@ -79,6 +80,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
         private const string AtualMembroFotoUrl = "AtualizarMembroFotoUrl";
         private const string ListaCarteirinhaMembros = "ListaCarteirinhaMembros";
         private const string AtualSenha = "AtualizarSenha";
+        private const string AtualEmail = "AtualizarEmail";
         #endregion
 
         private SqlTransaction transaction = null;
@@ -1643,6 +1645,25 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
                     new("@atualizarSenha", atualizarSenha)
                 };
                 MicrosoftSqlHelper.ExecuteScalar(this.ConnectionString, CommandType.StoredProcedure, AtualSenha, lstParameters.ToArray());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void AtualizarEmail(long id, string email)
+        {
+
+            try
+            {
+                var lstParameters = new List<SqlParameter>
+                {
+                    new("@id", id),
+                    new("@email", email),
+
+                };
+                MicrosoftSqlHelper.ExecuteScalar(this.ConnectionString, CommandType.StoredProcedure, AtualEmail, lstParameters.ToArray());
             }
             catch (Exception)
             {

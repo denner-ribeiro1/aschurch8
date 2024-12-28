@@ -16,6 +16,7 @@ namespace ASChurchManager.Application.Interfaces
         (bool, Membro) ValidarLogin(string cpf, string senha);
         bool ValidarSenha(int id, string senhaAtual);
         (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento, string email);
+        (bool, string) RecuperarSenha(string cpf);
 
     }
 }

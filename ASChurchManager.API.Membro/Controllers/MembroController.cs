@@ -1,4 +1,5 @@
 using ASChurchManager.API.Membro.Models;
+using ASChurchManager.API.Membro.Services;
 using ASChurchManager.Application.Interfaces;
 using ASChurchManager.Domain.Lib;
 using ASChurchManager.Domain.Types;
@@ -89,6 +90,25 @@ namespace ASChurchManager.API.Membro.Controllers
                     return BadRequest(msgErro);
                 }
                 return Ok("Inscrição realizada com sucesso!");
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new Erro(ex.Message, ex));
+            }
+        }
+
+        [HttpPost("recuperarSenha")]
+        [Authorize]
+        public ObjectResult RecuperarSenha(RecuperarSenhaDTO recuperarSenhaDTO)
+        {
+            try
+            {
+                var (validaOK, msgErro) = _membroAppService.RecuperarSenha(recuperarSenhaDTO.cpf);
+                if (!validaOK)
+                {
+                    return BadRequest(msgErro);
+                }
+                return Ok("Senha enviada com sucesso!");
             }
             catch (System.Exception ex)
             {

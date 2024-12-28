@@ -20,6 +20,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
+using System.Drawing;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 
 namespace ASChurchManager.Application.AppServices
@@ -30,6 +33,7 @@ namespace ASChurchManager.Application.AppServices
         private readonly IClientAPIAppServices _clientService;
         private readonly IConfiguration _configuration;
         private readonly IPaisRepository _paisRepository;
+        private readonly IEmailAppService _emailAppService;
 
         private StorageCredentials storageCredentials;
 
@@ -38,12 +42,14 @@ namespace ASChurchManager.Application.AppServices
         public MembroAppService(IMembroRepository membroService,
             IClientAPIAppServices clientService,
             IConfiguration configuration
-            , IPaisRepository paisRepository) :
+            , IPaisRepository paisRepository,
+            IEmailAppService emailAppService) :
             base(membroService)
         {
             _membroRepository = membroService;
             _clientService = clientService;
             _configuration = configuration;
+            _emailAppService = emailAppService;
 
             var accountName = _configuration["AzureStorage:AccountName"];
             var accountKey = _configuration["AzureStorage:AccountKey"];
@@ -394,6 +400,12 @@ namespace ASChurchManager.Application.AppServices
             if (membro.Status != Status.Ativo)
                 return (false, "Membro não localizado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
 
+            if (string.IsNullOrEmpty(membro.Email) && string.IsNullOrEmpty(email))
+                return (false, "E-mail não localizado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+
+            if (string.IsNullOrEmpty(email))
+                email = membro.Email;
+
             if (!string.IsNullOrWhiteSpace(membro.NomeMae))
             {
                 var nomeMaeBD = membro.NomeMae.Trim().Split(' ');
@@ -417,34 +429,77 @@ namespace ASChurchManager.Application.AppServices
 
             _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
 
-            string smtpAuthUsername = "claudineijose@uol.com.br";
-            string smtpAuthPassword = "nei06331";
-            string sender = "claudineijose@uol.com.br";
-            string recipient = "claudineijose@gmail.comm";
-            string subject = "Welcome to Azure Communication Service Email SMTP";
-            string body = "This email message is sent from Azure Communication Service Email using SMTP.";
+            var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Infra", "Emails", "email_inscricao.txt"));
+            conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
 
-            string smtpHostUrl = "smtps.uol.com.br";
-            var client = new SmtpClient(smtpHostUrl)
-            {
-                Port = 587,
-                Credentials = new NetworkCredential(smtpAuthUsername, smtpAuthPassword),
-                EnableSsl = true
-            };
+            _emailAppService.EnviarEmail(email.ToLower(), "Inscrição - Senha de acesso", conteudo);
 
-            var message = new MailMessage(sender, recipient, subject, body);
+            if (membro.Email.ToLower() != email.ToLower())
+                _membroRepository.AtualizarEmail(membro.Id, email);
 
-            try
-            {
-                client.Send(message);
-                Console.WriteLine("The email was successfully sent using Smtp.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Smtp send failed with the exception: {ex.Message}.");
-            }
             return (true, "Inscrição realizada com Sucesso.");
-
         }
+
+        public void AtualizarEmail(long id, string email)
+        {
+            _membroRepository.AtualizarEmail(id, email);
+        }
+
+        public (bool, string) RecuperarSenha(string cpf)
+        {
+            var membro = _membroRepository.GetByCPF(cpf, false);
+            if (membro == null)
+                return (false, "CPF nao localizado");
+
+            if (string.IsNullOrEmpty(membro.Senha))
+                return (false, "Membro não cadastrado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+
+            var novaSenha = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
+            var senhaCriptografada = Hash.GetHash(novaSenha, CryptoProviders.HashProvider.MD5);
+            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
+
+            var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Infra", "Emails", "email_novasenha.txt"));
+            conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
+            _emailAppService.EnviarEmail(membro.Email.ToLower(), "Nova Senha - Senha de acesso", conteudo);
+
+            return (true, $"Senha enviada com sucesso para o e-mail {TratarEmail(membro.Email)}");
+        }
+        /*private string TratarEmail(string email)
+       {
+           var emailSplit = email.Split('@');
+
+           var email1 = emailSplit[0].Substring(0, Math.Min(3, emailSplit[0].Length));
+
+           Regex pattern = new("[a-zA-Z]");
+           email1 += pattern.Replace(emailSplit[0].Substring(3, emailSplit[0].Length), "*");
+
+           var email2 = emailSplit[1].Substring(0, emailSplit[1].IndexOf('.') > 3 ? 3 : emailSplit[1].IndexOf('.') - 1);
+           email2 += pattern.Replace(emailSplit[1].Substring(emailSplit[1].IndexOf('.') > 3 ? 3 : emailSplit[1].IndexOf('.') - 1, emailSplit[1].IndexOf('.')), "*");
+           email2 += emailSplit[1].Substring(emailSplit[1].IndexOf('.'), emailSplit[1].Length);
+
+           return $"{email1}@{email2}";
+       } */
+
+        private string TratarEmail(string email)
+        {
+            var emailSplit = email.Split('@');
+
+            var email1 = emailSplit[0].Substring(0, Math.Min(3, emailSplit[0].Length));
+
+            Regex pattern = new("[a-zA-Z]");
+            email1 += pattern.Replace(emailSplit[0].Substring(3), "*");
+
+            var domain = emailSplit[1];
+            var ponto = domain.IndexOf('.');
+
+            var email2Length = ponto > 3 ? 3 : ponto;
+            var email2 = domain.Substring(0, email2Length);
+            email2 += pattern.Replace(domain.Substring(email2Length, ponto - email2Length), "*");
+            email2 += domain.Substring(ponto);
+
+            return $"{email1}@{email2}";
+        }
+        //Senha enviada com sucesso para o e-mail rib***************@gma**.com
     }
 }
+

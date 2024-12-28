@@ -2,6 +2,7 @@
 using ASChurchManager.Domain.Types;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace ASChurchManager.Domain.Intefaces.Repository
 {
@@ -38,6 +39,7 @@ namespace ASChurchManager.Domain.Intefaces.Repository
         long RestaurarMembroConfirmado(long membroId, string campos, long usuarioId);
         void AtualizarMembroFotoUrl(long id, string fotoUrl);
         void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha);
+        void AtualizarEmail(long id, string email);
 
     }
 }

@@ -25,12 +25,25 @@ Content-Type: application/json
 
 ###
 POST {{HostAddress}}/Membro/inscricao
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTI2MDE5OCwiZXhwIjoxNzM1MjY3Mzk4LCJpYXQiOjE3MzUyNjAxOTh9.9V99c6-vA7UWoJnuaihf9AF7gXjnUQI3NIJFtTh_Xew
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTQwOTE4MiwiZXhwIjoxNzM1NDE2MzgyLCJpYXQiOjE3MzU0MDkxODJ9.XspwNG4uDuZd-t7bW2kBwUueHume0HNtIHd0-IbO5Bg
 Content-Type: application/json
 
 {
     "cpf": "489.791.718-20",
     "nomeMae": "Jovinsa",
     "dataNascimento": "1949-02-08",
-    "email": "email@email.com"
+    "email": "ribeirosilvadenner@gmail.com"
+    
 }
+
+###
+POST {{HostAddress}}/Membro/recuperarSenha
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTQwOTE4MiwiZXhwIjoxNzM1NDE2MzgyLCJpYXQiOjE3MzU0MDkxODJ9.XspwNG4uDuZd-t7bW2kBwUueHume0HNtIHd0-IbO5Bg
+Content-Type: application/json
+
+{
+    "cpf": "489.791.718-20"   
+}
+
+
+
