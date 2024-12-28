@@ -54,6 +54,7 @@
     [FotoUrl] VARCHAR(500) NULL, 
     [TamanhoCapa] VARCHAR(2) NULL, 
     [Senha] VARCHAR(1000) NULL, 
+    [AtualizarSenha] BIT NULL, 
     CONSTRAINT [FK_Membro_Congregacao] FOREIGN KEY (CongregacaoId) REFERENCES Congregacao(Id),
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );

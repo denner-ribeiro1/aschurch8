@@ -58,6 +58,7 @@ BEGIN
 		, M.DataPrevistaBatismo
 		, M.BatismoId
 		, M.Senha
+		, M.AtualizarSenha
 		, ISNULL(M.BatismoSituacao, 0) AS SituacaoBatismo
 		-------------------------- Congregação
 		, CongregacaoNome = ISNULL(C.Nome,'')
