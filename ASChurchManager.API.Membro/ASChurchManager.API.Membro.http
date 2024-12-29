@@ -10,40 +10,46 @@ Content-Type: application/json
 }
 
 ###
-GET {{HostAddress}}/Membro/consultarMembro?id=3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTI1NzY3OSwiZXhwIjoxNzM1MjY0ODc5LCJpYXQiOjE3MzUyNTc2Nzl9.Bzbi6vUyDbU_5YM53nRqjvTwKqiHbO7ouoqKaFfaj6k
-###
-PATCH  {{HostAddress}}/Membro/atualizarSenha
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTI1MTgyOCwiZXhwIjoxNzM1MjU5MDI4LCJpYXQiOjE3MzUyNTE4Mjh9.hE1G6tdgi7CWzD0sLZq79KdBAtO4EupUOy93tLio1fk
+POST {{HostAddress}}/oauth/token
 Content-Type: application/json
 
 {
-    "Id": "3", 
-    "SenhaAtual": "nei06331",
-    "NovaSenha": "nei06332"
+    "cpf": "aschurch_user", 
+    "senha": "cba78f6e-669c-4bc1-a7fa-3cbeee1ab265"
+}
+
+###
+GET {{HostAddress}}/Membro/consultarMembro?id=21
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
+###
+PATCH  {{HostAddress}}/Membro/atualizarSenha
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
+Content-Type: application/json
+
+{
+    "Id": "21", 
+    "SenhaAtual": "C46541",
+    "NovaSenha": "nei06331"
 }
 
 ###
 POST {{HostAddress}}/Membro/inscricao
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTQwOTE4MiwiZXhwIjoxNzM1NDE2MzgyLCJpYXQiOjE3MzU0MDkxODJ9.XspwNG4uDuZd-t7bW2kBwUueHume0HNtIHd0-IbO5Bg
+Authorization: Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
 Content-Type: application/json
 
 {
     "cpf": "489.791.718-20",
     "nomeMae": "Jovinsa",
     "dataNascimento": "1949-02-08",
-    "email": "ribeirosilvadenner@gmail.com"
+    "email": "claudineijose@gmail.com"
     
 }
 
 ###
 POST {{HostAddress}}/Membro/recuperarSenha
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTQwOTE4MiwiZXhwIjoxNzM1NDE2MzgyLCJpYXQiOjE3MzU0MDkxODJ9.XspwNG4uDuZd-t7bW2kBwUueHume0HNtIHd0-IbO5Bg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
 Content-Type: application/json
 
 {
     "cpf": "489.791.718-20"   
 }
-
-
-

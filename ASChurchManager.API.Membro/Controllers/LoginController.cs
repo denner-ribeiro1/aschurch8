@@ -1,53 +1,63 @@
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using ASChurchManager.API.Membro.Controllers.Shared;
 using ASChurchManager.API.Membro.Models;
 using ASChurchManager.API.Membro.Services;
 using ASChurchManager.Application.Interfaces;
 using ASChurchManager.Domain.Lib;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASChurchManager.API.Membro.Controllers
 {
     [Route("api/oauth")]
-    [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : ApiController
     {
-
         private IMembroAppService _membroAppService;
         public LoginController(IMembroAppService membroAppService)
         {
             _membroAppService = membroAppService;
         }
 
-
         [HttpPost("token")]
-        public ActionResult<string> Autentica(LoginDTO login)
+        public IActionResult Autentica([FromServices] IConfiguration configuration,
+          LoginDTO login)
         {
             try
             {
-                var (senhaOk, membro) = _membroAppService.ValidarLogin(login.cpf, login.senha);
-
-                if (senhaOk)
+                if (login.cpf == configuration["ParametrosSistema:AcessoAPIUsuario"])
                 {
-                    var token = new TokenServices().Generate(membro);
+                    if (login.senha == configuration["ParametrosSistema:AcessoAPISenha"])
+                    {
+                        var token = new TokenServices().Generate(new Domain.Entities.Membro()
+                        {
+                            Id = 1,
+                            Nome = "api",
+                            Congregacao = new Domain.Entities.Congregacao()
+                            {
+                                Nome = "API"
+                            }
+                        });
 
-                    return Ok(JsonSerializer.Serialize(new { Result = "OK", Token = token }));
+                        return ResponseOK(JsonSerializer.Serialize(new { Token = token }));
+                    }
+                    return ResponseUnauthorized(new Erro("Membro não localizado"));
                 }
-                return Unauthorized(new Erro("Membro não localizado"));
+                else
+                {
+                    var (senhaOk, membro) = _membroAppService.ValidarLogin(login.cpf, login.senha);
+                    if (senhaOk)
+                    {
+                        var token = new TokenServices().Generate(membro);
+
+                        return ResponseOK(JsonSerializer.Serialize(new { Result = "OK", Token = token }));
+                    }
+                    return ResponseUnauthorized(new Erro("Membro não localizado"));
+                }
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
     }
-
-
-
-
-
-
-
-
 }

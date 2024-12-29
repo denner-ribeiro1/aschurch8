@@ -437,7 +437,7 @@ namespace ASChurchManager.Application.AppServices
             if (membro.Email.ToLower() != email.ToLower())
                 _membroRepository.AtualizarEmail(membro.Id, email);
 
-            return (true, "Inscrição realizada com Sucesso.");
+            return (true, $"Inscrição realizada com Sucesso. Senha provissória enviada para o e-mail {TratarEmail(email)}");
         }
 
         public void AtualizarEmail(long id, string email)
@@ -462,23 +462,8 @@ namespace ASChurchManager.Application.AppServices
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
             _emailAppService.EnviarEmail(membro.Email.ToLower(), "Nova Senha - Senha de acesso", conteudo);
 
-            return (true, $"Senha enviada com sucesso para o e-mail {TratarEmail(membro.Email)}");
+            return (true, $"Senha provissória enviada para o e-mail {TratarEmail(membro.Email)}");
         }
-        /*private string TratarEmail(string email)
-       {
-           var emailSplit = email.Split('@');
-
-           var email1 = emailSplit[0].Substring(0, Math.Min(3, emailSplit[0].Length));
-
-           Regex pattern = new("[a-zA-Z]");
-           email1 += pattern.Replace(emailSplit[0].Substring(3, emailSplit[0].Length), "*");
-
-           var email2 = emailSplit[1].Substring(0, emailSplit[1].IndexOf('.') > 3 ? 3 : emailSplit[1].IndexOf('.') - 1);
-           email2 += pattern.Replace(emailSplit[1].Substring(emailSplit[1].IndexOf('.') > 3 ? 3 : emailSplit[1].IndexOf('.') - 1, emailSplit[1].IndexOf('.')), "*");
-           email2 += emailSplit[1].Substring(emailSplit[1].IndexOf('.'), emailSplit[1].Length);
-
-           return $"{email1}@{email2}";
-       } */
 
         private string TratarEmail(string email)
         {
@@ -499,7 +484,6 @@ namespace ASChurchManager.Application.AppServices
 
             return $"{email1}@{email2}";
         }
-        //Senha enviada com sucesso para o e-mail rib***************@gma**.com
     }
 }
 

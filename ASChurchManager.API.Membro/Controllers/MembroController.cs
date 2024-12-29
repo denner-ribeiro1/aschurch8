@@ -1,17 +1,14 @@
+using ASChurchManager.API.Membro.Controllers.Shared;
 using ASChurchManager.API.Membro.Models;
-using ASChurchManager.API.Membro.Services;
 using ASChurchManager.Application.Interfaces;
 using ASChurchManager.Domain.Lib;
-using ASChurchManager.Domain.Types;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASChurchManager.API.Membro.Controllers
 {
     [Route("api/membro")]
-    [ApiController]
-    public class MembroController : ControllerBase
+    public class MembroController : ApiController
     {
         private IMembroAppService _membroAppService;
         public MembroController(IMembroAppService membroAppService)
@@ -22,17 +19,17 @@ namespace ASChurchManager.API.Membro.Controllers
 
         [HttpGet("consultarMembro")]
         [Authorize]
-        public ObjectResult ConsultarMembro([FromQuery] int id, [FromServices] ICargoAppService cargoAppService)
+        public IActionResult ConsultarMembro([FromQuery] int id, [FromServices] ICargoAppService cargoAppService)
         {
             try
             {
                 if (id <= 0)
-                    return BadRequest("Id é de preechimento obrigatório");
+                    return ResponseBadRequest("Id é de preechimento obrigatório");
 
                 var membro = _membroAppService.GetById(id, 0);
                 if (membro.Id != id)
                 {
-                    return StatusCode(400, new Erro("Membro não encontrado"));
+                    return ResponseBadRequest("Membro não encontrado");
                 }
                 else
                 {
@@ -42,7 +39,8 @@ namespace ASChurchManager.API.Membro.Controllers
                         nome = membro.Nome,
                         email = membro.Email,
                         congregacao = membro.Congregacao.Nome,
-                        atualizarSenha = membro.AtualizarSenha
+                        atualizarSenha = membro.AtualizarSenha,
+                        foto = membro.FotoUrl
                     };
 
                     var cargoMem = membro.Cargos.FirstOrDefault(c => c.DataCargo == membro.Cargos.Max(c => c.DataCargo));
@@ -50,69 +48,69 @@ namespace ASChurchManager.API.Membro.Controllers
                     {
                         mem.cargo = cargoMem.TipoCarteirinha.ToString();
                     }
-                    return Ok(mem);
+                    return ResponseOK(mem);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, new Erro(ex.Message, ex));
+                return ResponseBadRequest(new Erro(ex.Message, ex));
             }
         }
 
 
         [HttpPatch("atualizarSenha")]
         [Authorize]
-        public ObjectResult AtualizarSenha(SenhaDTO senhaDTO)
+        public IActionResult AtualizarSenha(SenhaDTO senhaDTO)
         {
             try
             {
                 if (!_membroAppService.ValidarSenha(senhaDTO.id, senhaDTO.senhaAtual))
-                    return BadRequest("Senha atual está incorreta.");
+                    return ResponseBadRequest("Senha atual está incorreta.");
 
                 _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.senhaAtual, senhaDTO.novaSenha, false);
-                return Ok("Senha atualizada com sucesso.");
+                return ResponseOK("Senha atualizada com sucesso.");
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
 
         [HttpPost("inscricao")]
         [Authorize]
-        public ObjectResult Inscricao(InscricaoDTO inscricaoDTO)
+        public IActionResult Inscricao(InscricaoDTO inscricaoDTO)
         {
             try
             {
-                var (validaOK, msgErro) = _membroAppService.InscricaoApp(inscricaoDTO.cpf, inscricaoDTO.nomeMae, inscricaoDTO.dataNascimento, inscricaoDTO.email);
+                var (validaOK, msg) = _membroAppService.InscricaoApp(inscricaoDTO.cpf, inscricaoDTO.nomeMae, inscricaoDTO.dataNascimento, inscricaoDTO.email);
                 if (!validaOK)
                 {
-                    return BadRequest(msgErro);
+                    return ResponseBadRequest(msg);
                 }
-                return Ok("Inscrição realizada com sucesso!");
+                return ResponseOK(msg);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
 
         [HttpPost("recuperarSenha")]
         [Authorize]
-        public ObjectResult RecuperarSenha(RecuperarSenhaDTO recuperarSenhaDTO)
+        public IActionResult RecuperarSenha(RecuperarSenhaDTO recuperarSenhaDTO)
         {
             try
             {
-                var (validaOK, msgErro) = _membroAppService.RecuperarSenha(recuperarSenhaDTO.cpf);
+                var (validaOK, msg) = _membroAppService.RecuperarSenha(recuperarSenhaDTO.cpf);
                 if (!validaOK)
                 {
-                    return BadRequest(msgErro);
+                    return ResponseBadRequest(msg);
                 }
-                return Ok("Senha enviada com sucesso!");
+                return ResponseOK(msg);
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
     }

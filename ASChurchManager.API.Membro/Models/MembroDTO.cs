@@ -10,5 +10,6 @@ public class MembroDTO
     public string? congregacao { get; set; }
     public string? cargo { get; set; }
     public bool atualizarSenha { get; set; }
+    public string? foto { get; set; }
 
 }
