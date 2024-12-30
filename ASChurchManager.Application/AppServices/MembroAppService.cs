@@ -431,6 +431,8 @@ namespace ASChurchManager.Application.AppServices
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Infra", "Emails", "email_inscricao.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
+            conteudo = conteudo.Replace("[Membro]", membro.Nome);
+
 
             _emailAppService.EnviarEmail(email.ToLower(), "Inscrição - Senha de acesso", conteudo);
 
@@ -460,6 +462,7 @@ namespace ASChurchManager.Application.AppServices
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Infra", "Emails", "email_novasenha.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
+            conteudo = conteudo.Replace("[Membro]", membro.Nome);
             _emailAppService.EnviarEmail(membro.Email.ToLower(), "Nova Senha - Senha de acesso", conteudo);
 
             return (true, $"Senha provissória enviada para o e-mail {TratarEmail(membro.Email)}");

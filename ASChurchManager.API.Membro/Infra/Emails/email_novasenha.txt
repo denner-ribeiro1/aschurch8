@@ -16,7 +16,7 @@
 		</thead>
 		<tbody style="background-color:#fff;padding:0 32px;display:block">
 		  <tr>
-			<td style="font-size:20px;line-height:27px;padding:40px 0 16px;font-weight:600;color:#242423">Olá Membro!</td>
+			<td style="font-size:20px;line-height:27px;padding:40px 0 16px;font-weight:600;color:#242423">Olá [Membro]</td>
 		  </tr>
 		  <tr>
 			<td style="font-size:18px;line-height:24px;padding-bottom:16px">Você solicitou uma alteração de senha. Utilize essa senha temporária para criar uma nova.</td>
