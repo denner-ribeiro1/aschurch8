@@ -19,28 +19,28 @@ Content-Type: application/json
 }
 
 ###
-GET {{HostAddress}}/Membro/consultarMembro?id=21
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
+GET {{HostAddress}}/Membro/consultarMembro?id=23714
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTU4MzY4NSwiZXhwIjoxNzM1NTkwODg1LCJpYXQiOjE3MzU1ODM2ODV9.vE4TD11bRdVx1D4Wts55gMBMKDxGnE7n3zNSEW1I-VY
 ###
 PATCH  {{HostAddress}}/Membro/atualizarSenha
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTU4MzY4NSwiZXhwIjoxNzM1NTkwODg1LCJpYXQiOjE3MzU1ODM2ODV9.vE4TD11bRdVx1D4Wts55gMBMKDxGnE7n3zNSEW1I-VY
 Content-Type: application/json
 
 {
-    "Id": "21", 
-    "SenhaAtual": "C46541",
+    "Id": "23714", 
+    "SenhaAtual": "392083",
     "NovaSenha": "nei06331"
 }
 
 ###
 POST {{HostAddress}}/Membro/inscricao
-Authorization: Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJhcGkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTUwMzA2OSwiZXhwIjoxNzM1NTEwMjY5LCJpYXQiOjE3MzU1MDMwNjl9.vTV4AP0_EBzeWdhcGzCekQCz9odTiE2eXRA4qe777BQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNTU4MzY4NSwiZXhwIjoxNzM1NTkwODg1LCJpYXQiOjE3MzU1ODM2ODV9.vE4TD11bRdVx1D4Wts55gMBMKDxGnE7n3zNSEW1I-VY
 Content-Type: application/json
 
 {
-    "cpf": "489.791.718-20",
-    "nomeMae": "Jovinsa",
-    "dataNascimento": "1949-02-08",
+    "cpf": "396.873.658-38",
+    "nomeMae": "Maria",
+    "dataNascimento": "2006-02-07",
     "email": "claudineijose@gmail.com"
     
 }

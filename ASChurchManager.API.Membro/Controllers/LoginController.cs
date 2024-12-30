@@ -37,7 +37,7 @@ namespace ASChurchManager.API.Membro.Controllers
                             }
                         });
 
-                        return ResponseOK(JsonSerializer.Serialize(new { Token = token }));
+                        return ResponseOK(JsonSerializer.Serialize(new { Result = "OK", Token = token }));
                     }
                     return ResponseUnauthorized(new Erro("Membro não localizado"));
                 }
@@ -48,7 +48,7 @@ namespace ASChurchManager.API.Membro.Controllers
                     {
                         var token = new TokenServices().Generate(membro);
 
-                        return ResponseOK(JsonSerializer.Serialize(new { Result = "OK", Token = token }));
+                        return ResponseOK(JsonSerializer.Serialize(new { Result = "OK", Token = token, Id = membro.Id }));
                     }
                     return ResponseUnauthorized(new Erro("Membro não localizado"));
                 }
