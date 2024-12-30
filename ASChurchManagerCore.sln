@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASChurchManager.Web", "ASCh
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0DE8C93A-D50F-440F-876C-F765D3EE52A6}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ASChurchManager.Infra.Data.Schema", "ASChurchManager.Infra.Data.Schema\ASChurchManager.Infra.Data.Schema.sqlproj", "{B1DE3091-FAFF-4B53-B166-3B7D33329FB9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Functions", "5 - Functions", "{BA7E7196-80B4-4DF6-AB7D-943FF3C3E5D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASChurchManager.Functions", "ASChurchManager.Functions\ASChurchManager.Functions.csproj", "{19466EFC-3E82-4C4B-97F1-9052FD216B91}"
