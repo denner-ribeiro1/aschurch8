@@ -18,7 +18,7 @@ namespace ASChurchManager.API.Membro.Controllers
         }
 
         [HttpPost("token")]
-        public IActionResult Autentica([FromServices] IConfiguration configuration,
+        public IActionResult Token([FromServices] IConfiguration configuration,
           LoginDTO login)
         {
             try
@@ -30,7 +30,7 @@ namespace ASChurchManager.API.Membro.Controllers
                         var token = new TokenServices().Generate(new Domain.Entities.Membro()
                         {
                             Id = 1,
-                            Nome = "api",
+                            Nome = "API",
                             Congregacao = new Domain.Entities.Congregacao()
                             {
                                 Nome = "API"
