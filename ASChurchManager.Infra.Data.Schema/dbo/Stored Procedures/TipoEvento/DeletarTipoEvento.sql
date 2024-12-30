@@ -1,9 +1,0 @@
-
-CREATE PROCEDURE dbo.DeletarTipoEvento
-	@Id INT
-AS
-BEGIN
-	SET NOCOUNT ON
-	DELETE dbo.TipoEvento
-	WHERE Id = @Id
-END

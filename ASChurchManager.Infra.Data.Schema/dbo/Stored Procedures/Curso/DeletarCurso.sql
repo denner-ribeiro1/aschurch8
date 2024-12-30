@@ -1,6 +1,0 @@
-﻿CREATE PROCEDURE DeletarCurso
-	@Id INT
-AS
-BEGIN
-	DELETE Curso WHERE Id = @Id
-END
