@@ -18,12 +18,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
-using System.Net.Mail;
-using System.Drawing;
-using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-
+using SixLabors.ImageSharp.Formats.Png;
+using System.Net.Http;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Processing;
+using Point = SixLabors.ImageSharp.Point;
+using SystemFonts = SixLabors.Fonts.SystemFonts;
+using Font = SixLabors.Fonts.Font;
+using PointF = SixLabors.ImageSharp.PointF;
+using SixLabors.ImageSharp.Drawing.Processing;
+using Color = SixLabors.ImageSharp.Color;
 
 namespace ASChurchManager.Application.AppServices
 {
@@ -486,6 +491,98 @@ namespace ASChurchManager.Application.AppServices
             email2 += domain.Substring(ponto);
 
             return $"{email1}@{email2}";
+        }
+
+        public (bool, byte[], string) CarterinhaFrente(Carteirinha membro, Image image)
+        {
+            // Baixar a imagem da URL
+            byte[] imageBytes;
+            using (HttpClient client = new())
+            {
+                imageBytes = client.GetByteArrayAsync(membro.FotoUrl).Result;
+            }
+
+            // Carregar a imagem da URL
+            using (Image overlayImage = Image.Load(imageBytes))
+            {
+                var height = (float)overlayImage.Height;
+                var width = (float)overlayImage.Width;
+                var perc = (280.0 / (float)height);
+                var heightAlt = height * perc;
+                var widthAlt = width * perc;
+
+                overlayImage.Mutate(ctx => ctx.Resize(Convert.ToInt32(widthAlt), Convert.ToInt32(heightAlt)));
+
+                // Definir posição da imagem sobreposta
+                Point overlayPosition = new Point(790, 290); // Ajuste X e Y conforme necessário
+
+                // Sobrepor a imagem
+                image.Mutate(ctx => ctx.DrawImage(overlayImage, overlayPosition, 1f)); // 1f = Opacidade total
+            }
+
+            // Carregar a fonte Arial do sistema
+            Font font = SystemFonts.CreateFont("DejaVu Sans", 40); // Nome da fonte e tamanho
+
+            // Configurar as posições do texto
+            PointF posicaoNome = new PointF(50, 630); // Coordenadas X e Y para o nome
+            PointF posicaoRM = new PointF(138, 520);  // Coordenadas X e Y para o RM
+
+            // Aplicar o texto na imagem
+            image.Mutate(ctx =>
+            {
+                ctx.DrawText(membro.Nome, font, Color.Black, posicaoNome);
+                ctx.DrawText(membro.Id.ToString(), font, Color.Black, posicaoRM);
+            });
+
+            image.Mutate(ctx => ctx.Rotate(RotateMode.Rotate90));
+
+            var memoryStream = new MemoryStream();
+            image.Save(memoryStream, new PngEncoder()); // Salvar como PNG no stream
+
+            return (true, memoryStream.ToArray(), "Carterinha gerada com sucesso!");
+        }
+
+        public (bool, byte[], string) CarterinhaVerso(Carteirinha membro, Image image)
+        {
+            Font font = SystemFonts.CreateFont("DejaVu Sans", 40); // Nome da fonte e tamanho
+            Font font2 = SystemFonts.CreateFont("DejaVu Sans", 30); // Nome da fonte e tamanho
+
+            // Configurar as posições do texto
+            PointF posicaoPai = new PointF(50, 100); // certa
+            PointF posicaoMae = new PointF(50, 190);  // certa
+            PointF posicaoCidade = new PointF(210, 290); // certa
+            PointF posicaoEstado = new PointF(925, 290);  // certa
+            PointF posicaoDataNasci = new PointF(50, 390); // certa
+            PointF posicaoEstadoCiv = new PointF(340, 390);  // certa
+            PointF posicaoRg = new PointF(690, 390); //certa
+            PointF posicaoBatismo = new PointF(50, 490);
+            PointF posicaoConsLocal = new PointF(410, 502);
+            PointF posicaoConsData = new PointF(800, 502);
+
+
+            // Aplicar o texto na imagem
+            image.Mutate(ctx =>
+            {
+                ctx.DrawText(membro.NomePai, font, Color.Black, posicaoPai);
+                ctx.DrawText(membro.NomeMae, font, Color.Black, posicaoMae);
+                ctx.DrawText(membro.Cidade, font, Color.Black, posicaoCidade);
+                ctx.DrawText(membro.Estado, font, Color.Black, posicaoEstado);
+                ctx.DrawText(membro.DataNascimento, font, Color.Black, posicaoDataNasci);
+                ctx.DrawText(membro.EstadoCivil, font, Color.Black, posicaoEstadoCiv);
+                ctx.DrawText(membro.RG, font, Color.Black, posicaoRg);
+                ctx.DrawText(membro.DataBatismoAguas, font, Color.Black, posicaoBatismo);
+                ctx.DrawText(membro.LocalConsagracao, font2, Color.Black, posicaoConsLocal);
+                ctx.DrawText(membro.DataConsagracao, font2, Color.Black, posicaoConsData);
+            });
+
+            // Salvar a imagem com as informações preenchidas
+            image.Mutate(ctx => ctx.Rotate(RotateMode.Rotate90));
+
+            var memoryStream = new MemoryStream();
+            image.Save(memoryStream, new PngEncoder()); // Salvar como PNG no stream
+
+            return (true, memoryStream.ToArray(), "Carterinha gerada com sucesso!");
+
         }
     }
 }

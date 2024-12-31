@@ -4,6 +4,7 @@ using ASChurchManager.Application.Interfaces;
 using ASChurchManager.Domain.Lib;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
 
 namespace ASChurchManager.API.Membro.Controllers
 {
@@ -113,5 +114,131 @@ namespace ASChurchManager.API.Membro.Controllers
                 return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
+
+        [HttpGet("carteirinhaFrente")]
+        [Authorize]
+
+        public IActionResult CarteirinhaFrente([FromQuery] int id)
+        {
+            try
+            {
+                var lMembro = _membroAppService.CarteirinhaMembros(id);
+                if (lMembro.Count() == 0)
+                    return ResponseBadRequest("Membro não localizado");
+
+                var membro = lMembro.FirstOrDefault();
+
+                string carteirinha = "";
+
+                switch (membro.TipoCarteirinha)
+                {
+                    case Domain.Types.TipoCarteirinha.Membro:
+                        carteirinha = "membro_frente.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Diacono:
+                        carteirinha = "diacono_frente.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Presbitero:
+                        carteirinha = "presbitero_frente.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Evangelista:
+                        carteirinha = "evangelista_frente.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Pastor:
+                        carteirinha = "pastor_frente.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Cooperador:
+                        carteirinha = "cooperador_frente.png";
+                        break;
+                }
+
+                var caminho = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "carteirinhas", carteirinha);
+                Image image = Image.Load(caminho);
+                var (ok, images, mensagem) = _membroAppService.CarterinhaFrente(membro, image);
+                if (ok)
+                {
+                    return ResponseOK(
+                        new
+                        {
+                            imagem = images,
+                            mensagem = mensagem
+                        });
+                }
+                else
+                {
+                    return ResponseBadRequest(mensagem);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseBadRequest(new Erro(ex.Message, ex));
+            }
+
+        }
+
+
+        [HttpGet("carteirinhaVerso")]
+        [Authorize]
+
+        public IActionResult CarteirinhaVerso([FromQuery] int id)
+        {
+            try
+            {
+                var lMembro = _membroAppService.CarteirinhaMembros(id);
+                if (lMembro.Count() == 0)
+                    return ResponseBadRequest("Membro não localizado");
+
+                var membro = lMembro.FirstOrDefault();
+
+                string carteirinha = "";
+
+                switch (membro.TipoCarteirinha)
+                {
+                    case Domain.Types.TipoCarteirinha.Membro:
+                        carteirinha = "membro_verso.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Diacono:
+                        carteirinha = "diacono_verso.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Presbitero:
+                        carteirinha = "presbitero_verso.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Evangelista:
+                        carteirinha = "evangelista_verso.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Pastor:
+                        carteirinha = "pastor_verso.png";
+                        break;
+                    case Domain.Types.TipoCarteirinha.Cooperador:
+                        carteirinha = "cooperador_verso.png";
+                        break;
+                }
+
+                var caminho = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "carteirinhas", carteirinha);
+                Image image = Image.Load(caminho);
+                var (ok, images, mensagem) = _membroAppService.CarterinhaVerso(membro, image);
+                if (ok)
+                {
+                    return ResponseOK(
+                        new
+                        {
+                            imagem = images,
+                            mensagem = mensagem
+                        });
+                }
+                else
+                {
+                    return ResponseBadRequest(mensagem);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseBadRequest(new Erro(ex.Message, ex));
+            }
+
+        }
     }
+
 }
