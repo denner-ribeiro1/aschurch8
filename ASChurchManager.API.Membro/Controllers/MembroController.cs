@@ -239,6 +239,42 @@ namespace ASChurchManager.API.Membro.Controllers
             }
 
         }
+
+        [HttpGet("carteirinhaQrcode")]
+        [Authorize]
+
+        public IActionResult GerarQrCode([FromQuery] int id)
+        {
+            try
+            {
+                var lMembro = _membroAppService.CarteirinhaMembros(id);
+                if (lMembro.Count() == 0)
+                    return ResponseBadRequest("Membro não localizado");
+
+                var membro = lMembro.FirstOrDefault();
+
+                var (ok, images, mensagem) = _membroAppService.GerarQrCode(membro);
+                if (ok)
+                {
+                    return ResponseOK(
+                        new
+                        {
+                            imagem = images,
+                            mensagem = mensagem
+                        });
+                }
+                else
+                {
+                    return ResponseBadRequest(mensagem);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return ResponseBadRequest(new Erro(ex.Message, ex));
+            }
+
+        }
     }
 
 }

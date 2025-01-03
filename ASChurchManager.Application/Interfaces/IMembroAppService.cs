@@ -19,7 +19,7 @@ namespace ASChurchManager.Application.Interfaces
         (bool, string) RecuperarSenha(string cpf);
         (bool, byte[], string) CarterinhaFrente(Carteirinha membro, SixLabors.ImageSharp.Image image);
         (bool, byte[], string) CarterinhaVerso(Carteirinha membro, SixLabors.ImageSharp.Image image);
-
+        (bool, byte[], string) GerarQrCode(Carteirinha membro);
 
     }
 }

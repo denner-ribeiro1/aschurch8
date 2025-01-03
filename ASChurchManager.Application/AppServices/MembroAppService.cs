@@ -29,6 +29,7 @@ using Font = SixLabors.Fonts.Font;
 using PointF = SixLabors.ImageSharp.PointF;
 using SixLabors.ImageSharp.Drawing.Processing;
 using Color = SixLabors.ImageSharp.Color;
+using QRCoder;
 
 namespace ASChurchManager.Application.AppServices
 {
@@ -583,6 +584,30 @@ namespace ASChurchManager.Application.AppServices
 
             return (true, memoryStream.ToArray(), "Carterinha gerada com sucesso!");
 
+        }
+
+        public (bool, byte[], string) GerarQrCode(Carteirinha membro)
+        {
+            string chave64 = GerarIdBase64((int)membro.Id);
+            var imageAsByte = GenerateByteArray(chave64, _configuration);
+            return (true, imageAsByte, "QrCode gerado com sucesso!");
+        }
+        private static byte[] GenerateImage(string valor, IConfiguration _configuration)
+        {
+            var qrGenerator = new QRCodeGenerator();
+            var qrCodeData = qrGenerator.CreateQrCode(valor, QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new BitmapByteQRCode(qrCodeData);
+            var qrCodeImage = qrCode.GetGraphic(6);
+            return qrCodeImage;
+        }
+
+        private static byte[] GenerateByteArray(string url, IConfiguration _configuration) => GenerateImage(url, _configuration);
+
+        private string GerarIdBase64(int id)
+        {
+            string chave = $"RM{id.ToString().PadLeft(9, '0')}";
+            byte[] chaveAsByte = System.Text.Encoding.ASCII.GetBytes(chave);
+            return Microsoft.AspNetCore.WebUtilities.WebEncoders.Base64UrlEncode(chaveAsByte);
         }
     }
 }
