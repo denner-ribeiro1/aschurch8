@@ -5,6 +5,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(opt =>
+    {
+        opt.AddPolicy("CorsPolicy", policy =>
+        {
+            policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+        });
+    });
 
 builder.Services
     .AddAuthentication(x =>
@@ -56,7 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.MapControllers();
 
