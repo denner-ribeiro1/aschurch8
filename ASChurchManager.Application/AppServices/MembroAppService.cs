@@ -428,7 +428,7 @@ namespace ASChurchManager.Application.AppServices
 
 
             if (membro.DataNascimento.Value.Date != dataNascimento.Date)
-                return (false, "Data de Nascimento! <br />Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+                return (false, "Data de Nascimento! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
 
             var novaSenha = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
             var senhaCriptografada = Hash.GetHash(novaSenha, CryptoProviders.HashProvider.MD5);

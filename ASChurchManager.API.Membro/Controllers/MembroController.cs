@@ -26,12 +26,12 @@ namespace ASChurchManager.API.Membro.Controllers
             try
             {
                 if (id <= 0)
-                    return ResponseBadRequest("Id é de preechimento obrigatório");
+                    return ResponseOK(new { erro = true, mensagem = "Id é de preechimento obrigatório" });
 
                 var membro = _membroAppService.GetById(id, 0);
                 if (membro.Id != id)
                 {
-                    return ResponseBadRequest("Membro não encontrado");
+                    return ResponseOK(new { erro = true, mensagem = "Membro não encontrado" });
                 }
                 else
                 {
@@ -50,12 +50,12 @@ namespace ASChurchManager.API.Membro.Controllers
                     {
                         mem.cargo = cargoMem.TipoCarteirinha.ToString();
                     }
-                    return ResponseOK(mem);
+                    return ResponseOK(new { membro = mem, erro = false });
                 }
             }
             catch (Exception ex)
             {
-                return ResponseBadRequest(new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
 
@@ -67,10 +67,10 @@ namespace ASChurchManager.API.Membro.Controllers
             try
             {
                 if (!_membroAppService.ValidarSenha(senhaDTO.id, senhaDTO.senhaAtual))
-                    return ResponseBadRequest("Senha atual está incorreta.");
+                    return ResponseOK(new { erro = true, mensagem = "Senha atual está incorreta." });
 
                 _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.senhaAtual, senhaDTO.novaSenha, false);
-                return ResponseOK("Senha atualizada com sucesso.");
+                return ResponseOK(new { mensagem = "Senha atualizada com sucesso.", erro = false });
             }
             catch (Exception ex)
             {
@@ -87,9 +87,9 @@ namespace ASChurchManager.API.Membro.Controllers
                 var (validaOK, msg) = _membroAppService.InscricaoApp(inscricaoDTO.cpf, inscricaoDTO.nomeMae, inscricaoDTO.dataNascimento, inscricaoDTO.email);
                 if (!validaOK)
                 {
-                    return ResponseBadRequest(msg);
+                    return ResponseOK(new { erro = true, mensagem = msg });
                 }
-                return ResponseOK(msg);
+                return ResponseOK(new { erro = false, mensagem = msg });
             }
             catch (Exception ex)
             {
@@ -106,9 +106,9 @@ namespace ASChurchManager.API.Membro.Controllers
                 var (validaOK, msg) = _membroAppService.RecuperarSenha(recuperarSenhaDTO.cpf);
                 if (!validaOK)
                 {
-                    return ResponseBadRequest(msg);
+                    return ResponseOK(new { erro = true, mensagem = msg });
                 }
-                return ResponseOK(msg);
+                return ResponseOK(new { erro = false, mensagem = msg });
             }
             catch (System.Exception ex)
             {
@@ -125,7 +125,7 @@ namespace ASChurchManager.API.Membro.Controllers
             {
                 var lMembro = _membroAppService.CarteirinhaMembros(id);
                 if (lMembro.Count() == 0)
-                    return ResponseBadRequest("Membro não localizado");
+                    return ResponseOK(new { erro = true, mensagem = "Membro não localizado" });
 
                 var membro = lMembro.FirstOrDefault();
 
@@ -161,19 +161,19 @@ namespace ASChurchManager.API.Membro.Controllers
                     return ResponseOK(
                         new
                         {
-                            imagem = images,
-                            mensagem = mensagem
+                            frente = images,
+                            mensagem
                         });
                 }
                 else
                 {
-                    return ResponseBadRequest(mensagem);
+                    return ResponseOK(new { erro = true, mensagem });
                 }
 
             }
             catch (Exception ex)
             {
-                return ResponseBadRequest(new Erro(ex.Message, ex));
+                return ResponseServerError(new { erro = false, mensagem = ex.Message });
             }
 
         }
@@ -188,7 +188,7 @@ namespace ASChurchManager.API.Membro.Controllers
             {
                 var lMembro = _membroAppService.CarteirinhaMembros(id);
                 if (lMembro.Count() == 0)
-                    return ResponseBadRequest("Membro não localizado");
+                    return ResponseOK(new { erro = true, mensagem = "Membro não localizado" });
 
                 var membro = lMembro.FirstOrDefault();
 
@@ -224,19 +224,19 @@ namespace ASChurchManager.API.Membro.Controllers
                     return ResponseOK(
                         new
                         {
-                            imagem = images,
-                            mensagem = mensagem
+                            verso = images,
+                            mensagem
                         });
                 }
                 else
                 {
-                    return ResponseBadRequest(mensagem);
+                    return ResponseOK(new { erro = true, mensagem });
                 }
 
             }
             catch (Exception ex)
             {
-                return ResponseBadRequest(new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
 
         }
@@ -260,19 +260,19 @@ namespace ASChurchManager.API.Membro.Controllers
                     return ResponseOK(
                         new
                         {
-                            imagem = images,
-                            mensagem = mensagem
+                            qrcode = images,
+                            mensagem
                         });
                 }
                 else
                 {
-                    return ResponseBadRequest(mensagem);
+                    return ResponseOK(new { erro = true, mensagem });
                 }
 
             }
             catch (Exception ex)
             {
-                return ResponseBadRequest(new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
 
         }
@@ -285,12 +285,12 @@ namespace ASChurchManager.API.Membro.Controllers
             try
             {
                 if (id <= 0)
-                    return ResponseBadRequest("Id é de preechimento obrigatório");
+                    return ResponseOK(new { erro = true, mensagem = "Id é de preechimento obrigatório" });
 
                 var membro = _membroAppService.GetById(id, 0);
                 if (membro.Id != id)
                 {
-                    return ResponseBadRequest("Membro não encontrado");
+                    return ResponseOK(new { erro = true, mensagem = "Membro não encontrado" });
                 }
                 else
                 {
@@ -307,14 +307,10 @@ namespace ASChurchManager.API.Membro.Controllers
                         foto = membro.FotoUrl,
                         profissao = membro.Profissao,
                         telefone = membro.TelefoneCelular,
-
-
-
                     };
 
                     if (membro.Endereco != null)
                     {
-
                         membroCompleto.endereco = membro.Endereco.Logradouro;
                         membroCompleto.cep = membro.Endereco.Cep;
                         membroCompleto.numero = membro.Endereco.Numero;
@@ -328,12 +324,12 @@ namespace ASChurchManager.API.Membro.Controllers
                     {
                         membroCompleto.cargo = cargoMem.TipoCarteirinha.ToString();
                     }
-                    return ResponseOK(membroCompleto);
+                    return ResponseOK(new { erro = true, membro = membroCompleto });
                 }
             }
             catch (Exception ex)
             {
-                return ResponseBadRequest(new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro(ex.Message, ex));
             }
         }
     }
