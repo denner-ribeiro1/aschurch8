@@ -12,6 +12,7 @@ namespace ASChurchManager.API.Membro.Controllers
     public class MembroController : ApiController
     {
         private IMembroAppService _membroAppService;
+
         public MembroController(IMembroAppService membroAppService)
         {
             _membroAppService = membroAppService;
@@ -274,6 +275,66 @@ namespace ASChurchManager.API.Membro.Controllers
                 return ResponseBadRequest(new Erro(ex.Message, ex));
             }
 
+        }
+
+
+        [HttpGet("consultaCompletaMembro")]
+        [Authorize]
+        public IActionResult ConsultarCompletaMembro([FromQuery] int id, [FromServices] ICargoAppService cargoAppService)
+        {
+            try
+            {
+                if (id <= 0)
+                    return ResponseBadRequest("Id é de preechimento obrigatório");
+
+                var membro = _membroAppService.GetById(id, 0);
+                if (membro.Id != id)
+                {
+                    return ResponseBadRequest("Membro não encontrado");
+                }
+                else
+                {
+                    var membroCompleto = new MembroCompletoDTO
+                    {
+                        rm = membro.Id,
+                        cpf = membro.Cpf,
+                        rg = membro.RG,
+                        nome = membro.Nome,
+                        nomePai = membro.NomePai,
+                        nomeMae = membro.NomeMae,
+                        email = membro.Email,
+                        congregacao = membro.Congregacao?.Nome,
+                        foto = membro.FotoUrl,
+                        profissao = membro.Profissao,
+                        telefone = membro.TelefoneCelular,
+
+
+
+                    };
+
+                    if (membro.Endereco != null)
+                    {
+
+                        membroCompleto.endereco = membro.Endereco.Logradouro;
+                        membroCompleto.cep = membro.Endereco.Cep;
+                        membroCompleto.numero = membro.Endereco.Numero;
+                        membroCompleto.pais = membro.Endereco?.Pais;
+                        membroCompleto.estado = membro.Endereco?.Estado;
+                        membroCompleto.cidade = membro.Endereco?.Cidade;
+                    }
+
+                    var cargoMem = membro.Cargos.FirstOrDefault(c => c.DataCargo == membro.Cargos.Max(c => c.DataCargo));
+                    if (cargoMem != null)
+                    {
+                        membroCompleto.cargo = cargoMem.TipoCarteirinha.ToString();
+                    }
+                    return ResponseOK(membroCompleto);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ResponseBadRequest(new Erro(ex.Message, ex));
+            }
         }
     }
 
