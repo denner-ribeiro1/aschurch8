@@ -11,10 +11,10 @@ public class MembroCompletoDTO
     public string? estado { get; set; }
     public string? cidade { get; set; }
     public string? cep { get; set; }
-    public string cpf { get; set; }
-    public string rg { get; set; }
+    public string? cpf { get; set; }
+    public string? rg { get; set; }
     public string? nome { get; set; }
-    public string nomePai { get; set; }
+    public string? nomePai { get; set; }
     public string? nomeMae { get; set; }
     public string? email { get; set; }
     public string? congregacao { get; set; }

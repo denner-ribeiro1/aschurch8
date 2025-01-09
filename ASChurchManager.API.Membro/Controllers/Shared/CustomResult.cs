@@ -6,8 +6,8 @@ public class CustomResult
 {
     public HttpStatusCode StatusCode { get; set; }
     public bool Sucess { get; set; }
-    public object Data { get; set; }
-    public IEnumerable<string> Errors { get; set; }
+    public object? Data { get; set; }
+    public IEnumerable<string>? Errors { get; set; }
 
     public CustomResult(HttpStatusCode statusCode, bool sucess, object data, IEnumerable<string> errors)
     {
