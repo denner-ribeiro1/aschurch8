@@ -131,11 +131,8 @@ namespace ASChurchManager.API.Membro.Controllers
 
                 string carteirinha = "";
 
-                switch (membro.TipoCarteirinha)
+                switch (membro?.TipoCarteirinha)
                 {
-                    case Domain.Types.TipoCarteirinha.Membro:
-                        carteirinha = "membro_frente.png";
-                        break;
                     case Domain.Types.TipoCarteirinha.Diacono:
                         carteirinha = "diacono_frente.png";
                         break;
@@ -150,6 +147,9 @@ namespace ASChurchManager.API.Membro.Controllers
                         break;
                     case Domain.Types.TipoCarteirinha.Cooperador:
                         carteirinha = "cooperador_frente.png";
+                        break;
+                    default:
+                        carteirinha = "membro_frente.png";
                         break;
                 }
 
@@ -194,7 +194,7 @@ namespace ASChurchManager.API.Membro.Controllers
 
                 string carteirinha = "";
 
-                switch (membro.TipoCarteirinha)
+                switch (membro?.TipoCarteirinha)
                 {
                     case Domain.Types.TipoCarteirinha.Membro:
                         carteirinha = "membro_verso.png";

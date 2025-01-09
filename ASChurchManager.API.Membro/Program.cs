@@ -3,6 +3,7 @@ using ASChurchManager.API.Membro.Infra;
 using ASChurchManager.API.Membro.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(opt =>
@@ -32,7 +33,7 @@ builder.Services
     });
 
 builder.Services.AddTransient<TokenServices>();
-
+builder.Services.AddScoped<SiteExceptionFilter>();
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -52,6 +53,20 @@ builder.Services.AddSingleton<IConfiguration>(config);
 ASChurchManager.Infra.CrossCutting.IoC.DependencyResolver.Dependency(builder.Services);
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
+
+var settings = config;
+var databaseLog = settings.GetValue<string>("ParametrosSistema:DatabaseMongoDB");
+var collectionLog = settings.GetValue<string>("ParametrosSistema:CollectionLog");
+
+var logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.MongoDB($"{settings.GetConnectionString("BaseLog")}/{databaseLog}",
+                     restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error,
+                     collectionName: collectionLog ?? "")
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 
 var app = builder.Build();

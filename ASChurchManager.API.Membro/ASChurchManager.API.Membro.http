@@ -1,5 +1,5 @@
 @HostAddress = http://localhost:5140/api
-@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzIiwidW5pcXVlX25hbWUiOiJBcm5hbGRvIEFsZW5jYXIgRmVycmVpcmEgIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJJRUFELU1hdcOhIC0gU2VkZSIsIm5iZiI6MTczNTk0MzMwOSwiZXhwIjoxNzM1OTUwNTA5LCJpYXQiOjE3MzU5NDMzMDl9.9wM1Brs1x-oGFsTvWb8EPlmSS-heqlX1firILMrIjEY
+@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNjM3NDk3MCwiZXhwIjoxNzM2MzgyMTcwLCJpYXQiOjE3MzYzNzQ5NzB9.68G2hRWaw-moK85aNuYUl1-Xabjh-MLqo8vS2yFjQIg
 
 ###
 POST {{HostAddress}}/oauth/token
@@ -39,11 +39,10 @@ Authorization: {{Token}}
 Content-Type: application/json
 
 {
-    "cpf": "396.873.658-38",
-    "nomeMae": "Maria",
-    "dataNascimento": "2006-02-07",
-    "email": "claudineijose@gmail.com"
-    
+    "cpf": "857.677.795-97",
+    "nomeMae": "Regina",
+    "email": "claudineijose@gmail.com",
+    "dataNascimento": "2023-05-17"
 }
 
 ###

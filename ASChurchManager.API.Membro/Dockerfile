@@ -1,10 +1,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0.1 AS base
 WORKDIR /app
 
-EXPOSE 80
 EXPOSE 8080
-EXPOSE 8000
-EXPOSE 5140
+EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0.101 AS build
 WORKDIR /src

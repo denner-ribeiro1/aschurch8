@@ -439,10 +439,9 @@ namespace ASChurchManager.Application.AppServices
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
 
-
             _emailAppService.EnviarEmail(email.ToLower(), "Inscrição - Senha de acesso", conteudo);
 
-            if (membro.Email.ToLower() != email.ToLower())
+            if (string.IsNullOrEmpty(membro.Email) || membro.Email.ToLower() != email.ToLower())
                 _membroRepository.AtualizarEmail(membro.Id, email);
 
             return (true, $"Inscrição realizada com Sucesso. Senha provissória enviada para o e-mail {TratarEmail(email)}");

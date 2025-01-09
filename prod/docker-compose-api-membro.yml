@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   aschurchmanager.web:
-    image: ${DOCKER_REGISTRY-}aschurchapimembro
+    image: ${DOCKER_REGISTRY-}aschurch.api.membro
     build:
       context: .
       dockerfile: ASChurchManager.API.Membro/Dockerfile
