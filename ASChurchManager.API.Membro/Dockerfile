@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0.1 AS base
+RUN apt-get update && apt-get install -y fonts-dejavu
 WORKDIR /app
 
 EXPOSE 8080
@@ -12,8 +13,11 @@ COPY ["ASChurchManager.Domain/ASChurchManager.Domain.csproj", "ASChurchManager.D
 COPY ["ASChurchManager.Application/ASChurchManager.Application.csproj", "ASChurchManager.Application/"]
 COPY ["ASChurchManager.WebApi.Oauth.Client/ASChurchManager.WebApi.Oauth.Client.csproj", "ASChurchManager.WebApi.Oauth.Client/"]
 COPY ["ASChurchManager.Infra.Data/ASChurchManager.Infra.Data.csproj", "ASChurchManager.Infra.Data/"]
+COPY ASChurchManager.API.Membro/Resources /src/Resources
+
 RUN dotnet restore "ASChurchManager.API.Membro/ASChurchManager.API.Membro.csproj"
 COPY . .
+
 WORKDIR "/src/ASChurchManager.API.Membro"
 RUN dotnet build "ASChurchManager.API.Membro.csproj" -c Release -o /app/build
 
@@ -23,6 +27,7 @@ RUN dotnet publish "ASChurchManager.API.Membro.csproj" -c Release -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=build /src/Resources ./Resources
 
 ENV TZ=America/Sao_Paulo
 

@@ -435,7 +435,7 @@ namespace ASChurchManager.Application.AppServices
 
             _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
 
-            var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Infra", "Emails", "email_inscricao.txt"));
+            var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_inscricao.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
 
@@ -465,7 +465,7 @@ namespace ASChurchManager.Application.AppServices
             var senhaCriptografada = Hash.GetHash(novaSenha, CryptoProviders.HashProvider.MD5);
             _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
 
-            var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Infra", "Emails", "email_novasenha.txt"));
+            var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_novasenha.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
             _emailAppService.EnviarEmail(membro.Email.ToLower(), "Nova Senha - Senha de acesso", conteudo);
