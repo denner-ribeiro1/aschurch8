@@ -42,6 +42,7 @@ namespace ASChurchManager.Infra.CrossCutting.IoC
             services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<IPresencaRepository, PresencaRepository>();
             services.AddScoped<IPaisRepository, PaisRepository>();
+            services.AddScoped<IEmailRepository, EmailRepository>();
         }
 
         private static void ResolveApplications(IServiceCollection services)

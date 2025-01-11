@@ -439,7 +439,16 @@ namespace ASChurchManager.Application.AppServices
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
 
-            _emailAppService.EnviarEmail(email.ToLower(), "Inscrição - Senha de acesso", conteudo);
+            var mail = new Email()
+            {
+                Assunto = "Inscrição - Senha de acesso",
+                Corpo = conteudo,
+                EmailAddress = email.ToLower(),
+                MembroId = (int)membro.Id
+            };
+
+            _emailAppService.SalvarEmail(mail);
+
 
             if (string.IsNullOrEmpty(membro.Email) || membro.Email.ToLower() != email.ToLower())
                 _membroRepository.AtualizarEmail(membro.Id, email);
@@ -468,7 +477,19 @@ namespace ASChurchManager.Application.AppServices
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_novasenha.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
-            _emailAppService.EnviarEmail(membro.Email.ToLower(), "Nova Senha - Senha de acesso", conteudo);
+
+
+            var mail = new Email()
+            {
+                Assunto = "Nova Senha - Senha de acesso",
+                Corpo = conteudo,
+                EmailAddress = membro.Email.ToLower(),
+                MembroId = (int)membro.Id
+            };
+
+            _emailAppService.SalvarEmail(mail);
+
+
 
             return (true, $"Senha provissória enviada para o e-mail {TratarEmail(membro.Email)}");
         }
@@ -496,42 +517,49 @@ namespace ASChurchManager.Application.AppServices
         public (bool, byte[], string) CarterinhaFrente(Carteirinha membro, Image image)
         {
             // Baixar a imagem da URL
-            byte[] imageBytes;
-            using (HttpClient client = new())
+            if (!string.IsNullOrWhiteSpace(membro.FotoUrl))
             {
-                imageBytes = client.GetByteArrayAsync(membro.FotoUrl).Result;
+                byte[] imageBytes;
+                using (HttpClient client = new())
+                {
+                    imageBytes = client.GetByteArrayAsync(membro.FotoUrl).Result;
+                }
+
+                // Carregar a imagem da URL
+                using (Image overlayImage = Image.Load(imageBytes))
+                {
+                    var height = (float)overlayImage.Height;
+                    var width = (float)overlayImage.Width;
+                    var perc = (280.0 / (float)height);
+                    var heightAlt = height * perc;
+                    var widthAlt = width * perc;
+
+                    overlayImage.Mutate(ctx => ctx.Resize(Convert.ToInt32(widthAlt), Convert.ToInt32(heightAlt)));
+
+                    // Definir posição da imagem sobreposta
+                    Point overlayPosition = new Point(790, 290); // Ajuste X e Y conforme necessário
+
+                    // Sobrepor a imagem
+                    image.Mutate(ctx => ctx.DrawImage(overlayImage, overlayPosition, 1f)); // 1f = Opacidade total
+                }
+
             }
-
-            // Carregar a imagem da URL
-            using (Image overlayImage = Image.Load(imageBytes))
-            {
-                var height = (float)overlayImage.Height;
-                var width = (float)overlayImage.Width;
-                var perc = (280.0 / (float)height);
-                var heightAlt = height * perc;
-                var widthAlt = width * perc;
-
-                overlayImage.Mutate(ctx => ctx.Resize(Convert.ToInt32(widthAlt), Convert.ToInt32(heightAlt)));
-
-                // Definir posição da imagem sobreposta
-                Point overlayPosition = new Point(790, 290); // Ajuste X e Y conforme necessário
-
-                // Sobrepor a imagem
-                image.Mutate(ctx => ctx.DrawImage(overlayImage, overlayPosition, 1f)); // 1f = Opacidade total
-            }
-
             // Carregar a fonte Arial do sistema
-            Font font = SystemFonts.CreateFont("DejaVu Sans", 40); // Nome da fonte e tamanho
+            Font font = SystemFonts.CreateFont("DejaVu Sans", 40);
+            Font font2 = SystemFonts.CreateFont("DejaVu Sans", 30);  // Nome da fonte e tamanho
 
             // Configurar as posições do texto
             PointF posicaoNome = new PointF(50, 630); // Coordenadas X e Y para o nome
-            PointF posicaoRM = new PointF(138, 520);  // Coordenadas X e Y para o RM
+            PointF posicaoRM = new PointF(138, 530);  // Coordenadas X e Y para o RM
+            PointF posicaoDataValidade = new PointF(590, 540);
 
             // Aplicar o texto na imagem
             image.Mutate(ctx =>
             {
                 ctx.DrawText(membro.Nome, font, Color.Black, posicaoNome);
                 ctx.DrawText(membro.Id.ToString(), font, Color.Black, posicaoRM);
+                if (!string.IsNullOrWhiteSpace(membro.DataValidadeCarteirinha))
+                    ctx.DrawText(membro.DataValidadeCarteirinha, font2, Color.Black, posicaoDataValidade);
             });
 
             image.Mutate(ctx => ctx.Rotate(RotateMode.Rotate90));

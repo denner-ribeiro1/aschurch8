@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using ASChurchManager.Application.Interfaces;
+using ASChurchManager.Domain.Entities;
+using ASChurchManager.Domain.Interfaces.Repository;
 using Azure;
 using Azure.Communication.Email;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +12,11 @@ namespace ASChurchManager.Application.AppServices;
 public class EmailAppService : IEmailAppService
 {
     private readonly IConfiguration _configuration;
-    public EmailAppService(IConfiguration configuration)
+    private readonly IEmailRepository _emailRepository;
+    public EmailAppService(IConfiguration configuration, IEmailRepository emailRepository)
     {
         _configuration = configuration;
+        _emailRepository = emailRepository;
     }
 
     public void EnviarEmail(string email, string titulo, string mensagemHtml, string mensagemPadrao = "")
@@ -36,4 +40,8 @@ public class EmailAppService : IEmailAppService
 
     }
 
+    public long SalvarEmail(Email email)
+    {
+        return _emailRepository.Add(email);
+    }
 }
