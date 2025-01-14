@@ -443,7 +443,7 @@ namespace ASChurchManager.Application.AppServices
             {
                 Assunto = "Inscrição - Senha de acesso",
                 Corpo = conteudo,
-                EmailAddress = email.ToLower(),
+                Endereco = email.ToLower(),
                 MembroId = (int)membro.Id
             };
 
@@ -483,7 +483,7 @@ namespace ASChurchManager.Application.AppServices
             {
                 Assunto = "Nova Senha - Senha de acesso",
                 Corpo = conteudo,
-                EmailAddress = membro.Email.ToLower(),
+                Endereco = membro.Email.ToLower(),
                 MembroId = (int)membro.Id
             };
 

@@ -7,7 +7,7 @@ public class Email
 {
     public int Id { get; set; }
     public int MembroId { get; set; }
-    public string EmailAddress { get; set; }
+    public string Endereco { get; set; }
     public string Assunto { get; set; }
     public string Corpo { get; set; }
     public StatusEmail Status { get; set; }

@@ -14,18 +14,27 @@ public class EmailRepository : RepositoryDAO<Email>, IEmailRepository
 {
     #region Variaveis Private
     private readonly IConfiguration _configuration;
-    private string ConnectionString => _configuration["ConnectionStrings:ConnectionDB"];
+    private string ConnectionString { get; set; }
     #endregion
     #region Construtor
+
+    public EmailRepository(string conn)
+    {
+        ConnectionString = conn;
+    }
+
     public EmailRepository(IConfiguration configuration)
     {
         _configuration = configuration;
+        ConnectionString = _configuration["ConnectionStrings:ConnectionDB"];
     }
     #endregion
 
     #region Constantes
     private const string AtualizarStatusEmail = "AtualizarStatusEmail";
     private const string ListarEmailsPendentes = "ListarEmailsPendentes";
+    private const string ConsultarEmail = "ConsultarEmail";
+
     private const string SalvarEmail = "SalvarEmail";
 
     #endregion
@@ -37,7 +46,7 @@ public class EmailRepository : RepositoryDAO<Email>, IEmailRepository
                     {
 
                         new("@MembroID", entity.MembroId),
-                        new("@EmailAddress",entity.EmailAddress ),
+                        new("@EmailAddress",entity.Endereco ),
                         new("@Subject", entity.Assunto),
                         new("@Body", entity.Corpo)
                     };
@@ -74,7 +83,21 @@ public class EmailRepository : RepositoryDAO<Email>, IEmailRepository
 
     public override Email GetById(long id, long usuarioID)
     {
-        throw new NotImplementedException();
+        var lstParans = new List<SqlParameter>
+                    {
+                        new("@Id", id)
+                    };
+
+        using (SqlDataReader dr = MicrosoftSqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, ConsultarEmail, lstParans.ToArray()))
+        {
+            while (dr.Read())
+            {
+                var mail = DataMapper.ExecuteMapping<Email>(dr);
+                return mail;
+            }
+
+        }
+        return null;
     }
 
     public override long Update(Email entity, long usuarioID = 0)
@@ -88,4 +111,6 @@ public class EmailRepository : RepositoryDAO<Email>, IEmailRepository
 
         return Convert.ToInt64(MicrosoftSqlHelper.ExecuteScalar(ConnectionString, CommandType.StoredProcedure, AtualizarStatusEmail, lstParans.ToArray()));
     }
+
+
 }

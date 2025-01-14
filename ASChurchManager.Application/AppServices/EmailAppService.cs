@@ -40,8 +40,15 @@ public class EmailAppService : IEmailAppService
 
     }
 
+    public Email GetEmail(long id)
+    {
+        return _emailRepository.GetById(id, 0);
+    }
+
     public long SalvarEmail(Email email)
     {
         return _emailRepository.Add(email);
     }
+
+
 }
