@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASChurchManager.Console", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASChurchManager.API.Membro", "ASChurchManager.API.Membro\ASChurchManager.API.Membro.csproj", "{6D75B3A9-3403-46A9-A459-71133CAE38A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASChurchManager_Functions_Email", "ASChurchManager.Functions.Email\ASChurchManager_Functions_Email.csproj", "{5FE261F8-3C5A-46D2-A185-8389F02AC6B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASChurchManager.Functions.Email", "ASChurchManager.Functions.Email\ASChurchManager.Functions.Email.csproj", "{FA76285A-D33E-4332-8234-0E3B84402644}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,10 +85,10 @@ Global
 		{6D75B3A9-3403-46A9-A459-71133CAE38A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D75B3A9-3403-46A9-A459-71133CAE38A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D75B3A9-3403-46A9-A459-71133CAE38A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FE261F8-3C5A-46D2-A185-8389F02AC6B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FE261F8-3C5A-46D2-A185-8389F02AC6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FE261F8-3C5A-46D2-A185-8389F02AC6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FE261F8-3C5A-46D2-A185-8389F02AC6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA76285A-D33E-4332-8234-0E3B84402644}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA76285A-D33E-4332-8234-0E3B84402644}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA76285A-D33E-4332-8234-0E3B84402644}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA76285A-D33E-4332-8234-0E3B84402644}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,7 +105,7 @@ Global
 		{19466EFC-3E82-4C4B-97F1-9052FD216B91} = {BA7E7196-80B4-4DF6-AB7D-943FF3C3E5D4}
 		{7576D9CE-C47F-4371-9360-EA78DB590FCA} = {CD59AD6D-F3A0-4DF8-8604-912DD845EED6}
 		{6D75B3A9-3403-46A9-A459-71133CAE38A6} = {CD59AD6D-F3A0-4DF8-8604-912DD845EED6}
-		{5FE261F8-3C5A-46D2-A185-8389F02AC6B4} = {BA7E7196-80B4-4DF6-AB7D-943FF3C3E5D4}
+		{FA76285A-D33E-4332-8234-0E3B84402644} = {BA7E7196-80B4-4DF6-AB7D-943FF3C3E5D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {09047CA7-123F-4A73-8C11-2383490593A8}

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ASChurchManager_Functions_Email": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7280",
+      "launchBrowser": false
+    }
+  }
+}
