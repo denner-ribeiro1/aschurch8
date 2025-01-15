@@ -18,49 +18,46 @@ namespace ASChurchManager.Functions.Email
         }
 
         [Function("EnviarEmail")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
-            _logger.LogInformation("Inicio da Function de envio de email.");
-
-            string? idBase64 = req.Query["id"].ToString();
-            int id = 0;
-            if (idBase64 != null)
+            try
             {
-                id = Convert.ToInt32(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(idBase64)));
-            }
+                _logger.LogInformation($"Inicio da Function de envio de email.{DateTime.Now}");
 
-            _logger.LogInformation("Teste" + GetConnectionDB());
-
-
-            string strConn = GetConnectionDB();
-
-            var emailRep = new EmailRepository(strConn);
-            var email = emailRep.GetById(id, 0);
-
-            _logger.LogInformation("Teste" + email.Id);
-
-
-            string connectionString = GetConnectionEmail();
-            _logger.LogInformation("Teste" + connectionString);
-            var emailClient = new EmailClient(connectionString);
-
-
-            var emailMessage = new EmailMessage(
-                senderAddress: GetSenderAddress(),
-                content: new EmailContent(email.Assunto)
+                string? idBase64 = req.Query["id"].ToString();
+                int id = 0;
+                if (idBase64 != null)
                 {
-                    Html = email.Corpo
-                },
-                recipients: new EmailRecipients([new EmailAddress(email.Endereco)]));
+                    id = Convert.ToInt32(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(idBase64)));
+                }
 
 
-            emailClient.Send(
-                WaitUntil.Completed,
-                emailMessage);
+                string strConn = GetConnectionDB();
+                var emailRep = new EmailRepository(strConn);
+                var email = emailRep.GetById(id, 0);
 
+                string connectionString = GetConnectionEmail();
+                var emailClient = new EmailClient(connectionString);
+                var emailMessage = new EmailMessage(
+                    senderAddress: GetSenderAddress(),
+                    content: new EmailContent(email.Assunto)
+                    {
+                        Html = email.Corpo
+                    },
+                    recipients: new EmailRecipients([new EmailAddress(email.Endereco)]));
 
-            _logger.LogInformation("fim da Function de envio de email.");
-            return new OkObjectResult("Email Enviado com Sucesso!");
+                emailClient.Send(
+                    WaitUntil.Completed,
+                    emailMessage);
+
+                _logger.LogInformation($"Fim da Function de envio de email.{DateTime.Now}");
+                return new OkObjectResult("Email Enviado com Sucesso!");
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Erro na Function de envio de email.{ex.Message}");
+                throw;
+            }
         }
 
         public static string GetConnectionDB()
