@@ -447,7 +447,8 @@ namespace ASChurchManager.Application.AppServices
                 MembroId = (int)membro.Id
             };
 
-            _emailAppService.SalvarEmail(mail);
+            mail.Id = (int)_emailAppService.SalvarEmail(mail);
+            _emailAppService.RequisitarEnvioEmail(mail.Id);
 
 
             if (string.IsNullOrEmpty(membro.Email) || membro.Email.ToLower() != email.ToLower())
@@ -487,9 +488,8 @@ namespace ASChurchManager.Application.AppServices
                 MembroId = (int)membro.Id
             };
 
-            _emailAppService.SalvarEmail(mail);
-
-
+            mail.Id = (int)_emailAppService.SalvarEmail(mail);
+            _emailAppService.RequisitarEnvioEmail(mail.Id);
 
             return (true, $"Senha provissória enviada para o e-mail {TratarEmail(membro.Email)}");
         }

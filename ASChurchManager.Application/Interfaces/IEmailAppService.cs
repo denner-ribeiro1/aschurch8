@@ -10,4 +10,6 @@ public interface IEmailAppService
     long SalvarEmail(Email email);
 
     Email GetEmail(long id);
+
+    void RequisitarEnvioEmail(int id);
 }

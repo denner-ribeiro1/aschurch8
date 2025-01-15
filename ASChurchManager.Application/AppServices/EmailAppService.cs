@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using ASChurchManager.Application.Interfaces;
 using ASChurchManager.Domain.Entities;
 using ASChurchManager.Domain.Interfaces.Repository;
@@ -43,6 +44,18 @@ public class EmailAppService : IEmailAppService
     public Email GetEmail(long id)
     {
         return _emailRepository.GetById(id, 0);
+    }
+
+    public void RequisitarEnvioEmail(int id)
+    {
+
+        byte[] arrayId = Encoding.ASCII.GetBytes(Convert.ToString(id));
+        string id64 = System.Convert.ToBase64String(arrayId);
+        string url = $"{_configuration["Email:AzureFunction"]}?id={id64}";
+
+        var req = new HttpClient();
+        req.GetStringAsync(url);
+
     }
 
     public long SalvarEmail(Email email)
