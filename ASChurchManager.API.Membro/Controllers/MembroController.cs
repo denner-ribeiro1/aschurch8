@@ -134,19 +134,19 @@ namespace ASChurchManager.API.Membro.Controllers
                 switch (membro?.TipoCarteirinha)
                 {
                     case Domain.Types.TipoCarteirinha.Diacono:
-                        carteirinha = "diacono_frente.png";
+                        carteirinha = "obreiro_frente.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Presbitero:
-                        carteirinha = "presbitero_frente.png";
+                        carteirinha = "obreiro_frente.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Evangelista:
-                        carteirinha = "evangelista_frente.png";
+                        carteirinha = "obreiro_frente.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Pastor:
-                        carteirinha = "pastor_frente.png";
+                        carteirinha = "obreiro_frente.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Cooperador:
-                        carteirinha = "cooperador_frente.png";
+                        carteirinha = "obreiro_frente.png";
                         break;
                     default:
                         carteirinha = "membro_frente.png";
@@ -200,19 +200,19 @@ namespace ASChurchManager.API.Membro.Controllers
                         carteirinha = "membro_verso.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Diacono:
-                        carteirinha = "diacono_verso.png";
+                        carteirinha = "obreiro_verso.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Presbitero:
-                        carteirinha = "presbitero_verso.png";
+                        carteirinha = "obreiro_verso.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Evangelista:
-                        carteirinha = "evangelista_verso.png";
+                        carteirinha = "obreiro_verso.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Pastor:
-                        carteirinha = "pastor_verso.png";
+                        carteirinha = "obreiro_verso.png";
                         break;
                     case Domain.Types.TipoCarteirinha.Cooperador:
-                        carteirinha = "cooperador_verso.png";
+                        carteirinha = "obreiro_verso.png";
                         break;
                 }
 

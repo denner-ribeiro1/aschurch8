@@ -1,5 +1,5 @@
 @HostAddress = http://localhost:5140/api
-@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczNjk4MDA1NCwiZXhwIjoxNzM2OTg3MjU0LCJpYXQiOjE3MzY5ODAwNTR9.dyE2OzDB3J_9mptAoPnKYIVQq_mXItrBWvXNGGjq7lQ
+@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODEwNzY2NiwiZXhwIjoxNzM4MTE0ODY2LCJpYXQiOjE3MzgxMDc2NjZ9.JtLoPoaDls-RrGGS0w8DZPeVFIZVmB3Gd_3Rxk-2saY
 
 ###
 POST {{HostAddress}}/oauth/token
@@ -55,11 +55,11 @@ Content-Type: application/json
 }
 
 ###
-GET {{HostAddress}}/Membro/carteirinhaFrente?id=7
+GET {{HostAddress}}/Membro/carteirinhaFrente?id=232
 Authorization: {{Token}}
 
 ###
-GET {{HostAddress}}/Membro/carteirinhaVerso?id=3
+GET {{HostAddress}}/Membro/carteirinhaVerso?id=7
 Authorization: {{Token}}
 ###
 GET {{HostAddress}}/Membro/carteirinhaQrCode?id=3

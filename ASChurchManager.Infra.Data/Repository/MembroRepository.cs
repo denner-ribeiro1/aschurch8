@@ -818,6 +818,16 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
                         carteirinha.NomeMae = dr["NomeMae"].TryConvertTo<string>();
                         carteirinha.Cidade = dr["NaturalidadeCidade"].TryConvertTo<string>();
                         carteirinha.Estado = dr["NaturalidadeEstado"].TryConvertTo<string>();
+                        carteirinha.Cpf = dr["Cpf"].TryConvertTo<string>();
+                        carteirinha.EstadoCivil = dr["EstadoCivil"].TryConvertTo<string>();
+                        carteirinha.Confradesp = dr["Confradesp"].TryConvertTo<string>();
+                        carteirinha.Cgadb = dr["Cgadb"].TryConvertTo<string>();
+
+
+
+
+                        if (dr["DataRecepcao"].TryConvertTo<DateTimeOffset>() != DateTimeOffset.MinValue)
+                            carteirinha.DataRecepcao = dr["DataRecepcao"].TryConvertTo<DateTimeOffset>().ToString("dd/MM/yyyy");
 
                         if (dr["DataNascimento"].TryConvertTo<DateTimeOffset>() != DateTimeOffset.MinValue)
                             carteirinha.DataNascimento = dr["DataNascimento"].TryConvertTo<DateTimeOffset>().ToString("dd/MM/yyyy");

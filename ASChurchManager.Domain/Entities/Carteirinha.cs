@@ -21,6 +21,13 @@ namespace ASChurchManager.Domain.Entities
         public string DataValidadeCarteirinha { get; set; }
         public string DataConsagracao { get; set; }
         public string LocalConsagracao { get; set; }
+        public string DataRecepcao { get; set; }
+        public string Cpf { get; set; }
+        public string Validade { get; set; }
+        public string Confradesp { get; set; }
+        public string Cgadb { get; set; }
+
+
         public TipoCarteirinha TipoCarteirinha { get; set; }
     }
 }
