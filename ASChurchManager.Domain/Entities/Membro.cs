@@ -71,5 +71,6 @@ namespace ASChurchManager.Domain.Entities
         public Tamanho TamanhoCapa { get; set; }
         public string Senha { get; set; }
         public bool AtualizarSenha { get; set; }
+        public DateTime DataInscricaoApp { get; set; }
     }
 }

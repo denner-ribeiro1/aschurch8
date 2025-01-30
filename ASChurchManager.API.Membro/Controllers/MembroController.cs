@@ -80,11 +80,11 @@ namespace ASChurchManager.API.Membro.Controllers
 
         [HttpPost("inscricao")]
         [Authorize]
-        public IActionResult Inscricao(InscricaoDTO inscricaoDTO)
+        public IActionResult Inscricao([FromBody] InscricaoDTO inscricaoDTO)
         {
             try
             {
-                var (validaOK, msg) = _membroAppService.InscricaoApp(inscricaoDTO.cpf, inscricaoDTO.nomeMae, inscricaoDTO.dataNascimento, inscricaoDTO.email);
+                var (validaOK, msg) = _membroAppService.InscricaoApp(inscricaoDTO.cpf, inscricaoDTO.nomeMae, inscricaoDTO.dataNascimento);
                 if (!validaOK)
                 {
                     return ResponseOK(new { erro = true, mensagem = msg });

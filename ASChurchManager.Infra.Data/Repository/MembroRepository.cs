@@ -1224,6 +1224,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
                     membro = DataMapper.ExecuteMapping<Membro>(dr);
                     membro.AtualizarSenha = dr["AtualizarSenha"].TryConvertTo<bool>();
 
+
                     membro.Endereco = DataMapper.ExecuteMapping<Endereco>(dr);
                     membro.Congregacao.Id = Convert.ToInt64(dr["CongregacaoId"].ToString());
                     membro.Congregacao.Nome = dr["CongregacaoNome"].TryConvertTo<string>();
@@ -1644,7 +1645,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
             return lCarteirinha;
         }
 
-        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha)
+        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             try
             {
@@ -1652,7 +1653,9 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
                 {
                     new("@Id", Id),
                     new("@NovaSenha", NovaSenha),
-                    new("@atualizarSenha", atualizarSenha)
+                    new("@atualizarSenha", atualizarSenha),
+                    new("@atualizarDtInsc", atualizarDataInscricao)
+
                 };
                 MicrosoftSqlHelper.ExecuteScalar(this.ConnectionString, CommandType.StoredProcedure, AtualSenha, lstParameters.ToArray());
             }

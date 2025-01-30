@@ -15,7 +15,7 @@ namespace ASChurchManager.Application.Interfaces
         IEnumerable<Pais> ConsultarPaises();
         (bool, Membro) ValidarLogin(string cpf, string senha);
         bool ValidarSenha(int id, string senhaAtual);
-        (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento, string email);
+        (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento);
         (bool, string) RecuperarSenha(string cpf);
         (bool, byte[], string) CarterinhaFrente(Carteirinha membro, SixLabors.ImageSharp.Image image);
         (bool, byte[], string) CarterinhaVerso(Carteirinha membro, SixLabors.ImageSharp.Image image);

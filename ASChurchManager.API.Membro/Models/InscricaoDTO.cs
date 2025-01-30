@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using ASChurchManager.API.Membro.Infra;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ASChurchManager.API.Membro.Models;
 
@@ -13,10 +15,9 @@ public class InscricaoDTO
     public required string nomeMae { get; set; }
 
     [Required(ErrorMessage = "Data de nascimento é de preenchimento obrigatorio ")]
+    [ModelBinder(BinderType = typeof(DateTimeModelBinder))]
     public DateTime dataNascimento { get; set; }
 
-    [Required(ErrorMessage = "E-mail é de preenchimento obrigatorio ")]
-    public required string email { get; set; }
 
 
 }

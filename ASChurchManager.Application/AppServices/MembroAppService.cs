@@ -378,7 +378,7 @@ namespace ASChurchManager.Application.AppServices
                 return false;
         }
 
-        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha)
+        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             var membro = _membroRepository.GetById(Id, 0);
             if (membro.Id == Id)
@@ -396,7 +396,7 @@ namespace ASChurchManager.Application.AppServices
                 throw new Erro("Membro não encontrado");
         }
 
-        public (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento, string email)
+        public (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento)
         {
             var membro = _membroRepository.GetByCPF(cpf, false);
 
@@ -406,11 +406,11 @@ namespace ASChurchManager.Application.AppServices
             if (membro.Status != Status.Ativo)
                 return (false, "Membro não localizado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
 
-            if (string.IsNullOrEmpty(membro.Email) && string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(membro.Email))
                 return (false, "E-mail não localizado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
 
-            if (string.IsNullOrEmpty(email))
-                email = membro.Email;
+            if (membro.DataInscricaoApp != DateTime.MinValue)
+                return (false, "Membro ja cadastrado no App! Favor utilizar a opção 'Esqueceu Senha' na tela incial.");
 
             if (!string.IsNullOrWhiteSpace(membro.NomeMae))
             {
@@ -428,22 +428,22 @@ namespace ASChurchManager.Application.AppServices
 
 
             if (membro.DataNascimento.Value.Date != dataNascimento.Date)
-                return (false, "Data de Nascimento! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+                return (false, "Data de Nascimento não corresponde ao Cadastro! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
 
-            var novaSenha = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
-            var senhaCriptografada = Hash.GetHash(novaSenha, CryptoProviders.HashProvider.MD5);
 
-            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
+
+            var (senha, senhaCriptografada) = GerarSenha();
+            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true, true);
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_inscricao.txt"));
-            conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
+            conteudo = conteudo.Replace("[NovaSenha]", senha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
 
             var mail = new Email()
             {
                 Assunto = "Inscrição - Senha de acesso",
                 Corpo = conteudo,
-                Endereco = email.ToLower(),
+                Endereco = membro.Email.ToLower(),
                 MembroId = (int)membro.Id
             };
 
@@ -451,12 +451,16 @@ namespace ASChurchManager.Application.AppServices
             _emailAppService.RequisitarEnvioEmail(mail.Id);
 
 
-            if (string.IsNullOrEmpty(membro.Email) || membro.Email.ToLower() != email.ToLower())
-                _membroRepository.AtualizarEmail(membro.Id, email);
-
-            return (true, $"Inscrição realizada com Sucesso. Senha provissória enviada para o e-mail {TratarEmail(email)}");
+            return (true, $"Inscrição realizada com Sucesso. Senha provissória enviada para o e-mail {TratarEmail(membro.Email)}");
         }
+        private (string, string) GerarSenha()
+        {
+            Random rmd = new();
+            string senha = rmd.Next(100000, 999999).ToString();
+            var senhaCriptografada = Hash.GetHash(senha, CryptoProviders.HashProvider.MD5);
+            return (senha, senhaCriptografada); //senha,senhaCriptografada
 
+        }
         public void AtualizarEmail(long id, string email)
         {
             _membroRepository.AtualizarEmail(id, email);
@@ -469,14 +473,14 @@ namespace ASChurchManager.Application.AppServices
                 return (false, "CPF nao localizado");
 
             if (string.IsNullOrEmpty(membro.Senha))
-                return (false, "Membro não cadastrado! Favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
+                return (false, "Membro não realizou o cadastro! Favor utilizar a opção 'Inscreva-se' na tela incial. Caso tenha a necessidade de mais alguma atualizaçao de dados, favor entrar em contato com a secretaria de sua Congregação para a regularização do Cadastro.");
 
-            var novaSenha = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 6).ToUpper();
-            var senhaCriptografada = Hash.GetHash(novaSenha, CryptoProviders.HashProvider.MD5);
+
+            var (senha, senhaCriptografada) = GerarSenha();
             _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_novasenha.txt"));
-            conteudo = conteudo.Replace("[NovaSenha]", novaSenha);
+            conteudo = conteudo.Replace("[NovaSenha]", senha);
             conteudo = conteudo.Replace("[Membro]", membro.Nome);
 
 
