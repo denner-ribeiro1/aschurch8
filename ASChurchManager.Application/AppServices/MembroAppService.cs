@@ -698,6 +698,14 @@ namespace ASChurchManager.Application.AppServices
             byte[] chaveAsByte = System.Text.Encoding.ASCII.GetBytes(chave);
             return Microsoft.AspNetCore.WebUtilities.WebEncoders.Base64UrlEncode(chaveAsByte);
         }
+
+        public bool AtualizarMembroAtualizado(long id, bool atualizado)
+        {
+
+            return _membroRepository.AtualizarMembroAtualizado(id, atualizado);
+        }
+
+
     }
 
 }

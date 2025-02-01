@@ -4,6 +4,8 @@ namespace ASChurchManager.API.Membro.Models;
 
 public class MembroCompletoDTO
 {
+
+
     public long rm { get; set; }
     public string? endereco { get; set; }
     public string? numero { get; set; }
@@ -23,6 +25,7 @@ public class MembroCompletoDTO
     public string? escolaridade { get; set; }
     public string? profissao { get; set; }
     public string? telefone { get; set; }
+    public bool membroAtualizado { get; set; }
 
 
 

@@ -72,5 +72,6 @@ namespace ASChurchManager.Domain.Entities
         public string Senha { get; set; }
         public bool AtualizarSenha { get; set; }
         public DateTime DataInscricaoApp { get; set; }
+        public bool MembroAtualizado { get; set; }
     }
 }

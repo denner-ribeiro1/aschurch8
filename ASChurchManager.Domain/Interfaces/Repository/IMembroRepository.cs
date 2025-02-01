@@ -39,6 +39,7 @@ namespace ASChurchManager.Domain.Intefaces.Repository
         void AtualizarMembroFotoUrl(long id, string fotoUrl);
         void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false);
         void AtualizarEmail(long id, string email);
+        bool AtualizarMembroAtualizado(long id, bool atualizado);
 
 
 

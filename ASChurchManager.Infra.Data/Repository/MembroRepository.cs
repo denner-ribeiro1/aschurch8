@@ -81,6 +81,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
         private const string ListaCarteirinhaMembros = "ListaCarteirinhaMembros";
         private const string AtualSenha = "AtualizarSenha";
         private const string AtualEmail = "AtualizarEmail";
+        private const string AtualMembroAtualizado = "AtualizarMembroAtualizado";
         #endregion
 
         private SqlTransaction transaction = null;
@@ -1677,6 +1678,26 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
 
                 };
                 MicrosoftSqlHelper.ExecuteScalar(this.ConnectionString, CommandType.StoredProcedure, AtualEmail, lstParameters.ToArray());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool AtualizarMembroAtualizado(long id, bool atualizado)
+        {
+            try
+            {
+                var lstParameters = new List<SqlParameter>
+                {
+                    new("@id", id),
+                    new("@membroAtualizado", atualizado),
+
+                };
+                MicrosoftSqlHelper.ExecuteScalar(this.ConnectionString, CommandType.StoredProcedure, AtualMembroAtualizado, lstParameters.ToArray());
+                return true;
+
             }
             catch (Exception)
             {

@@ -1,5 +1,5 @@
 @HostAddress = http://localhost:5140/api
-@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODEwNzY2NiwiZXhwIjoxNzM4MTE0ODY2LCJpYXQiOjE3MzgxMDc2NjZ9.JtLoPoaDls-RrGGS0w8DZPeVFIZVmB3Gd_3Rxk-2saY
+@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODM2NTQzMywiZXhwIjoxNzM4MzcyNjMzLCJpYXQiOjE3MzgzNjU0MzN9.Xns8twszBJ5kDtr1cLViN-D3vBfOW5wLGsEUM8vVrFE
 
 ###
 POST {{HostAddress}}/oauth/token
@@ -68,3 +68,14 @@ Authorization: {{Token}}
 ###
 GET {{HostAddress}}/Membro/consultaCompletaMembro?id=3
 Authorization: {{Token}}
+
+###
+PATCH  {{HostAddress}}/Membro/atualizarMembroAtualizado
+Authorization: {{Token}}
+Content-Type: application/json
+
+{
+    "id": 3, 
+    "membroAtualizado": true
+   
+}

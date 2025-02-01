@@ -42,7 +42,8 @@ namespace ASChurchManager.API.Membro.Controllers
                         email = membro.Email,
                         congregacao = membro.Congregacao.Nome,
                         atualizarSenha = membro.AtualizarSenha,
-                        foto = membro.FotoUrl
+                        foto = membro.FotoUrl,
+                        membroAtualizado = membro.MembroAtualizado
                     };
 
                     var cargoMem = membro.Cargos.FirstOrDefault(c => c.DataCargo == membro.Cargos.Max(c => c.DataCargo));
@@ -307,6 +308,7 @@ namespace ASChurchManager.API.Membro.Controllers
                         foto = membro.FotoUrl,
                         profissao = membro.Profissao,
                         telefone = membro.TelefoneCelular,
+                        membroAtualizado = membro.MembroAtualizado
                     };
 
                     if (membro.Endereco != null)
@@ -326,6 +328,22 @@ namespace ASChurchManager.API.Membro.Controllers
                     }
                     return ResponseOK(new { erro = true, membro = membroCompleto });
                 }
+            }
+            catch (Exception ex)
+            {
+                return ResponseServerError(new Erro(ex.Message, ex));
+            }
+        }
+
+        [HttpPatch("atualizarMembroAtualizado")]
+        [Authorize]
+
+        public IActionResult AtualizarMembroAtualizado([FromBody] MembroAtualizadoDTO membroAtualizado)
+        {
+            try
+            {
+                _membroAppService.AtualizarMembroAtualizado(membroAtualizado.id, membroAtualizado.membroAtualizado);
+                return ResponseOK(new { erro = false, mensagem = "Membro atualizado com sucesso" });
             }
             catch (Exception ex)
             {
