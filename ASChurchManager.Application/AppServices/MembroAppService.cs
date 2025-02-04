@@ -378,19 +378,13 @@ namespace ASChurchManager.Application.AppServices
                 return false;
         }
 
-        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
+        public void AtualizarSenha(long Id, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             var membro = _membroRepository.GetById(Id, 0);
             if (membro.Id == Id)
             {
-                var senha = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
-                if (senha == membro.Senha)
-                {
-                    var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
-                    _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNova, atualizarSenha);
-                }
-                else
-                    throw new Erro("Senha atual incorreta");
+                var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
+                _membroRepository.AtualizarSenha(Id, senhaNova, atualizarSenha);
             }
             else
                 throw new Erro("Membro não encontrado");
@@ -433,7 +427,7 @@ namespace ASChurchManager.Application.AppServices
 
 
             var (senha, senhaCriptografada) = GerarSenha();
-            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true, true);
+            _membroRepository.AtualizarSenha(membro.Id, senhaCriptografada, true, true);
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_inscricao.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", senha);
@@ -477,7 +471,7 @@ namespace ASChurchManager.Application.AppServices
 
 
             var (senha, senhaCriptografada) = GerarSenha();
-            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
+            _membroRepository.AtualizarSenha(membro.Id, senhaCriptografada, true);
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_novasenha.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", senha);
