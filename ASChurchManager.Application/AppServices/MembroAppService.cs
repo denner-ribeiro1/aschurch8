@@ -30,6 +30,9 @@ using PointF = SixLabors.ImageSharp.PointF;
 using SixLabors.ImageSharp.Drawing.Processing;
 using Color = SixLabors.ImageSharp.Color;
 using QRCoder;
+using Microsoft.AspNetCore.Mvc;
+
+
 
 namespace ASChurchManager.Application.AppServices
 {
@@ -378,23 +381,50 @@ namespace ASChurchManager.Application.AppServices
                 return false;
         }
 
+        public bool ValidarSenhaForte(string senha)
+        {
+            if (senha.Length < 6)
+                return false;
+
+            bool temMaiuscula = false, temMinuscula = false, temNumero = false, temEspecial = false;
+            string caracteresEspeciais = "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+            foreach (char c in senha)
+            {
+                if (char.IsUpper(c)) temMaiuscula = true;
+                if (char.IsLower(c)) temMinuscula = true;
+                if (char.IsDigit(c)) temNumero = true;
+                if (caracteresEspeciais.Contains(c)) temEspecial = true;
+            }
+
+            return temMaiuscula && temMinuscula && temNumero && temEspecial;
+        }
+
+
+
         public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             var membro = _membroRepository.GetById(Id, 0);
-            if (membro.Id == Id)
+            if (membro == null || membro.Id != Id)
             {
-                var senha = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
-                if (senha == membro.Senha)
-                {
-                    var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
-                    _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNova, atualizarSenha);
-                }
-                else
-                    throw new Erro("Senha atual incorreta");
-            }
-            else
                 throw new Erro("Membro não encontrado");
+            }
+
+            var senhaAtualHash = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
+            if (senhaAtualHash != membro.Senha)
+            {
+                throw new Erro("Senha atual incorreta");
+            }
+
+            if (!ValidarSenhaForte(NovaSenha))
+            {
+                throw new Erro("A nova senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
+            }
+
+            var senhaNovaHash = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
+            _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNovaHash, atualizarSenha);
         }
+
 
         public (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento)
         {
@@ -461,6 +491,8 @@ namespace ASChurchManager.Application.AppServices
             return (senha, senhaCriptografada); //senha,senhaCriptografada
 
         }
+
+
         public void AtualizarEmail(long id, string email)
         {
             _membroRepository.AtualizarEmail(id, email);
@@ -542,7 +574,7 @@ namespace ASChurchManager.Application.AppServices
                         overlayImage.Mutate(ctx => ctx.Resize(Convert.ToInt32(widthAlt), Convert.ToInt32(heightAlt)));
 
                         // Definir posição da imagem sobreposta
-                        Point overlayPosition = new Point(750, 230); // Ajuste X e Y conforme necessário
+                        Point overlayPosition = new Point(740, 210); // Ajuste X e Y conforme necessário
 
                         // Sobrepor a imagem
                         image.Mutate(ctx => ctx.DrawImage(overlayImage, overlayPosition, 1f)); // 1f = Opacidade total
@@ -559,20 +591,20 @@ namespace ASChurchManager.Application.AppServices
                 if (membro.TipoCarteirinha == Domain.Types.TipoCarteirinha.Membro)
                 {
                     // Posições para "membro_frente.png"
-                    posicaoNome = new PointF(75, 375);
-                    posicaoRM = new PointF(75, 445);
-                    posicaoMembroDesde = new PointF(290, 445);
+                    posicaoNome = new PointF(70, 368);
+                    posicaoRM = new PointF(70, 435);
+                    posicaoMembroDesde = new PointF(280, 440);
                     posicaoCargo = PointF.Empty;
                     posicaoValidade = PointF.Empty;
                 }
                 else
                 {
                     // Posições para "obreiro_frente.png"
-                    posicaoCargo = new PointF(75, 330);
-                    posicaoValidade = new PointF(445, 335);
-                    posicaoNome = new PointF(75, 390);
-                    posicaoRM = new PointF(75, 460);
-                    posicaoMembroDesde = new PointF(285, 465);
+                    posicaoCargo = new PointF(70, 320);
+                    posicaoValidade = new PointF(425, 325);
+                    posicaoNome = new PointF(70, 386);
+                    posicaoRM = new PointF(70, 455);
+                    posicaoMembroDesde = new PointF(285, 460);
                 }
 
                 // Aplicar textos na imagem
@@ -620,12 +652,12 @@ namespace ASChurchManager.Application.AppServices
                 {
                     // Posições para "membro_frente.png"
                     posicaoPai = new PointF(70, 90);
-                    posicaoMae = new PointF(70, 150);
-                    posicaoCidade = new PointF(70, 220);
-                    posicaoUf = new PointF(860, 220);
+                    posicaoMae = new PointF(70, 155);
+                    posicaoCidade = new PointF(70, 225);
+                    posicaoUf = new PointF(850, 225);
                     posicaoDataNascimento = new PointF(70, 290);
-                    posicaoEstadoCivil = new PointF(320, 290);
-                    posicaoCpf = new PointF(320, 360);
+                    posicaoEstadoCivil = new PointF(330, 290);
+                    posicaoCpf = new PointF(330, 360);
                     posicaoDataBatismo = new PointF(70, 360);
                     posicaoDataConsagracao = PointF.Empty;
                     posicaoConfragesp = PointF.Empty;
@@ -636,15 +668,15 @@ namespace ASChurchManager.Application.AppServices
                     // Posições para "obreiro_verso.png"
                     posicaoPai = new PointF(70, 90);
                     posicaoMae = new PointF(70, 155);
-                    posicaoCidade = new PointF(70, 220);
-                    posicaoUf = new PointF(880, 220);
-                    posicaoDataNascimento = new PointF(70, 280);
-                    posicaoEstadoCivil = new PointF(320, 280);
-                    posicaoCpf = new PointF(610, 280);
-                    posicaoDataBatismo = new PointF(70, 345);
-                    posicaoDataConsagracao = new PointF(320, 345);
-                    posicaoConfragesp = new PointF(70, 410);
-                    posicaoCgadb = new PointF(320, 410);
+                    posicaoCidade = new PointF(70, 225);
+                    posicaoUf = new PointF(850, 225);
+                    posicaoDataNascimento = new PointF(70, 290);
+                    posicaoEstadoCivil = new PointF(340, 290);
+                    posicaoCpf = new PointF(615, 290);
+                    posicaoDataBatismo = new PointF(70, 360);
+                    posicaoDataConsagracao = new PointF(340, 360);
+                    posicaoConfragesp = new PointF(70, 435);
+                    posicaoCgadb = new PointF(340, 435);
                 }
 
                 // Aplicar o texto na imagem, verificando valores nulos
@@ -664,7 +696,7 @@ namespace ASChurchManager.Application.AppServices
                 });
 
                 // Salvar a imagem com as informações preenchidas
-                //  image.Mutate(ctx => ctx.Rotate(RotateMode.Rotate90));
+                image.Mutate(ctx => ctx.Rotate(RotateMode.Rotate90));
 
                 var memoryStream = new MemoryStream();
                 image.Save(memoryStream, new PngEncoder()); // Salvar como PNG no stream
@@ -704,8 +736,6 @@ namespace ASChurchManager.Application.AppServices
 
             return _membroRepository.AtualizarMembroAtualizado(id, atualizado);
         }
-
-
     }
 
 }

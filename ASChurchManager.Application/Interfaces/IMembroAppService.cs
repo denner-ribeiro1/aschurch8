@@ -1,5 +1,6 @@
 ﻿using ASChurchManager.Domain.Entities;
 using ASChurchManager.Domain.Intefaces.Repository;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace ASChurchManager.Application.Interfaces
         (bool, byte[], string) CarterinhaFrente(Carteirinha membro, SixLabors.ImageSharp.Image image);
         (bool, byte[], string) CarterinhaVerso(Carteirinha membro, SixLabors.ImageSharp.Image image);
         (bool, byte[], string) GerarQrCode(Carteirinha membro);
-
+        bool ValidarSenhaForte(string senha);
     }
+
+
+
 }

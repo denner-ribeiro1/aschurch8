@@ -1,13 +1,12 @@
 @HostAddress = http://localhost:5140/api
-@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODM2NTQzMywiZXhwIjoxNzM4MzcyNjMzLCJpYXQiOjE3MzgzNjU0MzN9.Xns8twszBJ5kDtr1cLViN-D3vBfOW5wLGsEUM8vVrFE
-
+@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODk3MzQ0OSwiZXhwIjoxNzM4OTgwNjQ5LCJpYXQiOjE3Mzg5NzM0NDl9.dj_7dX-ad46nuwLSyDStKS0eXLk1S1ndD89PNFsP41I
 ###
 POST {{HostAddress}}/oauth/token
 Content-Type: application/json
 
 {
-    "cpf": "089.073.828-91", 
-    "senha": "nei06332"
+    "cpf": "857.677.795-97", 
+    "senha": "abcdeeAf3@"
 }
 
 ###
@@ -28,9 +27,9 @@ Authorization: {{Token}}
 Content-Type: application/json
 
 {
-    "Id": "23714", 
-    "SenhaAtual": "392083",
-    "NovaSenha": "nei06331"
+    "Id": "14170", 
+    "SenhaAtual": "abcdeeAf3@",
+    "NovaSenha": ""
 }
 
 ###
@@ -41,7 +40,7 @@ Content-Type: application/json
 {
     "cpf": "857.677.795-97",
     "nomeMae": "Regina",
-    "email": "claudineijose@gmail.com",
+    "email": "dennerpk@gmail.com",
     "dataNascimento": "2023-05-17"
 }
 
@@ -54,12 +53,14 @@ Content-Type: application/json
     "cpf": "857.677.795-97"   
 }
 
+//id pastor 795
+//id membro 14170
 ###
-GET {{HostAddress}}/Membro/carteirinhaFrente?id=232
+GET {{HostAddress}}/Membro/carteirinhaFrente?id=14170
 Authorization: {{Token}}
 
 ###
-GET {{HostAddress}}/Membro/carteirinhaVerso?id=7
+GET {{HostAddress}}/Membro/carteirinhaVerso?id=795
 Authorization: {{Token}}
 ###
 GET {{HostAddress}}/Membro/carteirinhaQrCode?id=3

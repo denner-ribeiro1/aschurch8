@@ -60,24 +60,35 @@ namespace ASChurchManager.API.Membro.Controllers
             }
         }
 
-
         [HttpPatch("atualizarSenha")]
         [Authorize]
         public IActionResult AtualizarSenha(SenhaDTO senhaDTO)
         {
             try
             {
+                // Validar se a senha atual está correta
                 if (!_membroAppService.ValidarSenha(senhaDTO.id, senhaDTO.senhaAtual))
                     return ResponseOK(new { erro = true, mensagem = "Senha atual está incorreta." });
 
+                // Validar se a nova senha atende aos critérios de segurança
+                if (!_membroAppService.ValidarSenhaForte(senhaDTO.novaSenha))
+                    return ResponseOK(new
+                    {
+                        erro = true,
+                        mensagem = "A nova senha deve ter pelo menos 6 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial(!@#$%^&*()-_=+[]{};:'\",.<>?/\\|))."
+                    });
+
+                // Atualizar a senha
                 _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.senhaAtual, senhaDTO.novaSenha, false);
                 return ResponseOK(new { mensagem = "Senha atualizada com sucesso.", erro = false });
             }
             catch (Exception ex)
             {
-                return ResponseServerError(new Erro(ex.Message, ex));
+                return ResponseServerError(new Erro("Erro ao atualizar a senha.", ex));
             }
         }
+
+        // Método para validar se a senha é forte
 
         [HttpPost("inscricao")]
         [Authorize]

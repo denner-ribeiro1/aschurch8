@@ -16,7 +16,6 @@ namespace ASChurchManager.API.Membro.Controllers
         {
             _membroAppService = membroAppService;
         }
-
         [HttpPost("token")]
         public IActionResult Token([FromServices] IConfiguration configuration,
           LoginDTO login)
@@ -47,8 +46,18 @@ namespace ASChurchManager.API.Membro.Controllers
                     if (senhaOk)
                     {
                         var token = new TokenServices().Generate(membro);
+                        var mem = new MembroDTO
+                        {
+                            rm = (int)membro.Id,
+                            nome = membro.Nome,
+                            email = membro.Email,
+                            congregacao = membro.Congregacao.Nome,
+                            atualizarSenha = membro.AtualizarSenha,
+                            foto = membro.FotoUrl,
+                            membroAtualizado = membro.MembroAtualizado
+                        };
 
-                        return ResponseOK(new { Result = "OK", access_Token = token, Id = membro.Id });
+                        return ResponseOK(new { Result = "OK", access_Token = token, membro = mem });
                     }
                     return ResponseUnauthorized(new Erro("Membro não localizado"));
                 }
