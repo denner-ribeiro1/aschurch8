@@ -1,5 +1,5 @@
-@HostAddress = http://localhost:5140/api
-# @HostAddress = https://ieadmauaapimembro.azurewebsites.net/api
+# @HostAddress = http://localhost:5140/api
+@HostAddress = https://ieadmauaapimembro.azurewebsites.net/api
 @Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODYzMjYyMSwiZXhwIjoxNzM4NjM5ODIxLCJpYXQiOjE3Mzg2MzI2MjF9.t75ypztbL5ovest1Qq0A-yuYcgXTStpLqq-HbEVsrjQ
 
 ###
@@ -7,8 +7,8 @@ POST {{HostAddress}}/oauth/token
 Content-Type: application/json
 
 {
-    "cpf": "857.677.795-97", 
-    "senha": "abcdeeAf3@"
+    "cpf": "089.073.828-91", 
+    "senha": "nei06332"
 }
 
 ###
@@ -53,7 +53,7 @@ Content-Type: application/json
 {
     "cpf": "857.677.795-97",
     "nomeMae": "Regina",
-    "email": "dennerpk@gmail.com",
+    "email": "claudineijose@gmail.com",
     "dataNascimento": "2023-05-17"
 }
 
@@ -66,14 +66,12 @@ Content-Type: application/json
     "cpf": "155.969.348-79"   
 }
 
-//id pastor 795
-//id membro 14170
 ###
-GET {{HostAddress}}/Membro/carteirinhaFrente?id=14170
+GET {{HostAddress}}/Membro/carteirinhaFrente?id=232
 Authorization: {{Token}}
 
 ###
-GET {{HostAddress}}/Membro/carteirinhaVerso?id=795
+GET {{HostAddress}}/Membro/carteirinhaVerso?id=7
 Authorization: {{Token}}
 ###
 GET {{HostAddress}}/Membro/carteirinhaQrCode?id=3

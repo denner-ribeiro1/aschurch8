@@ -401,33 +401,22 @@ namespace ASChurchManager.Application.AppServices
         }
 
 
-
         public void AtualizarSenha(long Id, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             var membro = _membroRepository.GetById(Id, 0);
             if (membro.Id == Id)
             {
-                var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
-                _membroRepository.AtualizarSenha(Id, senhaNova, atualizarSenha);
-                if (membro == null || membro.Id != Id)
-                {
-                    throw new Erro("Membro não encontrado");
-                }
-
-                var senhaAtualHash = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
-                if (senhaAtualHash != membro.Senha)
-                {
-                    throw new Erro("Senha atual incorreta");
-                }
-
                 if (!ValidarSenhaForte(NovaSenha))
                 {
                     throw new Erro("A nova senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
                 }
-
-                var senhaNovaHash = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
-                _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNovaHash, atualizarSenha);
+                var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
+                _membroRepository.AtualizarSenha(Id, senhaNova, atualizarSenha);
             }
+            else
+                throw new Erro("Membro não encontrado");
+
+        }
 
 
         public (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento)
@@ -743,4 +732,3 @@ namespace ASChurchManager.Application.AppServices
     }
 
 }
-

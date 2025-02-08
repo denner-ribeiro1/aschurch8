@@ -67,6 +67,12 @@ namespace ASChurchManager.API.Membro.Controllers
         {
             try
             {
+                if (!_membroAppService.ValidarSenhaForte(senhaDTO.novaSenha))
+                    return ResponseOK(new
+                    {
+                        erro = true,
+                        mensagem = "A nova senha deve ter pelo menos 6 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial(!@#$%^&*()-_=+[]{};:'\",.<>?/\\|))."
+                    });
                 _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.novaSenha, false);
                 return ResponseOK(new { mensagem = "Senha atualizada com sucesso.", erro = false });
             }
