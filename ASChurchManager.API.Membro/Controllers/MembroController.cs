@@ -95,7 +95,6 @@ namespace ASChurchManager.API.Membro.Controllers
                     });
 
                 // Atualizar a senha
-                _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.senhaAtual, senhaDTO.novaSenha, false);
                 _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.novaSenha, false);
                 return ResponseOK(new { mensagem = "Senha atualizada com sucesso.", erro = false });
             }
