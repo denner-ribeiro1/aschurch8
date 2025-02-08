@@ -9,6 +9,8 @@ public class MembroDTO
     public int rm { get; set; }
     public string? nome { get; set; }
     public string? email { get; set; }
+
+    public string? cpf { get; set; }
     public string? congregacao { get; set; }
     public string? cargo { get; set; }
     public bool atualizarSenha { get; set; }

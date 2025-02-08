@@ -402,28 +402,32 @@ namespace ASChurchManager.Application.AppServices
 
 
 
-        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
+        public void AtualizarSenha(long Id, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             var membro = _membroRepository.GetById(Id, 0);
-            if (membro == null || membro.Id != Id)
+            if (membro.Id == Id)
             {
-                throw new Erro("Membro não encontrado");
-            }
+                var senhaNova = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
+                _membroRepository.AtualizarSenha(Id, senhaNova, atualizarSenha);
+                if (membro == null || membro.Id != Id)
+                {
+                    throw new Erro("Membro não encontrado");
+                }
 
-            var senhaAtualHash = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
-            if (senhaAtualHash != membro.Senha)
-            {
-                throw new Erro("Senha atual incorreta");
-            }
+                var senhaAtualHash = Hash.GetHash(SenhaAtual, CryptoProviders.HashProvider.MD5);
+                if (senhaAtualHash != membro.Senha)
+                {
+                    throw new Erro("Senha atual incorreta");
+                }
 
-            if (!ValidarSenhaForte(NovaSenha))
-            {
-                throw new Erro("A nova senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
-            }
+                if (!ValidarSenhaForte(NovaSenha))
+                {
+                    throw new Erro("A nova senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
+                }
 
-            var senhaNovaHash = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
-            _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNovaHash, atualizarSenha);
-        }
+                var senhaNovaHash = Hash.GetHash(NovaSenha, CryptoProviders.HashProvider.MD5);
+                _membroRepository.AtualizarSenha(Id, SenhaAtual, senhaNovaHash, atualizarSenha);
+            }
 
 
         public (bool, string) InscricaoApp(string cpf, string nomeMae, DateTime dataNascimento)
@@ -463,7 +467,7 @@ namespace ASChurchManager.Application.AppServices
 
 
             var (senha, senhaCriptografada) = GerarSenha();
-            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true, true);
+            _membroRepository.AtualizarSenha(membro.Id, senhaCriptografada, true, true);
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_inscricao.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", senha);
@@ -509,7 +513,7 @@ namespace ASChurchManager.Application.AppServices
 
 
             var (senha, senhaCriptografada) = GerarSenha();
-            _membroRepository.AtualizarSenha(membro.Id, "", senhaCriptografada, true);
+            _membroRepository.AtualizarSenha(membro.Id, senhaCriptografada, true);
 
             var conteudo = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "emails", "email_novasenha.txt"));
             conteudo = conteudo.Replace("[NovaSenha]", senha);

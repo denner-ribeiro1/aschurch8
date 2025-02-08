@@ -40,6 +40,7 @@ namespace ASChurchManager.API.Membro.Controllers
                         rm = (int)membro.Id,
                         nome = membro.Nome,
                         email = membro.Email,
+                        cpf = membro.Cpf,
                         congregacao = membro.Congregacao.Nome,
                         atualizarSenha = membro.AtualizarSenha,
                         foto = membro.FotoUrl,
@@ -66,6 +67,21 @@ namespace ASChurchManager.API.Membro.Controllers
         {
             try
             {
+                _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.novaSenha, false);
+                return ResponseOK(new { mensagem = "Senha atualizada com sucesso.", erro = false });
+            }
+            catch (Exception ex)
+            {
+                return ResponseServerError(new Erro(ex.Message, ex));
+            }
+        }
+
+        [HttpPatch("validarAtualizarSenha")]
+        [Authorize]
+        public IActionResult ValidarAtualizarSenha(ValidaAlteraSenhaDTO senhaDTO)
+        {
+            try
+            {
                 // Validar se a senha atual está correta
                 if (!_membroAppService.ValidarSenha(senhaDTO.id, senhaDTO.senhaAtual))
                     return ResponseOK(new { erro = true, mensagem = "Senha atual está incorreta." });
@@ -80,6 +96,7 @@ namespace ASChurchManager.API.Membro.Controllers
 
                 // Atualizar a senha
                 _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.senhaAtual, senhaDTO.novaSenha, false);
+                _membroAppService.AtualizarSenha(senhaDTO.id, senhaDTO.novaSenha, false);
                 return ResponseOK(new { mensagem = "Senha atualizada com sucesso.", erro = false });
             }
             catch (Exception ex)

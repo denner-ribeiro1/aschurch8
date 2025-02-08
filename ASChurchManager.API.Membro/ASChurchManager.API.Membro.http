@@ -1,5 +1,7 @@
 @HostAddress = http://localhost:5140/api
-@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODk3MzQ0OSwiZXhwIjoxNzM4OTgwNjQ5LCJpYXQiOjE3Mzg5NzM0NDl9.dj_7dX-ad46nuwLSyDStKS0eXLk1S1ndD89PNFsP41I
+# @HostAddress = https://ieadmauaapimembro.azurewebsites.net/api
+@Token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJBUEkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9sb2NhbGl0eSI6IkFQSSIsIm5iZiI6MTczODYzMjYyMSwiZXhwIjoxNzM4NjM5ODIxLCJpYXQiOjE3Mzg2MzI2MjF9.t75ypztbL5ovest1Qq0A-yuYcgXTStpLqq-HbEVsrjQ
+
 ###
 POST {{HostAddress}}/oauth/token
 Content-Type: application/json
@@ -19,17 +21,28 @@ Content-Type: application/json
 }
 
 ###
-GET {{HostAddress}}/Membro/consultarMembro?id=3
+GET {{HostAddress}}/Membro/consultarMembro?id=25024
 Authorization: {{Token}}
+
 ###
 PATCH  {{HostAddress}}/Membro/atualizarSenha
 Authorization: {{Token}}
 Content-Type: application/json
 
 {
+    "Id": "23714", 
+    "NovaSenha": "nei06331"
+}
+
+###
+PATCH  {{HostAddress}}/Membro/validarAtualizarSenha
+Authorization: {{Token}}
+Content-Type: application/json
+
+{
     "Id": "14170", 
-    "SenhaAtual": "abcdeeAf3@",
-    "NovaSenha": ""
+    "senhaAtual": "205489",
+    "NovaSenha": "nei06331"
 }
 
 ###
@@ -50,7 +63,7 @@ Authorization: {{Token}}
 Content-Type: application/json
 
 {
-    "cpf": "857.677.795-97"   
+    "cpf": "155.969.348-79"   
 }
 
 //id pastor 795

@@ -1646,7 +1646,7 @@ namespace ASChurchManager.Infra.Data.Repository.EnterpriseLibrary
             return lCarteirinha;
         }
 
-        public void AtualizarSenha(long Id, string SenhaAtual, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
+        public void AtualizarSenha(long Id, string NovaSenha, bool atualizarSenha, bool atualizarDataInscricao = false)
         {
             try
             {
